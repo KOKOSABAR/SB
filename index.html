@@ -51,7 +51,7 @@
                             <rect x="14" y="14" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/>
                         </svg>
-                        Semua Note
+                        NOTEPAD
                     </a>
                     <a href="#" class="nav-item" onclick="window.switchSection('togel')">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -68,12 +68,43 @@
                         </svg>
                         PREDIKSI TOGEL
                     </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('slot')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                            <path d="M7 21v-4"/>
+                            <path d="M17 21v-4"/>
+                            <path d="M2 11h20"/>
+                            <path d="M8 7V3"/>
+                            <path x="16" y="7V3"/>
+                            <circle cx="12" cy="14" r="3"/>
+                        </svg>
+                        GAMES SLOT
+                    </a>
                     <a href="#" class="nav-item" onclick="window.switchSection('panduan')">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                         </svg>
-                        PANDUAN BERMAIN
+                        PANDUAN BERMAIN TOGEL
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('prizeCalc')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/>
+                            <line x1="16" y1="14" x2="16" y2="14.01"/>
+                            <line x1="12" y1="14" x2="12" y2="14.01"/>
+                            <line x1="8" y1="14" x2="8" y2="14.01"/>
+                            <line x1="16" y1="18" x2="16" y2="18.01"/>
+                            <line x1="12" y1="18" x2="12" y2="18.01"/>
+                            <line x1="8" y1="18" x2="8" y2="18.01"/>
+                        </svg>
+                        PERHITUNGAN HADIAH TOGEL
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('hasilResult')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        HASIL RESULT
                     </a>
                 </div>
 
@@ -200,6 +231,29 @@
                     </div>
                 </div>
 
+                <div id="sectionSlot" class="app-section" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">Games Slot</h2>
+                        <p class="section-desc">Pilihan game slot terpopuler hari ini.</p>
+                    </div>
+                    <div class="slot-filter-section">
+                        <div class="slot-categories">
+                            <button class="btn-category active" onclick="window.filterSlotCategory('Semua')">Semua</button>
+                            <button class="btn-category" onclick="window.filterSlotCategory('PG SOFT')">PG SOFT</button>
+                            <button class="btn-category" onclick="window.filterSlotCategory('Pragmatic Play')">Pragmatic Play</button>
+                        </div>
+                        <div class="search-bar">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="slotSearchInput" placeholder="Cari nama game..." autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="slot-container" id="slotContainer">
+                    </div>
+                </div>
+
                 <div id="sectionPanduan" class="app-section" style="display: none;">
                     <div class="section-header">
                         <h2 class="section-title">Panduan Bermain Togel</h2>
@@ -221,6 +275,333 @@
                     </div>
                     <div class="live-draw-container">
                         <iframe id="liveDrawFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div id="sectionSlotPlayer" class="app-section" style="display: none;">
+                    <div class="section-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <div>
+                                <h2 class="section-title" id="slotPlayerTitle">Slot Game Player</h2>
+                                <p class="section-desc" id="slotPlayerDesc">Selamat bermain!</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="window.switchSection('slot')">Kembali ke Games Slot</button>
+                        </div>
+                    </div>
+                    <div class="slot-player-container">
+                        <iframe id="slotPlayerFrame" src="" frameborder="0" allowfullscreen allow="autoplay; fullscreen" referrerpolicy="no-referrer"></iframe>
+                    </div>
+                </div>
+
+                <div id="sectionPrizeCalc" class="app-section" style="display: none;">
+                    <!-- Navigasi Kategori Hadiah -->
+                    <div class="prize-category-nav">
+                        <button class="btn-category active" id="btnCatdiskon" onclick="window.switchPrizeCategory('diskon')">DISKON</button>
+                        <button class="btn-category" id="btnCatfull" onclick="window.switchPrizeCategory('full')">BET FULL</button>
+                        <button class="btn-category" id="btnCattepat-bb" onclick="window.switchPrizeCategory('tepat-bb')">TEPAT & BB</button>
+                    </div>
+
+                    <!-- KATEGORI DISKON -->
+                    <div id="prizeContainerDiskon" class="prize-container">
+                        <div class="section-header-prize">
+                            <div class="badge-category diskon">Diskon</div>
+                        </div>
+                        <div class="prize-grid">
+                            <!-- DISKON 5D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">DISKON 5D :</h3>
+                                <p class="prize-subtitle">Diskon : 38% | Hadiah : x50000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="input5D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('5D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('5D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayar5D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menang5D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- DISKON 4D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">DISKON 4D :</h3>
+                                <p class="prize-subtitle">Diskon : 20% | Hadiah : x7000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="input4D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('4D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('4D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayar4D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menang4D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- DISKON 3D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">DISKON 3D :</h3>
+                                <p class="prize-subtitle">Diskon : 20% | Hadiah : x750</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="input3D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('3D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('3D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayar3D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menang3D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- DISKON 2D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">DISKON 2D :</h3>
+                                <p class="prize-subtitle">Diskon : 20% | Hadiah : x75</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="input2D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('2D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('2D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayar2D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menang2D">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KATEGORI BET FULL -->
+                    <div id="prizeContainerFull" class="prize-container" style="display: none;">
+                        <div class="section-header-prize">
+                            <div class="badge-category full">Bet Full</div>
+                        </div>
+                        <div class="prize-grid">
+                            <!-- FULL 5D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">BET FULL 5D :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x88000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputFull5D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Full5D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Full5D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarFull5D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangFull5D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- FULL 4D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">BET FULL 4D :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x10000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputFull4D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Full4D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Full4D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarFull4D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangFull4D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- FULL 3D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">BET FULL 3D :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x1000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputFull3D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Full3D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Full3D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarFull3D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangFull3D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- FULL 2D -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">BET FULL 2D :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x100</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputFull2D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Full2D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Full2D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarFull2D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangFull2D">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KATEGORI TEPAT & BB -->
+                    <div id="prizeContainerTepat-bb" class="prize-container" style="display: none;">
+                        <div class="section-header-prize">
+                            <div class="badge-category tepat-bb">Tepat & BB</div>
+                        </div>
+                        <div class="prize-grid">
+                            <!-- 5D TEPAT -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">5D TEPAT :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x50000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputTepat5D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Tepat5D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Tepat5D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarTepat5D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangTepat5D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 5D BB -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">5D BB :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x350</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputBB5D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('BB5D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('BB5D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarBB5D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangBB5D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 4D TEPAT -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">4D TEPAT :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x5000</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputTepat4D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Tepat4D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Tepat4D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarTepat4D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangTepat4D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 4D BB -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">4D BB :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x180</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputBB4D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('BB4D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('BB4D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarBB4D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangBB4D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 3D TEPAT -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">3D TEPAT :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x500</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputTepat3D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Tepat3D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Tepat3D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarTepat3D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangTepat3D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 3D BB -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">3D BB :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x75</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputBB3D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('BB3D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('BB3D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarBB3D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangBB3D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 2D TEPAT -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">2D TEPAT :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x80</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputTepat2D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Tepat2D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Tepat2D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarTepat2D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangTepat2D">0</span></div>
+                                </div>
+                            </div>
+
+                            <!-- 2D BB -->
+                            <div class="prize-card">
+                                <h3 class="prize-title">2D BB :</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x15</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputBB2D" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('BB2D')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('BB2D')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarBB2D">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangBB2D">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- HASIL RESULT SECTION -->
+                <div id="hasilResultSection" class="app-section" style="display: none;">
+                    <div id="lotteryContainer" class="slot-container" style="gap: 20px;">
+                        <!-- Hasil lottery data dari json akan di-render di sini -->
                     </div>
                 </div>
             </div>

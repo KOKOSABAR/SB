@@ -259,16 +259,17 @@ function saveTogelData(togelData) {
     sheet.deleteRows(2, maxRows - 1);
   }
 
-  for (let i = 0; i < togelData.length; i++) {
-    const t = togelData[i];
-    sheet.appendRow([
-      t.nama || '',
-      t.betClose || '',
-      t.result || '',
-      t.linkResmi || '',
-      t.linkAcuan || '',
-      t.logo || ''
-    ]);
+  const values = togelData.map(t => [
+    t.nama || '',
+    t.betClose || '',
+    t.result || '',
+    t.linkResmi || '',
+    t.linkAcuan || '',
+    t.logo || ''
+  ]);
+
+  if (values.length > 0) {
+    sheet.getRange(2, 1, values.length, values[0].length).setValues(values);
   }
 
   return { success: true, count: togelData.length };
