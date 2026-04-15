@@ -1702,7 +1702,6 @@ function switchSection(sectionId) {
     } else if (sectionId === 'hasilResult') {
         if (headerTitle) headerTitle.textContent = 'HASIL RESULT TOGEL';
         if (btnAddTop) btnAddTop.style.display = 'none';
-        loadLotteryData();
     }
 
     if (window.innerWidth <= 1024) {
@@ -1943,7 +1942,7 @@ let lotteryData = [];
 async function loadLotteryData() {
     try {
         const script = document.createElement('script');
-        script.src = 'lottery_data.js?ts=' + new Date().getTime();
+        script.src = 'lottery_data.js'; // dihapus ?ts untuk mode file:// lokal
         script.onload = () => {
             if (window.LOTTERY_DATA) {
                 lotteryData = window.LOTTERY_DATA;
