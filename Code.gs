@@ -88,9 +88,8 @@ function handleAction(params) {
         break;
         
       // 6. TOGEL DATA
-      case 'getTogelData':
       case 'scrapeWdbos':
-        result = getTogelData();
+        result = scrapeWdbos();
         break;
       case 'saveTogelData':
         result = saveTogelData(params.data);
@@ -314,6 +313,58 @@ function saveTogelData(data) {
   const sheet = getTogelSheet();
   sheet.getRange(2, 1).setValue(JSON.stringify(data));
   return { success: true };
+}
+
+/**
+ * SCRAPER: Realtime Lottery Results from WDBOS
+ */
+function scrapeWdbos() {
+  const url = 'https://wdbos.net/game/getNodeInfoList';
+  const payload = {
+    parentId: 2,   // Category: Lottery
+    platformId: 1  // Common platform ID for Web
+  };
+  
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      'Origin': 'https://wdbos.net',
+      'Referer': 'https://wdbos.net/'
+    }
+  };
+  
+  try {
+    const response = UrlFetchApp.fetch(url, options);
+    const text = response.getContentText();
+    const json = JSON.parse(text);
+    
+    if (!json || !json.data) return { error: "Failed to fetch data from WDBOS" };
+    
+    // Mapping: lotteryNodeFetchOutDto -> Internal format
+    return json.data.map(item => {
+      const info = item.lotteryNodeFetchOutDto || {};
+      const attach = info.attachInfo || {};
+      
+      // Sanitasi hasil: jika hasil mengandung koma (multi-result), ambil yang terbaru atau tetap koma
+      let rawRes = attach.winningNumber || "----";
+      
+      return {
+        market: info.gameName || 'UNKNOWN',
+        result: rawRes,
+        period: info.gameDetail || '-',
+        countdown: 'RESULT ACTIVE',
+        image: attach.iconUrl || '',
+        banner: attach.bgUrl || ''
+      };
+    }).filter(it => it.market !== 'UNKNOWN');
+    
+  } catch (e) {
+    return { error: "Scraper Error: " + e.message };
+  }
 }
 
 // --- MODULE: DRIVE OPERATIONS ---

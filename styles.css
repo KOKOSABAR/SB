@@ -906,6 +906,41 @@ body {
     display: block;
 }
 
+.luxury-badge-premium {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px;
+    font-weight: 800;
+    color: #FFD700;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+    display: block;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+}
+
+.logo-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.logo-icon-glow {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: goldPulse 3s infinite ease-in-out;
+}
+
+@keyframes goldPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+}
+
 .search-section {
     display: flex;
     gap: 15px;
