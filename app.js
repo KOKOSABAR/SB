@@ -2,11 +2,33 @@ const STORAGE_KEY = 'pk_online_notes';
 let notes = [];
 let editingId = null;
 let deleteId = null;
-let useGoogleSheets = false;
-let scriptUrl = '';
+let useGoogleSheets = true;
+let scriptUrl = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
 
 const SCRIPT_URL_KEY = 'pk_online_script_url';
 const TOGEL_DATA_KEY = 'pk_online_togel_data';
+const GALLERY_DATA_KEY = 'pk_online_gallery_data';
+
+// --- INITIAL GALLERY DATA ---
+const INITIAL_GALLERY = [
+    { id: '1sLJ3LF5L_b0CSlP9j1Iwa9gb0UHShIe3', type: 'drive' },
+    { id: '1-Mgj2crJs7eF0A8SQp7v4DAWtFPYMIQD', type: 'drive' },
+    { id: '1kxEiwQ9KLHmmFTqlER2m0luArtqR9EwE', type: 'drive' },
+    { id: '1ls5AnGrTfE-_vnWTux84xVHOOr-fhrWY', type: 'drive' },
+    { id: '1nvSdjuvBakVLPG7M39weDvE-1LV8Ga9N', type: 'drive' },
+    { id: '1X3n4FCpGCoHbCwOKsQc_qU6esQ5YOkVE', type: 'drive' },
+    { id: '1PxdcJ2U_U5OhUuSUrd2TV1CtMIp4pZtd', type: 'drive' },
+    { id: '18GXMhi4NkkZ7auIxcPVD_D98ERFZJdXY', type: 'drive' },
+    { id: '1KJNpBIWn_d5rl08BldpF2kmv7Yjy5gtR', type: 'drive' },
+    { id: '1fcGphPPMhYIR5wFUhVJnpAugE-xaMnOP', type: 'drive' },
+    { id: '1H6-LpiCg5HUA7uWM0QjPOoCVGHNsRjs9', type: 'drive' },
+    { id: '1PswGbA9fMotdcCXpM1E1ICBSs7cRvh36', type: 'drive' },
+    { id: '11FbAoZ-P596iCg53qWbwd29KOgPuSb6K', type: 'drive' },
+    { id: '1k98s9Vsr8EGBWd_iOqlze9Lu1nMzYxrh', type: 'drive' },
+    { id: '1ERxcDkuiNmoWzOmmQQIwE9PlhOET2yiV', type: 'drive' }
+];
+
+let galleryData = [];
 
 // --- DATA ---
 const DEFAULT_TOGEL_DATA = [
@@ -1332,7 +1354,7 @@ function generateRandomPrediction(pasaran) {
     
     return {
         pasaran: pasaran,
-        tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        tanggal: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
         bbfs: Array.from({length: 7}, () => Math.floor(Math.random() * 10)).join(''),
         angkaIkut: Array.from({length: 5}, () => Math.floor(Math.random() * 10)).join(''),
         d4: randomSet(4, 5),
@@ -1411,7 +1433,7 @@ function renderPredictionSection() {
             html += `
                 <div class="syair-item">
                     <p>${sayir.text}</p>
-                    <small>${new Date(sayir.timestamp).toLocaleDateString('id-ID')}</small>
+                    <small>${new Date(sayir.timestamp).toLocaleDateString('en-US')}</small>
                 </div>
             `;
         });
@@ -1468,7 +1490,7 @@ function generatePredictionFromSeed(pasaran, seed) {
 
     return {
         pasaran: pasaran,
-        tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        tanggal: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
         bbfs: seed,
         angkaIkut: Array.from({length: Math.min(5, digits.length + 2)}, () => getRandDigit()).join(''),
         d4: getRandSet(4, 5),
@@ -1671,7 +1693,7 @@ function switchSection(sectionId) {
     });
 
     if (sectionId === 'notes') {
-        if (headerTitle) headerTitle.textContent = 'NOTEPAD';
+        if (headerTitle) headerTitle.textContent = 'NOTE';
         if (btnAddTop) btnAddTop.style.display = 'flex';
         renderNotes();
     } else if (sectionId === 'togel') {
@@ -1682,6 +1704,25 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'Prediksi Togel';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderPredictionSection();
+    } else if (sectionId === 'parlayCalc') {
+        if (headerTitle) headerTitle.textContent = 'KALKULATOR PARLAY';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        if (typeof initParlay === 'function') initParlay();
+    } else if (sectionId === 'cekRekening') {
+        if (headerTitle) headerTitle.textContent = 'VERIFIKASI DATA REKENING';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+    } else if (sectionId === 'inventaris') {
+        if (headerTitle) headerTitle.textContent = 'DATA INVENTARIS HP WDBOS';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderInventarisTable();
+    } else if (sectionId === 'kesalahan') {
+        if (headerTitle) headerTitle.textContent = 'DATA KESALAHAN';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderKesalahanTable();
+    } else if (sectionId === 'izinKeluar') {
+        if (headerTitle) headerTitle.textContent = 'IZIN KELUAR SISA 2';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderIzinKeluarTable();
     } else if (sectionId === 'slot') {
         if (headerTitle) headerTitle.textContent = 'Games Slot';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -1702,7 +1743,33 @@ function switchSection(sectionId) {
     } else if (sectionId === 'hasilResult') {
         if (headerTitle) headerTitle.textContent = 'HASIL RESULT TOGEL';
         if (btnAddTop) btnAddTop.style.display = 'none';
+        loadLotteryData();
+    } else if (sectionId === 'wdManual') {
+        if (headerTitle) headerTitle.textContent = 'MANUAL WITHDRAW CORE';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+    } else if (sectionId === 'wdPower') {
+        if (headerTitle) headerTitle.textContent = 'POWER WITHDRAW CORE';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+    } else if (sectionId === 'depoKlikBca') {
+        if (headerTitle) headerTitle.textContent = 'DEPO KLIK BCA CORE';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+    } else if (sectionId === 'depoMybca') {
+        if (headerTitle) headerTitle.textContent = 'DEPO MYBCA CORE';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+    } else if (sectionId === 'buySpinCalc') {
+        if (headerTitle) headerTitle.textContent = 'KALKULATOR BUY & FREE SPIN';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        window.updateSlotCalc();
+    } else if (sectionId === 'gallery') {
+        if (headerTitle) headerTitle.textContent = 'GALERY';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderGallery();
+    } else if (sectionId === 'extensions') {
+        if (headerTitle) headerTitle.textContent = 'EXTENSIONS';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderExtensions();
     }
+
 
     if (window.innerWidth <= 1024) {
         const sidebar = document.getElementById('sidebar');
@@ -1940,24 +2007,69 @@ function renderGuides() {
 let lotteryData = [];
 
 async function loadLotteryData() {
-    try {
-        const script = document.createElement('script');
-        script.src = 'lottery_data.js'; // dihapus ?ts untuk mode file:// lokal
-        script.onload = () => {
-            if (window.LOTTERY_DATA) {
-                lotteryData = window.LOTTERY_DATA;
-                renderLotteryResults();
-            } else {
-                console.error('Failed to load lottery data from window object');
-            }
-        };
-        script.onerror = () => {
-            console.error('Failed to load lottery_data.js script');
-        };
-        document.body.appendChild(script);
-    } catch (e) {
-        console.error('Error loading lottery data', e);
+    const container = document.getElementById('lotteryContainer');
+    if (!container) return;
+
+    if (lotteryData.length === 0) {
+        container.innerHTML = `
+            <div class="sync-loader">
+                <div class="loader-spinner"></div>
+                <p>Sinkronisasi Data Realtime...</p>
+            </div>
+        `;
     }
+
+    // --- TEKNIK JSONP (Menebus Blokir Browser / CORS) ---
+    const callbackName = 'jsonp_lottery_' + Math.round(Math.random() * 1000000);
+    let safetyTimeout;
+
+    window[callbackName] = function(data) {
+        if (safetyTimeout) clearTimeout(safetyTimeout);
+        if (Array.isArray(data)) {
+            lotteryData = data;
+            renderLotteryResults();
+            console.log('✅ Sinkronisasi Realtime Berhasil.');
+        } else {
+            console.error('GAS Error/Invalid Data:', data ? data.error : 'No data');
+            if (lotteryData.length === 0) loadLocalLotteryData();
+        }
+        delete window[callbackName];
+        const scriptElement = document.getElementById(callbackName);
+        if (scriptElement) scriptElement.remove();
+    };
+
+    const script = document.createElement('script');
+    script.id = callbackName;
+    script.src = `${scriptUrl}${scriptUrl.includes('?') ? '&' : '?'}action=scrapeWdbos&callback=${callbackName}`;
+    
+    safetyTimeout = setTimeout(() => {
+        if (lotteryData.length === 0) {
+            console.warn('GAS Timeout - Menggunakan data lokal sebagai cadangan.');
+            loadLocalLotteryData();
+        }
+    }, 10000);
+
+    script.onerror = () => {
+        clearTimeout(safetyTimeout);
+        console.error('Koneksi ke Google Script Gagal.');
+        loadLocalLotteryData();
+    };
+    document.body.appendChild(script);
+}
+
+function loadLocalLotteryData() {
+    const oldScript = document.getElementById('lotteryDataScript');
+    if (oldScript) oldScript.remove();
+    const script = document.createElement('script');
+    script.id = 'lotteryDataScript';
+    script.src = 'lottery_data.js';
+    script.onload = () => {
+        if (window.LOTTERY_DATA) {
+            lotteryData = window.LOTTERY_DATA;
+            renderLotteryResults();
+        }
+    };
+    document.body.appendChild(script);
 }
 
 function renderLotteryResults() {
@@ -1969,18 +2081,85 @@ function renderLotteryResults() {
         return;
     }
 
-    container.innerHTML = lotteryData.map(lot => {
+    const borderColors = ['cyan', 'orange', 'magenta', 'gold', 'blue', 'green', 'red'];
+
+    container.innerHTML = lotteryData.map((lot, index) => {
+        if (!lot || !lot.market) return '';
+        const normalizedMarket = lot.market.toUpperCase().replace(/\s+/g, ' ').trim();
+        
+        // Helper untuk memuat gambar (Standardisasi ke Server Aset Resmi & Bypass Hotlink)
+        const getProxiedUrl = (path) => {
+            if (!path) return '';
+            
+            let cleanPath = path;
+            // Jika path adalah URL absolut ke mirror lain, arahkan ke domain aset pusat agar stabil
+            if (path.includes('/assets/LOTTERY-Web/')) {
+                cleanPath = '/assets/LOTTERY-Web/' + path.split('/assets/LOTTERY-Web/')[1];
+            }
+            
+            // Perbaikan path: Pola WDBOS seringkali membutuhkan sub-folder /bg/ atau /icon/
+            if (cleanPath.endsWith('/bg.png') && !cleanPath.includes('/bg/bg.png')) {
+                cleanPath = cleanPath.replace('/bg.png', '/bg/bg.png');
+            }
+            if (cleanPath.endsWith('/icon.png') && !cleanPath.includes('/icon/icon.png')) {
+                cleanPath = cleanPath.replace('/icon.png', '/icon/icon.png');
+            }
+
+            // Gunakan domain aset resmi yang terverifikasi (png-res.png999.com)
+            const baseUrl = 'https://png-res.png999.com';
+            const fullUrl = cleanPath.startsWith('http') ? 
+                            cleanPath.replace(/https?:\/\/[^\/]+/, baseUrl) : 
+                            baseUrl + (cleanPath.startsWith('/') ? '' : '/') + cleanPath;
+            
+            // Gunakan Weserv Proxy untuk memotong proteksi blokir gambar (Hotlink)
+            return `https://images.weserv.nl/?url=${encodeURIComponent(fullUrl)}`;
+        };
+
+        const logo = getProxiedUrl(lot.image) || 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png';
+        
+        // Prediksi banner dari logo (Pola WDBOS: icon/icon.png -> bg/bg.png)
+        let bannerPath = lot.banner;
+        if (!bannerPath && lot.image && lot.image.includes('icon/icon.png')) {
+            bannerPath = lot.image.replace('icon/icon.png', 'bg/bg.png');
+        }
+
+        const fallbackBanner = '/assets/images/lottery/bg-default.jpg';
+        const banner = bannerPath ? getProxiedUrl(bannerPath) : getProxiedUrl(fallbackBanner);        
+        
+        const resultValue = lot.result || '----';
+        const isLong = resultValue.length > 10;
+        const colorClass = borderColors[index % borderColors.length];
+        
+        const isLive = (lot.countdown && lot.countdown.includes('00:00:00')) || normalizedMarket.includes('LIVE');
+        const showStream = normalizedMarket.includes('CAMBODIA') || normalizedMarket.includes('SYDNEY') || normalizedMarket.includes('HONGKONG');
+
         return `
-            <div class="slot-card" style="border-color: #ff7e00;">
-                <div class="slot-image-wrapper" style="aspect-ratio: 1/1;">
-                    <img src="${lot.image || 'https://via.placeholder.com/200'}" alt="${lot.market}" class="slot-image" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'200\\\' height=\\\'200\\\' viewBox=\\\'0 0 200 200\\\'%3E%3Crect width=\\\'100%25\\\' height=\\\'100%25\\\' fill=\\\'%23333\\\'/%3E%3C/svg%3E'">
+            <div class="tr-wrapper">
+                <div class="togel-result-card tr-border-${colorClass}" style="background-image: url('${banner}');">
+                    <div class="tr-overlay"></div>
+                    
+                    ${isLive ? '<div class="tr-live-badge">LIVE</div>' : ''}
+
+                    <div class="tr-header">
+                        <div class="tr-market-name-top">${lot.market}</div>
+                        <div class="tr-badge-logo">
+                            <img src="${logo}" alt="logo" referrerpolicy="no-referrer">
+                        </div>
+                    </div>
+
+                    <div class="tr-middle">
+                        ${showStream ? `<button class="tr-stream-btn">Watch live Stream</button>` : ''}
+                        <div class="tr-period">PERIODE: ${lot.period}</div>
+                    </div>
+
+                    <div class="tr-bottom-glass">
+                        <div class="tr-countdown">${lot.countdown}</div>
+                        <div class="tr-result-box">
+                             <span class="tr-result-value ${isLong ? 'long' : ''}">${resultValue}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="slot-info" style="background: linear-gradient(180deg, rgba(80,30,0,0.8) 0%, rgba(20,10,0,0.9) 100%);">
-                    <h3 class="slot-name" style="color: #ffaa00; text-shadow: 0 0 5px rgba(255, 170, 0, 0.5);">${lot.market}</h3>
-                    <p style="font-size: 10px; color: #fff; margin: 4px 0;">PERIODE: ${lot.period}</p>
-                    <p style="font-size: 11px; font-weight: bold; color: #00ffaa; margin: 4px 0;">${lot.countdown}</p>
-                    <p style="font-size: 14px; font-weight: 800; font-family: monospace; color: #fff; letter-spacing: 2px;">${lot.result}</p>
-                </div>
+                <div class="tr-footer-bar">${lot.market}</div>
             </div>
         `;
     }).join('');
@@ -2243,8 +2422,8 @@ function calculatePrize(type) {
     const bayar = bet * (1 - diskon);
     const menang = bet * hadiah;
     
-    bayarEl.textContent = Math.round(bayar).toLocaleString('id-ID');
-    menangEl.textContent = Math.round(menang).toLocaleString('id-ID');
+    bayarEl.textContent = Math.round(bayar).toLocaleString('en-US');
+    menangEl.textContent = Math.round(menang).toLocaleString('en-US');
 }
 
 function resetPrize(type) {
@@ -2285,6 +2464,18 @@ function updateStats() {
     const count = Array.isArray(notes) ? notes.length : 0;
     const totalNotesEl = document.getElementById('totalNotes');
     if (totalNotesEl) totalNotesEl.textContent = count;
+}
+
+function indonesianDateLong(isoString) {
+    if (!isoString) return '-';
+    try {
+        const date = new Date(isoString);
+        if (isNaN(date.getTime())) return isoString; // Jika bukan ISO, return as is
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    } catch (e) {
+        return isoString;
+    }
 }
 
 function formatDate(isoString) {
@@ -2330,8 +2521,9 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
     let url = scriptUrl;
 
     if (method === 'GET') {
-        const queryParams = new URLSearchParams({ action, ...data });
-        url = `${scriptUrl}?${queryParams.toString()}`;
+        const queryParams = new URLSearchParams({ action, ...data, _t: Date.now() });
+        const separator = scriptUrl.includes('?') ? '&' : '?';
+        url = `${scriptUrl}${separator}${queryParams.toString()}`;
     } else {
         options.body = JSON.stringify({ action, ...data });
     }
@@ -2341,28 +2533,148 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
         if (!response.ok) throw new Error('Network response was not ok');
         const text = await response.text();
         try {
-            return JSON.parse(text);
+            const json = JSON.parse(text);
+            return json;
         } catch (e) {
+            // Check if Google returned a permissions error instead of JSON
+            if (text.includes('Service-side error') || text.includes('script.google.com')) {
+                return { error: 'Izin Google Script belum diberikan secara penuh.', text: text };
+            }
             return { error: 'Invalid JSON response', text: text };
         }
     } catch (error) {
         console.error('Google Sheets API Error:', error);
-        return { error: error.message };
+        
+        // Fallback to JSONP for GET requests if fetch fails
+        if (method === 'GET') {
+            console.warn('Attempting JSONP fallback...');
+            return new Promise((resolve) => {
+                const callbackName = 'gas_cb_' + Date.now();
+                window[callbackName] = (res) => {
+                    delete window[callbackName];
+                    const scriptTag = document.getElementById(callbackName);
+                    if (scriptTag) scriptTag.remove();
+                    resolve(res);
+                };
+                
+                const script = document.createElement('script');
+                script.id = callbackName;
+                const separator = scriptUrl.includes('?') ? '&' : '?';
+                const params = new URLSearchParams({ ...data, action, callback: callbackName }).toString();
+                script.src = `${scriptUrl}${separator}${params}`;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    script.remove();
+                    resolve({ error: 'JSONP fallback failed. Pastikan URL benar.' });
+                };
+                document.body.appendChild(script);
+            });
+        }
+
+        let msg = error.message;
+        if (msg === 'Failed to fetch') {
+            msg = 'Failed to fetch (CORS/Network Error). Pastikan URL benar dan Anda sudah login ke Google.';
+        }
+        return { error: msg };
     }
 }
+
 
 async function syncFromGoogleSheets() {
     if (!useGoogleSheets || !scriptUrl) return;
 
-    const result = await fetchFromGoogleSheets('getAll');
-    if (result && Array.isArray(result)) {
-        notes = result;
-        saveNotes();
-        renderNotes();
-    } else {
-        console.error('Sync error:', result ? result.error : 'Unknown error');
+    try {
+        const result = await fetchFromGoogleSheets('getAll');
+        if (result && !result.error) {
+            if (Array.isArray(result)) {
+                notes = result;
+                saveNotes();
+                renderNotes();
+                updateConnectionStatus(true);
+            }
+        } else if (result && result.error) {
+            console.error('Sync error:', result.error);
+            updateConnectionStatus(false, result.error);
+        }
+    } catch (e) {
+        updateConnectionStatus(false, e.message);
     }
 }
+
+async function testGASConnection() {
+    const statusText = document.getElementById('connStatusText');
+    const statusDot = document.getElementById('connStatusDot');
+    
+    if (statusText) statusText.textContent = 'Testing...';
+    if (statusDot) statusDot.className = 'status-dot warning';
+
+    try {
+        const result = await fetchFromGoogleSheets('testConnection');
+        if (result && result.status === 'success') {
+            showToast('Koneksi Backend Berhasil!', 'success');
+            updateConnectionStatus(true);
+            
+            if (result.details) {
+                const log = document.getElementById('debugLog');
+                if (log) {
+                    log.innerHTML = `[${new Date().toLocaleTimeString()}] SS: ${result.details.spreadsheet} (${result.details.spreadsheetName})\n` +
+                                  `[${new Date().toLocaleTimeString()}] Drive: ${result.details.drive}\n` +
+                                  `-------------------\n` + log.innerHTML;
+                }
+                
+                if (result.details.spreadsheet.includes('Error')) {
+                    showToast('Peringatan: Script tidak bisa baca Spreadsheet!', 'error');
+                }
+            }
+        } else {
+            const errMsg = result && result.error ? result.error : 'Koneksi Gagal / Respon Invalid';
+            showToast(errMsg, 'error');
+            updateConnectionStatus(false, errMsg);
+        }
+    } catch (e) {
+        showToast('Kesalahan Jaringan: ' + e.message, 'error');
+        updateConnectionStatus(false, e.message);
+    }
+}
+
+function updateConnectionStatus(isOk, errorMsg = '') {
+    const statusText = document.getElementById('connStatusText');
+    const statusDot = document.getElementById('connStatusDot');
+    
+    if (isOk) {
+        if (statusText) statusText.textContent = 'Online';
+        if (statusDot) statusDot.className = 'status-dot active';
+    } else {
+        if (statusText) statusText.textContent = 'Offline';
+        if (statusDot) statusDot.className = 'status-dot error';
+        if (errorMsg) console.warn('GAS Connection Problem:', errorMsg);
+    }
+}
+
+async function preloadDashboardData(force = false) {
+    if (!useGoogleSheets || !scriptUrl) {
+        if (force) showToast('Aktifkan Google Sheets di Pengaturan dahulu', 'info');
+        return;
+    }
+
+    if (force) showToast('Sinkronisasi Data Dashboard...', 'loading', 0);
+
+    try {
+        // Run syncs in parallel
+        await Promise.all([
+            syncFromGoogleSheets(),
+            renderInventarisTable(),
+            renderKesalahanTable(),
+            renderIzinKeluarTable()
+        ]);
+        
+        if (force) showToast('Dashboard Berhasil Diperbarui!', 'success');
+    } catch (e) {
+        console.error('Preload Error:', e);
+        if (force) showToast('Beberapa data gagal dimuat: ' + e.message, 'error');
+    }
+}
+
 
 function renderNotes(filterText = '') {
     const container = document.getElementById('notesContainer');
@@ -2403,7 +2715,7 @@ function renderNotes(filterText = '') {
     container.innerHTML = filtered.map((note, index) => {
         const noteId = note.id || `note_${index}`;
         return `
-        <div class="note-card" data-id="${noteId}">
+        <div class="note-card" data-id="${noteId}" ondblclick="window.expandNote('${noteId}')" title="Double klik untuk memperbesar desain luxury">
             <div class="note-header">
                 <span class="note-judul">${escapeHtml(note.judul || 'Tanpa Judul')}</span>
             </div>
@@ -2466,11 +2778,39 @@ function openModal(noteId = null) {
 }
 
 function closeModal() {
+    editingId = null;
     const overlay = document.getElementById('modalOverlay');
     if (overlay) overlay.classList.remove('active');
-    editingId = null;
-    const form = document.getElementById('noteForm');
-    if (form) form.reset();
+}
+
+window.expandNote = function(noteId) {
+    const note = notes.find(n => n.id === noteId);
+    if (!note) return;
+
+    const overlay = document.getElementById('viewNoteOverlay');
+    const title = document.getElementById('viewNoteTitle');
+    const content = document.getElementById('viewNoteContent');
+    const time = document.getElementById('viewNoteTime');
+    const copyBtn = document.getElementById('viewNoteCopyBtn');
+
+    if (title) title.textContent = note.judul || 'Tanpa Judul';
+    if (content) content.textContent = note.isi || '';
+    if (time) time.textContent = formatDate(note.createdAt || note.updatedAt);
+    
+    if (copyBtn) {
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(note.isi || '').then(() => {
+                if (typeof showToast === 'function') showToast("Isi note berhasil disalin!", "success");
+            });
+        };
+    }
+
+    if (overlay) overlay.classList.add('active');
+};
+
+window.closeViewNote = function() {
+    const overlay = document.getElementById('viewNoteOverlay');
+    if (overlay) overlay.classList.remove('active');
 }
 
 async function handleFormSubmit(event) {
@@ -2498,7 +2838,7 @@ async function handleFormSubmit(event) {
     try {
         if (editingId) {
             if (useGoogleSheets && scriptUrl) {
-                const result = await fetchFromGoogleSheets('update', { id: editingId, judul, isi });
+                const result = await fetchFromGoogleSheets('update', { id: editingId, judul, isi }, 'POST');
                 if (result && result.error) throw new Error(result.error);
                 await syncFromGoogleSheets();
             } else {
@@ -2512,7 +2852,7 @@ async function handleFormSubmit(event) {
             showToast('Note berhasil diperbarui!', 'success');
         } else {
             if (useGoogleSheets && scriptUrl) {
-                const result = await fetchFromGoogleSheets('add', { judul, isi });
+                const result = await fetchFromGoogleSheets('add', { judul, isi }, 'POST');
                 if (result && result.error) throw new Error(result.error);
                 await syncFromGoogleSheets();
             } else {
@@ -2613,29 +2953,49 @@ function copyNote(id) {
     }
 }
 
-function showToast(message, type = 'success') {
+function showToast(message, type = 'success', duration = 3000) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
+
+    // Bersihkan notifikasi lama dengan tipe yang sama agar tidak menumpuk (Opsional, tapi bagus untuk kesan mewah)
+    if (type === 'loading' || type === 'success') {
+        const oldToasts = container.querySelectorAll('.toast');
+        oldToasts.forEach(t => {
+            t.classList.add('toast-out');
+            setTimeout(() => t.remove(), 400);
+        });
+    }
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
 
-    const iconSvg = type === 'success'
-        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>'
-        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    const icons = {
+        success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',
+        error: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        info: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>',
+        warning: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>',
+        loading: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin-icon"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>'
+    };
+
+    const iconSvg = icons[type] || icons.info;
 
     toast.innerHTML = `
-        <span class="toast-icon">${iconSvg}</span>
-        <span class="toast-message">${escapeHtml(message)}</span>
-        <div class="toast-progress"></div>
+        <div class="toast-icon">${iconSvg}</div>
+        <div class="toast-message">${message}</div>
+        <div class="toast-progress" style="animation-duration: ${duration > 0 ? duration : 15000}ms"></div>
     `;
 
     container.appendChild(toast);
 
+    // Pengaman: Jika durasi 0 (loading), set maksimal 15 detik agar tidak nyangkut selamanya
+    const finalDuration = duration > 0 ? duration : 15000;
+
     setTimeout(() => {
         toast.classList.add('toast-out');
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        setTimeout(() => {
+            if (toast.parentNode === container) toast.remove();
+        }, 400);
+    }, finalDuration);
 }
 
 function exportToCSV() {
@@ -2698,9 +3058,16 @@ function openSettingsModal() {
                         Kosongkan untuk menggunakan LocalStorage saja
                     </small>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="window.closeSettingsModal()">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="form-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="window.closeSettingsModal()">Batal</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Simpan</button>
+                    </div>
+                    ${scriptUrl ? `
+                    <button type="button" class="btn btn-accent" style="width: 100%; font-size: 11px; padding: 8px;" 
+                            onclick="window.open(scriptUrl + '?action=testConnection', '_blank')">
+                        Buka di Tab Baru (Verifikasi / Login Google)
+                    </button>` : ''}
                 </div>
             </form>
         </div>
@@ -2729,7 +3096,7 @@ function saveSettings(event) {
 
     if (useGoogleSheets && scriptUrl) {
         console.log('Connecting to Google Sheets:', scriptUrl);
-        syncFromGoogleSheets();
+        preloadDashboardData(true);
     }
 }
 
@@ -2747,7 +3114,8 @@ function toggleSidebar() {
 function init() {
     console.log('Initializing SB Dashboard...');
     loadNotes();
-    scriptUrl = localStorage.getItem(SCRIPT_URL_KEY) || '';
+    const storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
+    if (storedUrl) scriptUrl = storedUrl;
     useGoogleSheets = !!scriptUrl;
 
     switchSection('notes');
@@ -2808,9 +3176,10 @@ function init() {
 
     if (useGoogleSheets && scriptUrl) {
         console.log('Connecting to Google Sheets:', scriptUrl);
-        syncFromGoogleSheets();
+        preloadDashboardData();
     }
 }
+
 
 window.copyNote = copyNote;
 window.editNote = editNote;
@@ -2824,5 +3193,1773 @@ window.openSettingsModal = openSettingsModal;
 window.closeConfirmDialog = closeConfirmDialog;
 window.toggleSidebar = toggleSidebar;
 window.exportToCSV = exportToCSV;
+window.testGASConnection = testGASConnection;
+window.preloadDashboardData = preloadDashboardData;
 
 document.addEventListener('DOMContentLoaded', init);
+
+// --- WD MANUAL LOGIC ---
+let extractedWdData = [];
+
+function extractWdData(silent = false) {
+    const input = document.getElementById('wdInput');
+    if (!input || !input.value.trim()) {
+        if (!silent) showToast('Please paste some data first', 'error');
+        return;
+    }
+
+    const rawText = input.value;
+
+    let wdData = [];
+    
+    const lines = rawText.trim().split(/\r?\n/);
+    let currentBlock = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (/^\d+\s+\S+/.test(line.trim()) && lines[i+1] && lines[i+1].includes("Withdraw")) {
+            if (currentBlock.length > 0) {
+                processBlock(currentBlock, wdData);
+            }
+            currentBlock = [line];
+        } else {
+            currentBlock.push(line);
+        }
+    }
+
+    if (currentBlock.length > 0) {
+        processBlock(currentBlock, wdData);
+    }
+    
+    function processBlock(linesBlock, wdDataArray) {
+        if (linesBlock.length < 2) return;
+
+        let username = "USER";
+        let amount = "0";
+        let bank = "BANK";
+        let accNum = "0";
+        let fullName = "NAMA";
+
+        const firstLineParts = linesBlock[0].trim().split(/\s+/);
+        if (firstLineParts.length >= 2) {
+            username = firstLineParts[firstLineParts.length - 1];
+        } else if (firstLineParts.length === 1 && !/^\d+$/.test(firstLineParts[0])) {
+            username = firstLineParts[0];
+        }
+
+        const fullBlockStr = linesBlock.join('\n');
+
+        const wdMatch = fullBlockStr.match(/Withdraw\s+[\d\-]+\s+[\d:]+\s+([\d,]+)/i);
+        if (wdMatch) amount = wdMatch[1];
+        
+        const toMatch = fullBlockStr.match(/To\s*:\s*([^,]+),\s*(\d+),\s*(.*?)(?=\s*-?\s*Auto|$|\n)/i);
+        if (toMatch) {
+            bank = toMatch[1].trim();
+            accNum = toMatch[2].trim();
+            fullName = toMatch[3].replace(/-\s*$/, '').trim();
+        } else {
+            const fallbackAcc = fullBlockStr.match(/\b(\d{10,16})\b/);
+            if (fallbackAcc) accNum = fallbackAcc[1];
+            
+            const fallbackAmt = fullBlockStr.match(/Withdraw.*?([\d,]{4,})/i) || fullBlockStr.match(/([\d\.,]{4,})/);
+            if (fallbackAmt) amount = fallbackAmt[1];
+        }
+        
+        if (bank !== "BANK" || accNum !== "0" || amount !== "0") {
+            wdDataArray.push({ bank, accNum, username, fullName, amount });
+        }
+    }
+
+    if (wdData.length > 0) {
+        extractedWdData = wdData;
+        renderWdResults();
+        if (!silent) showToast(`Successfully extracted ${wdData.length} records!`, 'success');
+    } else {
+        if (!silent) showToast('No valid withdrawal data found', 'warning');
+    }
+}
+
+function renderWdResults() {
+    const tableBody = document.getElementById('wdTableBody');
+    const countEl = document.getElementById('wdCount');
+
+    if (!tableBody || !countEl) return;
+
+    countEl.textContent = extractedWdData.length;
+
+    if (extractedWdData.length === 0) {
+        tableBody.innerHTML = `
+            <tr id="wdEmptyPlaceholder">
+                <td colspan="5" style="text-align: center; padding: 40px; color: rgba(0, 255, 204, 0.4); font-size: 14px; font-weight: 600; font-family: 'Orbitron', sans-serif;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5; display: block; margin-left: auto; margin-right: auto;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                    BELUM ADA DATA DIEKSTRAK
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tableBody.innerHTML = extractedWdData.map((wd, index) => `
+        <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
+            <td><span class="wd-bank-badge">${wd.bank}</span></td>
+            <td><code style="color:var(--accent)">${wd.accNum}</code></td>
+            <td>${wd.username}</td>
+            <td style="font-weight:600">${wd.fullName}</td>
+            <td><span class="wd-amount-val">${wd.amount}</span></td>
+        </tr>
+    `).join('');
+}
+
+function resetWdData() {
+    const input = document.getElementById('wdInput');
+    if (input) input.value = '';
+    
+    extractedWdData = [];
+    renderWdResults();
+    showToast('Data cleared', 'info');
+}
+
+function copyWdToSheet() {
+    if (extractedWdData.length === 0) return;
+    const rows = extractedWdData.map(wd =>
+        `${wd.bank}\t'${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
+    ).join('\r\n');
+
+    navigator.clipboard.writeText(rows).then(() => {
+        showToast('Data copied to clipboard', 'success');
+    });
+}
+
+function downloadWdCSV() {
+    if (extractedWdData.length === 0) return;
+    const header = "BANK,NOMOR REKENING,USERNAME,NAMA LENGKAP,NOMINAL\n";
+    const csvRows = extractedWdData.map(wd =>
+        `"${wd.bank}","${wd.accNum}","${wd.username}","${wd.fullName}","${wd.amount.replace(/,/g, '')}"`
+    ).join('\n');
+    const blob = new Blob([header + csvRows], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `WD_EXPORT_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    showToast('CSV file downloaded', 'success');
+}
+
+// Global exposure
+window.extractDepoBca = extractDepoBca;
+window.resetDepoBca = resetDepoBca;
+window.copyDepoBcaToSheet = copyDepoBcaToSheet;
+
+// --- DEPO MYBCA LOGIC ---
+let extractedDepoMybcaData = [];
+
+function extractDepoMybca(silent = false) {
+    const input = document.getElementById('depoMybcaInput');
+    if (!input || !input.value.trim()) {
+        if (!silent) showToast('Please paste some data first', 'error');
+        return;
+    }
+
+    const rawLines = input.value.trim().split(/\r?\n/);
+    const lines = rawLines.map(l => l.trim()).filter(l => l !== '');
+    let bcaData = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Check for Tab format: Desc [TAB] IDR Amount [TAB] IDR Balance
+        if (line.includes('\t')) {
+            const parts = line.split('\t');
+            if (parts.length >= 2) {
+                let descRaw = parts[0];
+                let amountRaw = parts[1];
+                
+                let type = descRaw.includes(' CR ') || descRaw.includes('CR -') ? "MASUK" : 
+                           (descRaw.includes(' DB ') || descRaw.includes('DB -') ? "KELUAR" : "MASUK");
+                
+                // Clean amount: "IDR 2,000,000.00" -> "2,000,000.00"
+                let amount = amountRaw.replace(/IDR\s*/i, '').trim();
+                
+                // Clean description
+                let cleanDesc = descRaw;
+                
+                // 1. Remove prefixes
+                cleanDesc = cleanDesc.replace(/^(?:BI-FAST|TRSF E-BANKING|TRSF)\s+(?:CR|DB)\s+-\s+/i, '');
+                
+                // 2. Remove "TRANSFER DR 002 " or "TRANSFER KE 123 "
+                cleanDesc = cleanDesc.replace(/^TRANSFER\s+(?:DR|KE)\s+(?:\d{3}\s+)?/i, '');
+                
+                // 3. Remove complex reference codes like "1104/FTSCY/WS95031 400000.00 "
+                cleanDesc = cleanDesc.replace(/\d{4}\/[A-Z0-9-]+\/[A-Z0-9-]+\s+\d+\.\d{2}\s*/i, '');
+                
+                // 4. Remove date/serial codes like "04/11 ZN8U1 "
+                cleanDesc = cleanDesc.replace(/\d{2}\/\d{2}\s+[A-Z0-9]{5}\s*/i, '');
+                
+                // 5. Extract name from TRFDN format
+                if (cleanDesc.includes('TRFDN-')) {
+                    const trfdn = cleanDesc.match(/TRFDN-(.*?)(?:\s+ESPAY|\s+DEBIT|\s*$)/i);
+                    if (trfdn) cleanDesc = trfdn[1];
+                }
+
+                // 6. Final cleanup: Remove IDR, BCA, MyBCA, dates, and extra spaces
+                cleanDesc = cleanDesc.replace(/\b(?:MyBCA|BCA|IDR|PEND)\b/ig, '');
+                cleanDesc = cleanDesc.replace(/\s+/g, ' ').trim();
+
+                if (amount && /^[\d,]+\.\d{2}$/.test(amount)) {
+                    bcaData.push({ type, desc: cleanDesc, amount });
+                    continue; 
+                }
+            }
+        }
+        
+        // Fallback for multi-line block format (same as KlikBCA)
+        if (line === "DB" || line === "CR") {
+            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i-1])) {
+                let type = line === "CR" ? "MASUK" : "KELUAR";
+                let amount = lines[i-1];
+                let descLine = "";
+                
+                if (i >= 2) {
+                    descLine = lines[i-2];
+                    if ((descLine === "0000" || /^\d+$/.test(descLine)) && i >= 3) {
+                        descLine = lines[i-3];
+                    }
+                }
+                
+                let cleanDesc = descLine;
+                const trfMatch = descLine.match(/(?:TRANSFER KE|TRANSFER DR|TRSF E-BANKING DB|TRSF E-BANKING CR)\s+(?:\d+\s+)?(.*)/i);
+                if (trfMatch) cleanDesc = trfMatch[1];
+                
+                cleanDesc = cleanDesc.replace(/TANGGAL\s*:\s*\d{2}\/\d{2}\s*/i, '');
+                cleanDesc = cleanDesc.replace(/\b(?:MyBCA|BCA)\b/ig, '').trim();
+                if (!cleanDesc) cleanDesc = "TANPA KETERANGAN";
+
+                bcaData.push({ type, desc: cleanDesc, amount });
+            }
+        }
+    }
+
+    if (bcaData.length > 0) {
+        extractedDepoMybcaData = bcaData;
+        renderDepoMybcaResults();
+        if (!silent) showToast(`Successfully extracted ${bcaData.length} records!`, 'success');
+    } else {
+        if (!silent) showToast('No valid MyBCA data found', 'warning');
+    }
+}
+
+function renderDepoMybcaResults() {
+    const tableBody = document.getElementById('depoMybcaTableBody');
+    const countEl = document.getElementById('depoMybcaCount');
+    if (!tableBody || !countEl) return;
+
+    countEl.textContent = extractedDepoMybcaData.length;
+
+    if (extractedDepoMybcaData.length === 0) {
+        tableBody.innerHTML = `
+            <tr id="depoMybcaEmptyPlaceholder">
+                <td colspan="2" style="text-align: center; padding: 40px; color: rgba(0, 255, 204, 0.4); font-size: 14px; font-weight: 600; font-family: 'Orbitron', sans-serif;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5; display: block; margin-left: auto; margin-right: auto;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                    BELUM ADA DATA DIEKSTRAK
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tableBody.innerHTML = extractedDepoMybcaData.map((bca, index) => {
+        const cleanAmount = bca.amount.replace(/\.00$/, '');
+        // For MyBCA focus on Dana Masuk, we show the amount here if it's MASUK
+        let displayAmount = bca.type === 'MASUK' ? cleanAmount : '-';
+        return `
+            <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
+                <td style="font-weight:600; text-align: left;">${bca.desc}</td>
+                <td style="text-align: center;">
+                    <span class="wd-bank-badge" style="background:rgba(0, 200, 83, 0.2); color:#00e676; border-color: rgba(0, 200, 83, 0.4);">${displayAmount}</span>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function resetDepoMybca() {
+    const input = document.getElementById('depoMybcaInput');
+    if (input) input.value = '';
+    extractedDepoMybcaData = [];
+    renderDepoMybcaResults();
+    showToast('Data cleared', 'info');
+}
+
+function copyDepoMybcaToSheet() {
+    if (extractedDepoMybcaData.length === 0) return;
+    const rows = extractedDepoMybcaData.map(bca => {
+        let cleanAmount = bca.amount.replace(/,/g, '').replace(/\.00$/, '');
+        // Only value if MASUK, else empty
+        let val = bca.type === 'MASUK' ? cleanAmount : '';
+        return `${bca.desc}\t${val}`;
+    }).join('\r\n');
+    navigator.clipboard.writeText(rows).then(() => {
+        showToast('Data copied to clipboard', 'success');
+    });
+}
+
+window.extractDepoMybca = extractDepoMybca;
+window.resetDepoMybca = resetDepoMybca;
+window.copyDepoMybcaToSheet = copyDepoMybcaToSheet;
+window.downloadWdCSV = downloadWdCSV;
+
+// --- WD POWER LOGIC ---
+let extractedWdPowerData = [];
+
+function extractWdPowerData(silent = false) {
+    const input = document.getElementById('wdPowerInput');
+    if (!input || !input.value.trim()) {
+        if (!silent) showToast('Please paste some data first', 'error');
+        return;
+    }
+
+    const lines = input.value.trim().split(/\r?\n/);
+    let wdData = [];
+
+    lines.forEach(line => {
+        if (!line.trim()) return;
+        const match = line.match(/^(.+?)\s+(\d{10,16})\s+(.+?)\s+([\d,\.]+)\s+\S+\s+(.+)$/);
+        
+        let bank = "BANK", accNum = "0", username = "USER", fullName = "NAMA", amount = "0";
+        
+        if (match) {
+            username = match[1].trim();
+            accNum = match[2].trim();
+            fullName = match[3].trim();
+            amount = match[4].trim().replace(/\.00$/, '');
+            bank = match[5].trim().toUpperCase();
+        } else {
+            // simpler fallback for tabs
+            const parts = line.split(/\t+/);
+            if (parts.length >= 6) {
+                username = parts[0].trim();
+                accNum = parts[1].trim();
+                fullName = parts[2].trim();
+                amount = parts[3].trim().replace(/\.00$/, '');
+                bank = parts[5].trim().toUpperCase();
+            }
+        }
+        
+        if(accNum !== "0") wdData.push({ bank, accNum, username, fullName, amount });
+    });
+
+    if (wdData.length > 0) {
+        extractedWdPowerData = wdData;
+        renderWdPowerResults();
+        if (!silent) showToast(`Successfully extracted ${wdData.length} records!`, 'success');
+    } else {
+        if (!silent) showToast('No valid power withdrawal data found', 'warning');
+    }
+}
+
+function renderWdPowerResults() {
+    const tableBody = document.getElementById('wdPowerTableBody');
+    const countEl = document.getElementById('wdPowerCount');
+
+    if (!tableBody || !countEl) return;
+
+    countEl.textContent = extractedWdPowerData.length;
+
+    if (extractedWdPowerData.length === 0) {
+        tableBody.innerHTML = `
+            <tr id="wdPowerEmptyPlaceholder">
+                <td colspan="5" style="text-align: center; padding: 40px; color: rgba(0, 255, 204, 0.4); font-size: 14px; font-weight: 600; font-family: 'Orbitron', sans-serif;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5; display: block; margin-left: auto; margin-right: auto;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                    BELUM ADA DATA DIEKSTRAK
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tableBody.innerHTML = extractedWdPowerData.map((wd, index) => `
+        <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
+            <td><span class="wd-bank-badge">${wd.bank}</span></td>
+            <td><code style="color:var(--accent)">${wd.accNum}</code></td>
+            <td>${wd.username}</td>
+            <td style="font-weight:600">${wd.fullName}</td>
+            <td><span class="wd-amount-val">${wd.amount}</span></td>
+        </tr>
+    `).join('');
+}
+
+function resetWdPowerData() {
+    const input = document.getElementById('wdPowerInput');
+    if (input) input.value = '';
+    
+    extractedWdPowerData = [];
+    renderWdPowerResults();
+    showToast('Data cleared', 'info');
+}
+
+function copyWdPowerToSheet() {
+    if (extractedWdPowerData.length === 0) return;
+    const rows = extractedWdPowerData.map(wd =>
+        `${wd.bank}\t'${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
+    ).join('\r\n');
+
+    navigator.clipboard.writeText(rows).then(() => {
+        showToast('Data copied to clipboard', 'success');
+    });
+}
+
+window.extractWdPowerData = extractWdPowerData;
+window.resetWdPowerData = resetWdPowerData;
+window.copyWdPowerToSheet = copyWdPowerToSheet;
+
+// --- DEPO KLIK BCA LOGIC ---
+let extractedDepoBcaData = [];
+
+function extractDepoBca(silent = false) {
+    const input = document.getElementById('depoBcaInput');
+    if (!input || !input.value.trim()) {
+        if (!silent) showToast('Please paste some data first', 'error');
+        return;
+    }
+
+    const rawLines = input.value.trim().split(/\r?\n/);
+    // remove completely empty lines so consecutive lines are meaningful
+    const lines = rawLines.map(l => l.trim()).filter(l => l !== '');
+    let bcaData = [];
+
+    // Scan backwards from DB or CR line to find amount and description safely
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i] === "DB" || lines[i] === "CR") {
+            // Check if prior line is an exact amount e.g. "40,000,000.00"
+            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i-1])) {
+                let type = lines[i] === "CR" ? "MASUK" : "KELUAR";
+                let amount = lines[i-1];
+                let descLine = "";
+                
+                // Description should be before the amount (or before the 0000 reference)
+                if (i >= 2) {
+                    descLine = lines[i-2];
+                    if ((descLine === "0000" || /^\d+$/.test(descLine)) && i >= 3) {
+                        descLine = lines[i-3];
+                    }
+                }
+                
+                // Cleanup description
+                let cleanDesc = descLine;
+                const trfMatch = descLine.match(/(?:TRANSFER KE|TRANSFER DR|TRSF E-BANKING DB|TRSF E-BANKING CR)\s+(?:\d+\s+)?(.*)/i);
+                if (trfMatch) {
+                    cleanDesc = trfMatch[1];
+                }
+                // generic cleanups
+                cleanDesc = cleanDesc.replace(/TANGGAL\s*:\s*\d{2}\/\d{2}\s*/i, '');
+                cleanDesc = cleanDesc.replace(/\b(?:MyBCA|BCA)\b/ig, '').trim();
+
+                if (!cleanDesc) cleanDesc = "TANPA KETERANGAN";
+
+                bcaData.push({ type, desc: cleanDesc, amount });
+            }
+        }
+    }
+
+    if (bcaData.length > 0) {
+        extractedDepoBcaData = bcaData;
+        renderDepoBcaResults();
+        if (!silent) showToast(`Successfully extracted ${bcaData.length} records!`, 'success');
+    } else {
+        if (!silent) showToast('No valid BCA mutation data found', 'warning');
+    }
+}
+
+function renderDepoBcaResults() {
+    const tableBody = document.getElementById('depoBcaTableBody');
+    const countEl = document.getElementById('depoBcaCount');
+
+    if (!tableBody || !countEl) return;
+
+    countEl.textContent = extractedDepoBcaData.length;
+
+    if (extractedDepoBcaData.length === 0) {
+        tableBody.innerHTML = `
+            <tr id="depoBcaEmptyPlaceholder">
+                <td colspan="3" style="text-align: center; padding: 40px; color: rgba(0, 255, 204, 0.4); font-size: 14px; font-weight: 600; font-family: 'Orbitron', sans-serif;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5; display: block; margin-left: auto; margin-right: auto;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                    BELUM ADA DATA DIEKSTRAK
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tableBody.innerHTML = extractedDepoBcaData.map((bca, index) => {
+        const cleanAmount = bca.amount.replace(/\.00$/, '');
+        let masukCol = '-';
+        let keluarCol = '-';
+        if (bca.type === 'MASUK') {
+            masukCol = `<span class="wd-bank-badge" style="background:rgba(0, 200, 83, 0.2); color:#00e676; border-color: rgba(0, 200, 83, 0.4);">${cleanAmount}</span>`;
+        } else if (bca.type === 'KELUAR') {
+            keluarCol = `<span class="wd-bank-badge" style="background:rgba(255, 61, 113, 0.2); color:#ff3d71; border-color: rgba(255, 61, 113, 0.4);">${cleanAmount}</span>`;
+        }
+        return `
+            <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
+                <td style="font-weight:600; text-align: left;">${bca.desc}</td>
+                <td style="text-align: center;">${masukCol}</td>
+                <td style="text-align: center;">${keluarCol}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function resetDepoBca() {
+    const input = document.getElementById('depoBcaInput');
+    if (input) input.value = '';
+    
+    extractedDepoBcaData = [];
+    renderDepoBcaResults();
+    showToast('Data cleared', 'info');
+}
+
+function copyDepoBcaToSheet() {
+    if (extractedDepoBcaData.length === 0) return;
+    const rows = extractedDepoBcaData.map(bca => {
+        let cleanAmount = bca.amount.replace(/,/g, '').replace(/\.00$/, '');
+        let masukVal = bca.type === 'MASUK' ? cleanAmount : '';
+        let keluarVal = bca.type === 'KELUAR' ? cleanAmount : '';
+        return `${bca.desc}\t${masukVal}\t${keluarVal}`;
+    }).join('\r\n');
+
+    navigator.clipboard.writeText(rows).then(() => {
+        showToast('Data copied to clipboard', 'success');
+    });
+}
+
+// --- BUY SPIN CALCULATOR LOGIC ---
+let currentSlotMult = 100;
+
+function setSlotMult(mult, btn) {
+    currentSlotMult = mult;
+    
+    // Update active UI
+    const buttons = document.querySelectorAll('.btn-mult');
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    updateSlotCalc();
+}
+
+function updateSlotCalc() {
+    const betInput = document.getElementById('calcBet');
+    if (!betInput) return;
+    
+    const bet = parseFloat(betInput.value) || 0;
+    const cost = bet * currentSlotMult;
+    
+    // Formatting IDR
+    const fmt = (num) => new Intl.NumberFormat('en-US').format(num);
+    
+    const resBuyCost = document.getElementById('resBuyCost');
+    const resWin2x = document.getElementById('resWin2x');
+    const resWin5x = document.getElementById('resWin5x');
+    const resBreakEven = document.getElementById('resBreakEven');
+    
+    if (resBuyCost) resBuyCost.textContent = fmt(cost);
+    if (resWin2x) resWin2x.textContent = fmt(cost * 2);
+    if (resWin5x) resWin5x.textContent = fmt(cost * 5);
+    if (resBreakEven) resBreakEven.textContent = fmt(cost);
+}
+
+function rekapSpinLog(silent = false) {
+    const input = document.getElementById('spinLogInput');
+    if (!input || !input.value.trim()) {
+        if (!silent) showToast('Please paste log data first', 'error');
+        return;
+    }
+
+    const lines = input.value.split(/\r?\n/).map(l => l.trim());
+    let total = 0;
+    
+    for (let i = 0; i < lines.length; i++) {
+        // Find "Free Spin" line
+        if (lines[i].toLowerCase().includes('free spin:')) {
+            // Check the next line for IDR
+            if (i + 1 < lines.length && lines[i+1].toUpperCase().startsWith('IDR')) {
+                const valStr = lines[i+1].replace(/IDR\s*/i, '').replace(/\./g, '').replace(/,/g, '.');
+                const val = parseFloat(valStr) || 0;
+                total += val;
+            }
+        }
+    }
+
+    // Multiply by 1000 and format
+    const finalTotal = total * 1000;
+    const fmt = new Intl.NumberFormat('en-US').format(finalTotal);
+    
+    const resultEl = document.getElementById('spinTotalResult');
+    if (resultEl) {
+        resultEl.textContent = fmt;
+        if (!silent) showToast('Total kemenangan berhasil dihitung!', 'success');
+    }
+}
+
+function updateFinalClaim() {
+    const winInput = document.getElementById('manualWinInput');
+    const awardInput = document.getElementById('manualAwardInput');
+    const alreadyClaimedInput = document.getElementById('alreadyClaimedInput');
+    
+    const displayManualWin = document.getElementById('totalManualWin');
+    const displayManualAward = document.getElementById('totalManualAward');
+    const displayNetWin = document.getElementById('netWinResult');
+    const displayQuota = document.getElementById('remainingQuotaResult');
+    const warningEl = document.getElementById('claimLimitWarning');
+    const autoTotalEl = document.getElementById('spinTotalResult');
+
+    if (!winInput || !awardInput || !alreadyClaimedInput || !displayNetWin) return;
+
+    // Helper to sum numbers from multi-line text
+    const sumFromText = (text) => {
+        if (!text) return 0;
+        const lines = text.split(/[\n\r\s\t]+/).filter(l => l.trim() !== '');
+        return lines.reduce((acc, curr) => {
+            const val = parseFloat(curr.replace(/\./g, '').replace(/,/g, ''));
+            return acc + (isNaN(val) ? 0 : val);
+        }, 0);
+    };
+
+    let totalWin = sumFromText(winInput.value);
+    let totalAward = sumFromText(awardInput.value);
+    let totalAlreadyClaimed = sumFromText(alreadyClaimedInput.value);
+
+    const netWin = totalWin - totalAward;
+    const initialMaxLimit = 400000;
+    const remainingQuota = initialMaxLimit - totalAlreadyClaimed;
+    
+    // Formatting IDR
+    const fmt = (num) => new Intl.NumberFormat('en-US').format(num);
+
+    // Update UI
+    if (displayManualWin) displayManualWin.textContent = fmt(totalWin);
+    if (displayManualAward) displayManualAward.textContent = fmt(totalAward);
+    displayNetWin.textContent = fmt(netWin);
+    
+    // Explicit Remaining Quota (This shows the 125,600 result you expect)
+    if (displayQuota) displayQuota.textContent = fmt(Math.max(0, remainingQuota));
+
+    // Warning visibility (show if Net Win exceeds quota OR quota is already negative)
+    if ((netWin > 0 && netWin > remainingQuota) || remainingQuota <= 0) {
+        if (warningEl.style.display === 'none') {
+            showToast('⚠️ Limit klaim harian terlampaui!', 'warning');
+        }
+        warningEl.style.display = 'block';
+    } else {
+        warningEl.style.display = 'none';
+    }
+}
+
+window.rekapSpinLog = rekapSpinLog;
+window.updateFinalClaim = updateFinalClaim;
+window.setSlotMult = setSlotMult;
+window.updateSlotCalc = updateSlotCalc;
+window.clearTextarea = function(id) {
+    const el = document.getElementById(id);
+    if(el) {
+        el.value = '';
+        updateFinalClaim();
+        if(id === 'spinLogInput') {
+             const resultEl = document.getElementById('spinTotalResult');
+             if (resultEl) resultEl.textContent = '0';
+        }
+    }
+};
+
+// --- GALLERY MANAGEMENT FUNCTIONS ---
+function loadGalleryData() {
+    const stored = localStorage.getItem(GALLERY_DATA_KEY);
+    galleryData = stored ? JSON.parse(stored) : INITIAL_GALLERY;
+}
+
+function saveGalleryData() {
+    localStorage.setItem(GALLERY_DATA_KEY, JSON.stringify(galleryData));
+}
+
+async function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+
+    if (useGoogleSheets && scriptUrl) {
+        try {
+            const result = await fetchFromGoogleSheets('listFiles', { 
+            folderId: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
+            type: 'gallery' 
+        });
+            if (result && Array.isArray(result)) {
+                if (result.length === 0) {
+                    grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Gallery kosong.</p>';
+                    return;
+                }
+                grid.innerHTML = result.map((item, index) => {
+                    const thumbUrl = `https://drive.google.com/thumbnail?id=${item.id}&sz=w800`;
+                    const fullUrl = `https://drive.google.com/uc?id=${item.id}`;
+                    
+                    return `
+                        <div class="gallery-item" ondblclick="window.openGalleryLightbox('${fullUrl}', '${item.id}', 'drive')">
+                            <img src="${thumbUrl}" alt="${item.name}">
+                            <div class="gallery-actions-overlay">
+                                <button class="btn-gallery-action download" onclick="window.downloadGalleryImage('${fullUrl}', 'drive')" title="Unduh">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                </button>
+                                <button class="btn-gallery-action delete" onclick="window.deleteGalleryImageFromDrive('${item.id}')" title="Hapus">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                const errorMsg = (result && result.error) ? result.error : 'Gagal memuat gallery.';
+                grid.innerHTML = `<p style="color: #fff; grid-column: 1/-1; text-align: center;">Eror: ${errorMsg}</p>`;
+            }
+        } catch (error) {
+            console.error('Gallery Fetch Error:', error);
+            grid.innerHTML = `<p style="color: #fff; grid-column: 1/-1; text-align: center;">Eror: ${error.message}</p>`;
+        }
+    } else {
+        // Fallback to old local/hardcoded logic if no script
+        grid.innerHTML = galleryData.map((item, index) => {
+            const thumbUrl = item.type === 'drive' 
+                ? `https://drive.google.com/thumbnail?id=${item.id}&sz=w800`
+                : item.url;
+            const fullUrl = item.type === 'drive'
+                ? `https://drive.google.com/uc?id=${item.id}`
+                : item.url;
+            
+            return `
+                <div class="gallery-item" ondblclick="window.openGalleryLightbox('${fullUrl}', '${item.id}', '${item.type}')">
+                    <img src="${thumbUrl}" alt="Gallery Image">
+                    <div class="gallery-actions-overlay">
+                        <button class="btn-gallery-action download" onclick="window.downloadGalleryImage('${fullUrl}', '${item.type}')" title="Unduh">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </button>
+                        <button class="btn-gallery-action delete" onclick="window.deleteGalleryImage(${index})" title="Hapus">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+}
+
+window.deleteGalleryImageFromDrive = async function(fileId) {
+    if (confirm('Yakin ingin menghapus foto ini dari Drive?')) {
+        try {
+            const result = await fetchFromGoogleSheets('deleteFile', { fileId: fileId }, 'POST');
+            if (result && !result.error) {
+                showToast('Foto berhasil dihapus!', 'success');
+                renderGallery();
+            } else {
+                throw new Error(result.error || 'Gagal menghapus');
+            }
+        } catch (error) {
+            showToast('Error: ' + error.message, 'error');
+        }
+    }
+};
+
+window.handleGalleryUpload = async function(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        
+        showToast('Menghubungkan ke Drive...', 'loading', 5000);
+        
+        reader.onload = async function(e) {
+            const base64Data = e.target.result.split(',')[1];
+            const filename = file.name;
+            const folderId = '1CLolADOa94s8tKp9r1mG19YhYNBDHnku'; // Folder ID Galery
+
+            if (useGoogleSheets && scriptUrl) {
+                try {
+                    const result = await fetchFromGoogleSheets('uploadImage', { 
+                        base64: base64Data, 
+                        filename: filename, 
+                        folderId: folderId 
+                    }, 'POST');
+
+                    if (result && result.id) {
+                        galleryData.unshift({
+                            id: result.id,
+                            type: 'drive'
+                        });
+                        saveGalleryData();
+                        renderGallery();
+                        showToast('Berhasil: Foto terenkripsi & tersimpan di Drive!', 'success');
+                    } else {
+                        throw new Error(result.error || 'Autentikasi Drive Gagal');
+                    }
+                } catch (error) {
+                    console.error('Upload Error:', error);
+                    let errMsg = 'Koneksi Drive bermasalah. Menyimpan ke Storage Lokal...';
+                    if (!navigator.onLine) errMsg = 'Anda sedang OFFLINE. Menyimpan ke Storage Lokal...';
+                    
+                    showToast(errMsg, 'warning', 5000);
+                    
+                    // Fallback to local storage if Drive fails
+                    galleryData.unshift({
+                        url: e.target.result,
+                        type: 'local',
+                        id: Date.now().toString()
+                    });
+                    saveGalleryData();
+                    renderGallery();
+                }
+            } else {
+                // No Script URL, save locally
+                galleryData.unshift({
+                    url: e.target.result,
+                    type: 'local',
+                    id: Date.now().toString()
+                });
+                saveGalleryData();
+                renderGallery();
+                showToast('Foto disimpan lokal (Koneksi Drive tidak aktif)', 'info');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+window.deleteGalleryImage = function(index) {
+    if (confirm('Hapus foto ini dari gallery?')) {
+        galleryData.splice(index, 1);
+        saveGalleryData();
+        renderGallery();
+        showToast('Foto dihapus', 'info');
+    }
+};
+
+window.openGalleryLightbox = function(url, id, type) {
+    const lightbox = document.getElementById('galleryLightbox');
+    const img = document.getElementById('lightboxImage');
+    const dlBtn = document.getElementById('lightboxDownload');
+    
+    if (lightbox && img) {
+        // Use high-resolution thumbnail for Drive images to avoid broken links/virus scan blocks
+        const viewUrl = type === 'drive' 
+            ? `https://drive.google.com/thumbnail?id=${id}&sz=w1600` 
+            : url;
+            
+        img.src = viewUrl;
+        lightbox.classList.add('active');
+        
+        dlBtn.onclick = () => window.downloadGalleryImage(url, type);
+    }
+};
+
+window.closeGalleryLightbox = function() {
+    const lightbox = document.getElementById('galleryLightbox');
+    if (lightbox) lightbox.classList.remove('active');
+};
+
+window.downloadGalleryImage = function(url, type) {
+    if (type === 'drive') {
+        const id = url.split('id=')[1];
+        window.open(`https://drive.google.com/uc?export=download&id=${id}`, '_blank');
+    } else {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `gallery_image_${Date.now()}.png`;
+        link.click();
+    }
+};
+
+// Initialize Gallery on load
+loadGalleryData();
+
+// --- EXTENSIONS MANAGEMENT FUNCTIONS ---
+async function renderExtensions() {
+    const grid = document.getElementById('extensionGrid');
+    if (!grid) return;
+
+    if (useGoogleSheets && scriptUrl) {
+        try {
+            const result = await fetchFromGoogleSheets('listFiles', { 
+            folderId: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
+            type: 'extensions'
+        });
+            if (result && Array.isArray(result)) {
+                if (result.length === 0) {
+                    grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Folder kosong.</p>';
+                    return;
+                }
+                grid.innerHTML = result.map((file, index) => {
+                    return `
+                        <div class="extension-item">
+                            <span class="file-label">FILE</span>
+                            <div class="file-info">
+                                <span class="file-name" title="${file.name}">${file.name}</span>
+                                <span class="file-meta">${file.size || '0 MB'} | No Desc</span>
+                            </div>
+                            <div class="extension-item-actions">
+                                <button class="btn-mini-action" onclick="window.downloadExtension('${file.id}')" title="Unduh">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                </button>
+                                <button class="btn-mini-action" onclick="window.deleteExtension('${file.id}')" title="Hapus">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                const errorMsg = (result && result.error) ? result.error : 'Gagal memuat file dari Drive.';
+                grid.innerHTML = `<p style="color: #fff; grid-column: 1/-1; text-align: center;">Eror: ${errorMsg}</p>`;
+            }
+        } catch (error) {
+            console.error('List Files Error:', error);
+            grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Eror: ' + error.message + '</p>';
+        }
+    } else {
+        grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Koneksi Google Apps Script tidak aktif.</p>';
+    }
+}
+
+window.handleExtensionUpload = async function(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        
+        showToast('Mengunggah ke Cloud...', 'loading', 5000);
+        
+        reader.onload = async function(e) {
+            const base64Data = e.target.result.split(',')[1];
+            const folderId = '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV'; // Folder ID Extensions
+
+            if (useGoogleSheets && scriptUrl) {
+                try {
+                    const result = await fetchFromGoogleSheets('uploadImage', { 
+                        base64: base64Data, 
+                        filename: file.name, 
+                        folderId: folderId 
+                    }, 'POST');
+
+                    if (result && result.id) {
+                        showToast('Extension Managed: File berhasil masuk ke Cloud!', 'success');
+                        renderExtensions();
+                    } else {
+                        throw new Error(result.error || 'Server menolak file ini.');
+                    }
+                } catch (error) {
+                    let errMsg = 'Gagal upload: ' + error.message;
+                    if (error.message.includes('Network')) errMsg = 'Gagal: Cek koneksi internet Anda!';
+                    showToast(errMsg, 'error');
+                }
+            } else {
+                showToast('Akses ditolak: Script URL tidak valid atau belum terpasang.', 'error');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+window.downloadExtension = function(fileId) {
+    window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, '_blank');
+};
+
+window.deleteExtension = async function(fileId) {
+    if (confirm('Yakin ingin menghapus file ini dari Drive?')) {
+        if (useGoogleSheets && scriptUrl) {
+            try {
+                const result = await fetchFromGoogleSheets('deleteFile', { fileId: fileId }, 'POST');
+                if (result && !result.error) {
+                    showToast('File berhasil dihapus dari Drive', 'success');
+                    renderExtensions();
+                } else {
+                    throw new Error(result.error || 'Gagal menghapus');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+    }
+};
+
+
+
+
+// ==========================================
+// KALKULATOR MIX PARLAY LOGIC
+// ==========================================
+let parlayLegs = [
+    { id: Date.now(), title: '', odds: 1.85, status: 'win' },
+    { id: Date.now() + 1, title: '', odds: 1.95, status: 'win' },
+    { id: Date.now() + 2, title: '', odds: 1.75, status: 'win' }
+];
+
+window.addParlayLeg = function() {
+    parlayLegs.push({
+        id: Date.now(),
+        title: '',
+        odds: 1.80,
+        status: 'win'
+    });
+    renderParlayLegs();
+    updateParlayResult();
+};
+
+window.removeParlayLeg = function(id) {
+    if (parlayLegs.length <= 1) {
+        showToast('Minimal harus ada 1 match!', 'warning');
+        return;
+    }
+    parlayLegs = parlayLegs.filter(leg => leg.id !== id);
+    renderParlayLegs();
+    updateParlayResult();
+};
+
+window.setLegStatus = function(id, status) {
+    const leg = parlayLegs.find(l => l.id === id);
+    if (leg) {
+        leg.status = status;
+        renderParlayLegs();
+        updateParlayResult();
+    }
+};
+
+window.updateLegOdds = function(id, val) {
+    const leg = parlayLegs.find(l => l.id === id);
+    if (leg) {
+        leg.odds = parseFloat(val) || 0;
+        updateParlayResult();
+    }
+};
+
+window.updateLegTitle = function(id, val) {
+    const leg = parlayLegs.find(l => l.id === id);
+    if (leg) leg.title = val;
+};
+
+window.renderParlayLegs = function() {
+    const container = document.getElementById('parlayLegsContainer');
+    if (!container) return;
+    
+    // Check if we need to render the header labels (only once or prepended)
+    let headerHtml = `
+        <div class="parlay-legs-header">
+            <div class="parlay-header-label">#</div>
+            <div class="parlay-header-label">MATCH / SELECTION</div>
+            <div class="parlay-header-label">ODDS</div>
+            <div class="parlay-header-label">MATCH RESULT</div>
+            <div class="parlay-header-label"></div>
+        </div>
+    `;
+
+    container.innerHTML = headerHtml + parlayLegs.map((leg, index) => `
+        <div class="parlay-leg-row" style="animation: slideIn 0.4s ease-out ${index * 0.05}s both;">
+            <div class="leg-number">${index + 1}</div>
+            <div class="cyber-input-wrapper">
+                <input type="text" class="wd-input mini" placeholder="Team/Match Name..." value="${leg.title}" oninput="window.updateLegTitle(${leg.id}, this.value)">
+            </div>
+            <div class="cyber-input-wrapper">
+                <input type="number" step="0.01" class="wd-input mini" placeholder="Odds" value="${leg.odds}" oninput="window.updateLegOdds(${leg.id}, this.value)">
+            </div>
+            <div class="leg-status-group">
+                <button class="btn-status win ${leg.status === 'win' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'win')">WIN</button>
+                <button class="btn-status win-half ${leg.status === 'win-half' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'win-half')">W 1/2</button>
+                <button class="btn-status draw ${leg.status === 'draw' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'draw')">D</button>
+                <button class="btn-status lose-half ${leg.status === 'lose-half' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'lose-half')">L 1/2</button>
+                <button class="btn-status lose ${leg.status === 'lose' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'lose')">LOSE</button>
+            </div>
+            <button class="btn-remove-leg" onclick="window.removeParlayLeg(${leg.id})" title="Hapus Leg">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            </button>
+        </div>
+    `).join('');
+};
+
+window.updateParlayResult = function() {
+    const stakeInput = document.getElementById('parlayStakeInput');
+    const totalOddsEl = document.getElementById('parlayTotalOdds');
+    const payoutEl = document.getElementById('parlayPayout');
+    const profitEl = document.getElementById('parlayNetProfit');
+    
+    if (!stakeInput) return;
+    
+    let stakeInputVal = stakeInput.value.replace(/,/g, '');
+    let stake = parseFloat(stakeInputVal) || 0;
+    let totalMultiplier = 1;
+    let parlayLost = false;
+    
+    parlayLegs.forEach(leg => {
+        if (parlayLost) return;
+        
+        const odds = leg.odds;
+        switch(leg.status) {
+            case 'win':
+                totalMultiplier *= odds;
+                break;
+            case 'win-half':
+                totalMultiplier *= ((odds - 1) / 2) + 1;
+                break;
+            case 'draw':
+                totalMultiplier *= 1;
+                break;
+            case 'lose-half':
+                totalMultiplier *= 0.5;
+                break;
+            case 'lose':
+                totalMultiplier = 0;
+                parlayLost = true;
+                break;
+        }
+    });
+    
+    const payout = stake * totalMultiplier;
+    const netProfit = payout - stake;
+    
+    const fmt = (num) => new Intl.NumberFormat('en-US').format(Math.floor(num));
+    
+    if (totalOddsEl) totalOddsEl.textContent = totalMultiplier.toFixed(3);
+    if (payoutEl) payoutEl.textContent = fmt(payout);
+    if (profitEl) {
+        profitEl.textContent = fmt(netProfit);
+        profitEl.className = netProfit >= 0 ? 'parlay-res-val success' : 'parlay-res-val error';
+    }
+};
+
+window.resetParlay = function() {
+    parlayLegs = [
+        { id: Date.now(), title: '', odds: 1.80, status: 'win' },
+        { id: Date.now() + 1, title: '', odds: 1.80, status: 'win' },
+        { id: Date.now() + 2, title: '', odds: 1.80, status: 'win' }
+    ];
+    renderParlayLegs();
+    updateParlayResult();
+};
+
+// CSS initializations
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof renderParlayLegs === 'function') {
+            renderParlayLegs();
+            updateParlayResult();
+        }
+    }, 1000);
+});
+
+// ==========================================
+// CEK DATA REKENING LOGIC
+// ==========================================
+window.processCekRekening = async function() {
+    const input = document.getElementById('rekeningRawInput');
+    if (!input || !input.value.trim()) {
+        showToast('Teks kosong! Paste data rekening terlebih dahulu.', 'warning');
+        return;
+    }
+
+    const lines = input.value.split('\n').filter(l => l.trim());
+    const accountsToCheck = lines.map(line => parseRekeningRaw(line)).filter(a => a !== null);
+
+    if (accountsToCheck.length === 0) {
+        showToast('Format data tidak valid. Pastikan ada Nomor Rekening!', 'error');
+        return;
+    }
+
+    document.getElementById('cekTotalCount').textContent = accountsToCheck.length;
+    document.getElementById('cekSafeCount').textContent = '0';
+    document.getElementById('cekDupCount').textContent = '0';
+    document.getElementById('cekResultsBody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Sedang memproses... <div class="spin-icon inline"></div></td></tr>';
+
+    if (!useGoogleSheets || !scriptUrl) {
+        showToast('Koneksi Google Sheets tidak aktif. Silakan hubungkan di Pengaturan.', 'error');
+        return;
+    }
+
+    try {
+        showToast(`Memeriksa ${accountsToCheck.length} data ke server...`, 'loading', 0);
+        
+        // Action name for GAS: checkAccountsBatch
+        const response = await fetchFromGoogleSheets('checkAccountsBatch', { 
+            accounts: accountsToCheck.map(a => a.number) 
+        }, 'POST');
+
+        if (response && response.results) {
+            renderCekRekeningResults(accountsToCheck, response.results);
+            showToast('Verifikasi selesai!', 'success');
+        } else {
+            throw new Error(response.error || 'Server tidak merespon hasil yang valid');
+        }
+    } catch (error) {
+        console.error('Cek Rekening Error:', error);
+        showToast('Gagal memproses data: ' + error.message, 'error');
+        document.getElementById('cekResultsBody').innerHTML = `<tr><td colspan="4" class="error">Gagal: ${error.message}</td></tr>`;
+    }
+};
+
+function parseRekeningRaw(line) {
+    const cleanLine = line.trim();
+    if (!cleanLine) return null;
+
+    // Cari deretan angka minimal 5 digit di mana saja dalam baris
+    const numberMatch = cleanLine.match(/\d{5,}/g); 
+    if (!numberMatch) return null;
+
+    // Angka terakhir biasanya adalah nomor rekening
+    const number = numberMatch[numberMatch.length - 1];
+    
+    // Ambil kata pertama sebagai Nama Bank
+    const parts = cleanLine.split(/\s+/);
+    const bank = parts[0].toUpperCase();
+    
+    // Nama adalah sisanya setelah bank dan sebelum nomor
+    let name = cleanLine.replace(parts[0], '').replace(number, '').trim();
+    if (!name) name = 'PELANGGAN';
+
+    return { bank, name, number };
+}
+
+function renderCekRekeningResults(originalAccounts, results) {
+    const body = document.getElementById('cekResultsBody');
+    if (!body) return;
+
+    let safeCount = 0;
+    let dupCount = 0;
+
+    body.innerHTML = ''; 
+
+    // Urutkan: Duplikat (ketemu di sheet) diletakkan paling atas
+    const sortedAccounts = [...originalAccounts].sort((a, b) => {
+        const foundA = results ? results.some(r => r.accountNumber.toString() === a.number.toString() && r.found) : false;
+        const foundB = results ? results.some(r => r.accountNumber.toString() === b.number.toString() && r.found) : false;
+        return (foundA === foundB) ? 0 : foundA ? -1 : 1;
+    });
+
+    sortedAccounts.forEach(acc => {
+        const check = results ? results.find(r => r.accountNumber.toString() === acc.number.toString()) : null;
+        const isFound = check && check.found;
+        const details = isFound ? check.details : null;
+        
+        if (isFound) dupCount++;
+        else safeCount++;
+
+        const tr = document.createElement('tr');
+        tr.className = isFound ? 'row-duplicate' : 'row-safe';
+        
+        // Pilih data: Jika ketemu di sheet, pakai data sheet. Jika tidak, pakai data input.
+        const resStatus = isFound ? `❗ ${details.status} (${details.sheet})` : 'x TIDAK ADA';
+        const resBank = isFound ? details.bank : acc.bank;
+        const resName = isFound ? details.name : acc.name;
+        const resNumber = isFound ? details.number : acc.number;
+
+        tr.innerHTML = `
+            <td>
+                <span class="status-badge ${isFound ? 'dup' : 'not-found'}">
+                    ${resStatus}
+                </span>
+            </td>
+            <td>${resBank}</td>
+            <td>${resName}</td>
+            <td style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+                <span style="font-family: 'Share Tech Mono'; letter-spacing: 1px;">${resNumber}</span>
+                <button class="btn-mini-action" onclick="window.copyText('${resNumber}')" title="Salin Nomor" style="width: 28px; height: 28px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                </button>
+            </td>
+        `;
+        body.appendChild(tr);
+    });
+
+    const totalElem = document.getElementById('cekTotalCount');
+    const safeElem = document.getElementById('cekSafeCount');
+    const dupElem = document.getElementById('cekDupCount');
+
+    if (totalElem) totalElem.textContent = originalAccounts.length;
+    if (safeElem) safeElem.textContent = safeCount;
+    if (dupElem) dupElem.textContent = dupCount;
+
+    const copyAllBtn = document.getElementById('btnCopyAllCek');
+    if (copyAllBtn) {
+        copyAllBtn.style.display = originalAccounts.length > 0 ? 'flex' : 'none';
+    }
+}
+
+window.copyAllCekRekening = function() {
+    const table = document.getElementById('cekResultsTable');
+    if (!table) return;
+
+    const rows = table.querySelectorAll('tbody tr.row-duplicate');
+    let text = [];
+
+    rows.forEach(row => {
+        const cols = row.querySelectorAll('td');
+        if (cols.length >= 4) {
+            let status = cols[0].innerText.trim();
+            // Bersihkan info di dalam kurung (nama sheet)
+            status = status.replace(/\s*\(.*?\)/g, '');
+            
+            const bank = cols[1].innerText.trim();
+            const name = cols[2].innerText.trim();
+            const number = cols[3].innerText.trim();
+            
+            // Format: STATUS | BANK NAMA NOMOR
+            text.push(`${status} | ${bank}  ${name}  ${number}`);
+        }
+    });
+
+    if (text.length > 0) {
+        window.copyText(text.join('\n'));
+    } else {
+        if (typeof showToast === 'function') showToast("Tidak ada data duplikat untuk disalin", "info");
+    }
+};
+
+// Add CSS for the status badges and row colors
+const cekRekeningStyles = `
+    .row-safe { background: rgba(0, 255, 136, 0.03); }
+    .row-duplicate { border-left: 4px solid #ff3e3e !important; background: rgba(255, 62, 62, 0.08); }
+    .status-badge { padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 800; display: inline-block; }
+    .status-badge.safe { background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+    .status-badge.not-found { background: rgba(255, 62, 62, 0.9); color: #fff; border: 1px solid #ff3e3e; box-shadow: 0 0 10px rgba(255, 62, 62, 0.2); }
+    .status-badge.dup { background: rgba(0, 255, 136, 0.9); color: #000; font-weight: 900; border: 1px solid #00ff88; box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
+    .cyber-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .cyber-table th { text-align: left; padding: 15px; color: var(--primary); font-size: 11px; border-bottom: 2px solid rgba(0, 255, 170, 0.2); text-transform: uppercase; letter-spacing: 1px; }
+    .cyber-table td { padding: 15px; font-size: 13px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #fff; }
+    .stat-item { background: rgba(255, 255, 255, 0.03); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); }
+    .spin-icon.inline { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: orbital-rotate 0.8s linear infinite; vertical-align: middle; margin-left: 10px; }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.innerText = cekRekeningStyles;
+document.head.appendChild(styleSheet);
+
+async function renderInventarisTable() {
+    const body = document.getElementById('inventarisBody');
+    const searchInput = document.getElementById('inventarisSearchInput');
+    if (!body) return;
+    
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const searchLines = query.split(/\n+/).map(s => s.trim()).filter(s => s !== '');
+
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Memuat data...</td></tr>';
+    
+    try {
+        const result = await fetchFromGoogleSheets('getInventaris');
+        if (result && Array.isArray(result)) {
+            // Filter: Abaikan baris kosong atau baris "Coming Soon"
+            const validData = result.filter(row => row[1] && row[1].toString().trim() !== "" && row[1].toString().toLowerCase() !== "coming soon");
+            
+            // Filter berdasarkan pencarian
+            let filteredResults = validData;
+            if (searchLines.length > 0) {
+                filteredResults = validData.filter(row => {
+                    return searchLines.some(line => {
+                        const isNumeric = /^\d+$/.test(line);
+                        
+                        if (isNumeric) {
+                            // Jika input adalah ANGKA MURNI, harus cocok PERSIS dengan kolom NO (index 0)
+                            // Ini agar saat cari "5", tidak muncul "15", "25", atau data lain yang mengandung angka 5
+                            return row[0] && row[0].toString().trim() === line;
+                        } else {
+                            // Jika input adalah TEKS, baru lakukan pencarian global (mengandung teks)
+                            const lineMatch = row.join(' ').toLowerCase();
+                            return lineMatch.includes(line);
+                        }
+                    });
+                });
+            }
+
+            if (filteredResults.length === 0) {
+                body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Data tidak ditemukan.</td></tr>';
+                return;
+            }
+
+            body.innerHTML = filteredResults.map(row => `
+                <tr>
+                    <td style="color: var(--primary); font-weight: 800;">${row[0] || ''}</td>
+                    <td>${row[1] || '-'}</td>
+                    <td style="background: rgba(0, 255, 170, 0.05); font-weight: 800;">${row[2] || '-'}</td>
+                    <td>${row[3] || '-'}</td>
+                    <td>${row[4] || '-'}</td>
+                    <td>${row[5] || '-'}</td>
+                    <td>${row[6] || '-'}</td>
+                </tr>
+            `).join('');
+        } else {
+            const errorMsg = result && result.error ? result.error : 'Data Kosong atau Gagal Memuat.';
+            body.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#ff4d4d; padding: 40px;">${errorMsg}</td></tr>`;
+        }
+    } catch (e) {
+        body.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#ff4d4d; padding: 40px;">Eror Koneksi: ${e.message}</td></tr>`;
+    }
+}
+
+async function renderKesalahanTable() {
+    const body = document.getElementById('kesalahanBody');
+    const searchInput = document.getElementById('kesalahanSearchInput');
+    const summaryFrame = document.getElementById('mistakeSummaryFrame');
+    const summaryList = document.getElementById('mistakeStaffList');
+    
+    if (!body) return;
+    
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;">Memuat data...</td></tr>';
+    
+    try {
+        const result = await fetchFromGoogleSheets('getKesalahan');
+        if (result && Array.isArray(result)) {
+            // Berdasarkan Sheet Kesalahan: index 0=NO, index 1=NAMA STAFF, index 2=NO PASPOR, index 3=JABATAN, 
+            // index 4=WD, 5=DEPO, 6=SALAH PROSES, 7=SALAH SCATTER, 8=TELAT <, 9=TELAT >, 10=TOTAL
+            
+            // Skip baris kosong, baris "Coming Soon", dan baris HEADER ASLI dari sheet
+            let filtered = result.filter(row => {
+                const name = row[1] ? row[1].toString().trim().toLowerCase() : "";
+                const passport = row[2] ? row[2].toString().trim().toLowerCase() : "";
+                
+                // Jangan tampilkan jika: kosong, kata "coming soon", atau jika ini adalah Header (teks NAMA STAFF / NO PASPOR)
+                return name !== "" && 
+                       name !== "coming soon" && 
+                       name !== "nama staff" && 
+                       passport !== "no paspor";
+            });
+            
+            if (query) {
+                filtered = filtered.filter(row => row[1].toString().toLowerCase().includes(query));
+            }
+
+            // Generate Summary Staff berulah
+            const berulah = filtered.filter(row => {
+                const total = parseInt(row[10]) || 0;
+                return total > 0;
+            });
+
+            const ledgerArea = document.getElementById('mistakeLedgerArea');
+            const ledgerList = document.getElementById('mistakeDetailedCards');
+
+            if (ledgerArea && ledgerList) {
+                if (berulah.length > 0) {
+                    ledgerArea.style.display = 'block';
+                    ledgerList.innerHTML = berulah.map(row => {
+                        return `
+                            <div class="calc-card luxury-card" style="margin-bottom: 0; padding: 20px; border: 1px solid rgba(255, 77, 77, 0.2); background: rgba(0,0,0,0.3);">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                                    <div>
+                                        <div style="font-family: 'Orbitron'; font-size: 14px; color: #ff4d4d; font-weight: 800; letter-spacing: 1px;">${row[1].toString().toUpperCase()}</div>
+                                        <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px;">${row[3] || 'STAFF'} - ${row[2] || '-'}</div>
+                                    </div>
+                                    <div style="background: #ff4d4d; color: #000; padding: 4px 10px; border-radius: 4px; font-weight: 900; font-size: 12px;">SCORE: ${row[10]}</div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left;">
+                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">WD / DEPO</div>
+                                        <div style="font-size: 12px; color: #ff4d4d;">${row[4] || 0} / ${row[5] || 0}</div>
+                                    </div>
+                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left;">
+                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">PROSES / SCATTER</div>
+                                        <div style="font-size: 12px; color: #ff4d4d;">${row[6] || 0} / ${row[7] || 0}</div>
+                                    </div>
+                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left; grid-column: span 2;">
+                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">TELAT SOP (< / >)</div>
+                                        <div style="font-size: 12px; color: #ffaa00;">${row[8] || 0} / ${row[9] || 0}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    ledgerArea.style.display = 'none';
+                }
+            }
+
+            body.innerHTML = filtered.map(row => {
+                const total = parseInt(row[10]) || 0;
+                const rowStyle = total > 0 ? 'background: rgba(255, 77, 77, 0.05); border-left: 2px solid #ff4d4d;' : '';
+                const errorStyle = (val) => (parseInt(val) > 0 ? 'color: #ff4d4d; font-weight: 800;' : 'opacity: 0.3;');
+
+                return `
+                    <tr style="${rowStyle}">
+                        <td style="color: var(--primary); font-weight: 800;">${row[0] || ''}</td>
+                        <td style="font-weight: 700; color: ${total > 0 ? '#ff4d4d' : '#00ffa2'}">${row[1] || '-'}</td>
+                        <td>${row[2] || '-'}</td>
+                        <td>${row[3] || '-'}</td>
+                        <td style="${errorStyle(row[4])}">${row[4] || '0'}</td>
+                        <td style="${errorStyle(row[5])}">${row[5] || '0'}</td>
+                        <td style="${errorStyle(row[6])}">${row[6] || '0'}</td>
+                        <td style="${errorStyle(row[7])}">${row[7] || '0'}</td>
+                        <td style="${errorStyle(row[8])}">${row[8] || '0'}</td>
+                        <td style="${errorStyle(row[9])}">${row[9] || '0'}</td>
+                        <td style="background: rgba(0, 255, 170, 0.1); font-weight: 900; color: var(--primary);">${row[10] || '0'}</td>
+                    </tr>
+                `;
+            }).join('');
+        } else {
+            const errorMsg = result && result.error ? result.error : 'Data Kosong atau Gagal Memuat.';
+            body.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#ff4d4d; padding: 40px;">${errorMsg}</td></tr>`;
+        }
+    } catch (e) {
+        body.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#ff4d4d; padding: 40px;">Eror Koneksi: ${e.message}</td></tr>`;
+    }
+}
+
+window.filterIzinKeluar = function() {
+    renderIzinKeluarTable();
+};
+
+async function renderIzinKeluarTable() {
+    const body = document.getElementById('izinKeluarBody');
+    const dateInput = document.getElementById('izinKeluarDate');
+    const selectedDate = dateInput ? dateInput.value : '';
+
+    if (!body) return;
+    
+    if (!selectedDate) {
+        body.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 60px; color: rgba(0,255,170,0.4);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="margin-bottom: 20px; display: block; margin: 0 auto;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><p style="font-family: \'Share Tech Mono\';">Silakan pilih tanggal untuk melihat data absen izin keluar.</p></td></tr>';
+        return;
+    }
+
+    body.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;">Memuat data izin...</td></tr>';
+    
+    try {
+        const result = await fetchFromGoogleSheets('getIzinKeluar');
+        if (result && Array.isArray(result)) {
+            // Filter berdasarkan tanggal pilihan
+            const filtered = result.filter(row => {
+                if (!row[1]) return false;
+                const rowDate = new Date(row[1]);
+                const filterDate = new Date(selectedDate);
+                // Bandingkan YYYY-MM-DD
+                return rowDate.getFullYear() === filterDate.getFullYear() &&
+                       rowDate.getMonth() === filterDate.getMonth() &&
+                       rowDate.getDate() === filterDate.getDate();
+            });
+
+            if (filtered.length === 0) {
+                body.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 40px; color: rgba(255,150,150,0.6); font-family: 'Share Tech Mono';">Tidak ada data izin keluar untuk tanggal ${indonesianDateLong(selectedDate)}.</td></tr>`;
+                return;
+            }
+
+            body.innerHTML = filtered.map(row => `
+                <tr style="animation: slideInUp 0.3s ease forwards;">
+                    <td style="font-weight: 700; color: var(--primary); padding: 20px;">${row[0] || '-'}</td>
+                    <td style="font-family: 'Share Tech Mono'; letter-spacing: 1px; padding: 20px;">${indonesianDateLong(row[1])}</td>
+                </tr>
+            `).join('');
+        } else {
+            const errorMsg = result && result.error ? result.error : 'Data Kosong atau Gagal Memuat.';
+            body.innerHTML = `<tr><td colspan="2" style="text-align:center; color:#ff4d4d; padding: 40px;">${errorMsg}</td></tr>`;
+        }
+    } catch (e) {
+        body.innerHTML = `<tr><td colspan="2" style="text-align:center; color:#ff4d4d; padding: 40px;">Eror Koneksi: ${e.message}</td></tr>`;
+    }
+}
+
+// --- BAGI NOMINAL WD ---
+window.formatRupiahInput = function(input) {
+    let value = input.value.replace(/[^0-9]/g, '');
+    if (value) {
+        input.value = new Intl.NumberFormat('id-ID', {
+            style: 'decimal',
+            minimumFractionDigits: 0
+        }).format(value);
+    }
+};
+
+window.calculateBagiWd = function() {
+    const totalRaw = document.getElementById('bagiWdTotal').value;
+    const maxRaw = document.getElementById('bagiWdMax').value;
+    const resultArea = document.getElementById('bagiWdResultArea');
+    const footer = document.getElementById('bagiWdTotalFooter');
+    const checkTotalEl = document.getElementById('bagiWdCheckTotal');
+
+    if (!totalRaw || !maxRaw) {
+        if (typeof showToast === 'function') showToast("Masukkan nominal total dan max per bagian", "error");
+        return;
+    }
+
+    const total = parseInt(totalRaw.replace(/[^0-9]/g, ''));
+    const maxNominal = parseInt(maxRaw.replace(/[^0-9]/g, ''));
+
+    if (isNaN(total) || isNaN(maxNominal) || maxNominal <= 0) {
+        if (typeof showToast === 'function') showToast("Input tidak valid", "error");
+        return;
+    }
+
+    let remainder = total;
+    let results = [];
+    // Safety break to prevent infinite loops if something is wrong
+    let loopCount = 0;
+    while (remainder > 0 && loopCount < 1000) {
+        if (remainder >= maxNominal) {
+            results.push(maxNominal);
+            remainder -= maxNominal;
+        } else {
+            results.push(remainder);
+            remainder = 0;
+        }
+        loopCount++;
+    }
+
+    let html = '';
+    results.forEach((amt, index) => {
+        const formatted = new Intl.NumberFormat('id-ID').format(amt);
+        html += `
+            <div class="split-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0,255,170,0.05); margin-bottom: 8px; border-left: 3px solid var(--primary); border-radius: 4px; animation: slideInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s; opacity: 0;">
+                <div style="font-family: 'Share Tech Mono'; color: #fff;">
+                    <span style="color: var(--text-muted); font-size: 10px; margin-right: 10px;">#${index+1}</span>
+                    Rp ${formatted}
+                </div>
+                <button class="btn-mini-action" onclick="window.copyText('${amt}')" title="Salin">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                    </svg>
+                </button>
+            </div>
+        `;
+    });
+
+    resultArea.innerHTML = html;
+    footer.style.display = 'block';
+    checkTotalEl.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(total);
+};
+
+window.copyAllBagiWd = function() {
+    const totalRaw = document.getElementById('bagiWdTotal').value;
+    const maxRaw = document.getElementById('bagiWdMax').value;
+    
+    if (!totalRaw || !maxRaw) return;
+    
+    const total = parseInt(totalRaw.replace(/[^0-9]/g, ''));
+    const maxNominal = parseInt(maxRaw.replace(/[^0-9]/g, ''));
+    
+    if (isNaN(total) || isNaN(maxNominal) || maxNominal <= 0) return;
+    
+    let remainder = total;
+    let textRows = [];
+    let loopCount = 0;
+    while (remainder > 0 && loopCount < 1000) {
+        if (remainder >= maxNominal) {
+            textRows.push(maxNominal);
+            remainder -= maxNominal;
+        } else {
+            textRows.push(remainder);
+            remainder = 0;
+        }
+        loopCount++;
+    }
+    
+    window.copyText(textRows.join('\n'));
+};
+
+window.copyText = function(text) {
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+        if (typeof showToast === 'function') showToast("Berhasil disalin!", "success");
+    }).catch(err => {
+        console.error('Copy failed', err);
+    });
+};
+
+// --- CUSTOM CALENDAR LOGIC ---
+let currentCalDate = new Date();
+let selectedCalDate = null;
+
+window.toggleCustomCalendar = function(e) {
+    e.stopPropagation();
+    const cal = document.getElementById('customCalendar');
+    if (cal.style.display === 'none') {
+        cal.style.display = 'block';
+        window.renderCalendar();
+    } else {
+        cal.style.display = 'none';
+    }
+};
+
+window.renderCalendar = function() {
+    const monthYearEl = document.getElementById('calendarMonthYear');
+    const gridEl = document.getElementById('calendarGrid');
+    
+    const year = currentCalDate.getFullYear();
+    const month = currentCalDate.getMonth();
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    const monthNames = ["JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"];
+    monthYearEl.textContent = `${monthNames[month]} ${year}`;
+    
+    let html = '';
+    
+    // Empty slots for previous month
+    for (let i = 0; i < firstDay; i++) {
+        html += '<div class="calendar-day empty"></div>';
+    }
+    
+    const today = new Date();
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        let classes = 'calendar-day';
+        
+        if (selectedCalDate === dateStr) classes += ' selected';
+        if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) classes += ' today';
+        
+        html += `<div class="${classes}" onclick="window.selectCalendarDay('${dateStr}')">${day}</div>`;
+    }
+    
+    gridEl.innerHTML = html;
+};
+
+window.changeCalendarMonth = function(offset) {
+    currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+    window.renderCalendar();
+};
+
+window.selectCalendarDay = function(dateStr) {
+    selectedCalDate = dateStr;
+    window.renderCalendar();
+    window.submitCalendar();
+};
+
+window.setCalendarToday = function() {
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    selectedCalDate = dateStr;
+    currentCalDate = new Date();
+    window.renderCalendar();
+    window.submitCalendar();
+};
+
+window.clearCalendar = function() {
+    selectedCalDate = null;
+    document.getElementById('izinKeluarDate').value = '';
+    document.getElementById('izinKeluarDateDisplay').value = '';
+    window.renderCalendar();
+    if (typeof window.filterIzinKeluar === 'function') {
+        window.filterIzinKeluar();
+    }
+};
+
+window.submitCalendar = function() {
+    if (selectedCalDate) {
+        document.getElementById('izinKeluarDate').value = selectedCalDate;
+        // Format display
+        const d = new Date(selectedCalDate);
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('izinKeluarDateDisplay').value = d.toLocaleDateString('id-ID', options);
+        
+        // Auto trigger filter
+        if (typeof window.filterIzinKeluar === 'function') {
+            window.filterIzinKeluar();
+        }
+    }
+    document.getElementById('customCalendar').style.display = 'none';
+};
+
+// Close calendar when clicking outside
+document.addEventListener('click', function(e) {
+    const cal = document.getElementById('customCalendar');
+    if (cal && cal.style.display === 'block') {
+        if (!cal.contains(e.target) && e.target.id !== 'izinKeluarDateDisplay') {
+            cal.style.display = 'none';
+        }
+    }
+});

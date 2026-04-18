@@ -1,316 +1,393 @@
-const SHEET_NAME = 'SB';
-const SCRIPT_PROPERTIES = 'pk_online_properties';
-const TOGEL_SHEET_NAME = 'TOGEL DATA';
+// ==========================================
+// CYBER HUD CORE SYSTEM - GOOGLE APPS SCRIPT
+// ==========================================
 
-let sheet = null;
-let togelsheet = null;
+/**
+ * CONFIGURATION
+ */
+const CONFIG = {
+  FOLDER_GALLERY_ID: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
+  FOLDER_EXTENSIONS_ID: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
+  // Jika script ini standalone (bukan dari spreadsheet), masukkan ID Spreadsheet di sini
+  SPREADSHEET_ID: '1L2WYrWFbQyssIxy7qV-2xnxWyzTCYJfsGjk6a5rbLdc' 
+};
 
-function getSheet() {
-  if (sheet !== null) {
-    return sheet;
+function getSS() {
+  try {
+    if (CONFIG.SPREADSHEET_ID) return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    return SpreadsheetApp.getActiveSpreadsheet();
+  } catch (e) {
+    return null;
   }
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  sheet = spreadsheet.getSheetByName(SHEET_NAME);
-
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet(SHEET_NAME);
-    setupHeaders();
-  }
-
-  return sheet;
-}
-
-function setupHeaders() {
-  const sheet = getSheet();
-  const headers = ['JUDUL', 'ISI'];
-
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sheet.getRange(1, 1, 1, headers.length)
-    .setFontWeight('bold')
-    .setBackground('#0a0a0a')
-    .setFontColor('#00ff41');
-
-  sheet.setFrozenRows(1);
-}
-
-function getAllNotes() {
-  const sheet = getSheet();
-  const lastRow = sheet.getLastRow();
-
-  if (lastRow <= 1) {
-    return [];
-  }
-
-  const data = sheet.getRange(2, 1, lastRow - 1, 2).getValues();
-  const notes = [];
-
-  for (let i = 0; i < data.length; i++) {
-    const row = data[i];
-    if (row[0] || row[1]) {
-      notes.push({
-        id: `gs_${i + 2}`, // Stable ID based on row index
-        judul: row[0],
-        isi: row[1],
-        rowIndex: i + 2
-      });
-    }
-  }
-
-  return notes;
-}
-
-function addNote(judul, isi) {
-  const sheet = getSheet();
-  const timestamp = new Date().toISOString();
-  const newRow = [judul, isi];
-
-  sheet.appendRow(newRow);
-
-  const lastRow = sheet.getLastRow();
-
-  return {
-    id: `gs_${lastRow}`,
-    judul: judul,
-    isi: isi,
-    createdAt: timestamp,
-    updatedAt: timestamp,
-    rowIndex: lastRow
-  };
-}
-
-function updateNote(id, judul, isi) {
-  const sheet = getSheet();
-  const rowIndex = parseInt(id.replace('gs_', ''));
-
-  if (isNaN(rowIndex)) {
-    throw new Error('ID tidak valid');
-  }
-
-  sheet.getRange(rowIndex, 1).setValue(judul);
-  sheet.getRange(rowIndex, 2).setValue(isi);
-
-  return {
-    id: id,
-    judul: judul,
-    isi: isi,
-    rowIndex: rowIndex,
-    updatedAt: new Date().toISOString()
-  };
-}
-
-function deleteNote(id) {
-  const sheet = getSheet();
-  const rowIndex = parseInt(id.replace('gs_', ''));
-
-  if (isNaN(rowIndex)) {
-    throw new Error('ID tidak valid');
-  }
-
-  sheet.deleteRow(rowIndex);
-
-  return { success: true };
-}
-
-function searchNotes(keyword) {
-  const notes = getAllNotes();
-
-  if (!keyword) {
-    return notes;
-  }
-
-  const filtered = notes.filter(note =>
-    note.judul.toLowerCase().includes(keyword.toLowerCase())
-  );
-
-  return filtered;
 }
 
 function doGet(e) {
   const action = e.parameter.action;
-
-  let result;
-
-  try {
-    switch (action) {
-      case 'getAll':
-        result = getAllNotes();
-        break;
-      case 'add':
-        const judul = e.parameter.judul;
-        const isi = e.parameter.isi || '';
-        result = addNote(judul, isi);
-        break;
-      case 'update':
-        const updateId = e.parameter.id;
-        const updateJudul = e.parameter.judul;
-        const updateIsi = e.parameter.isi || '';
-        result = updateNote(updateId, updateJudul, updateIsi);
-        break;
-      case 'delete':
-        const deleteId = e.parameter.id;
-        result = deleteNote(deleteId);
-        break;
-      case 'search':
-        const keyword = e.parameter.keyword || '';
-        result = searchNotes(keyword);
-        break;
-      case 'getTogelData':
-        result = getTogelData();
-        break;
-      default:
-        result = { error: 'Action tidak valid' };
-    }
-  } catch (error) {
-    result = { error: error.message };
+  
+  if (!action) {
+    return HtmlService.createHtmlOutputFromFile('index')
+        .setTitle('Cyber HUD - Dashboard SB')
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+        .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   }
-
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
+  
+  return handleAction(e.parameter);
 }
 
 function doPost(e) {
-  let result;
-
+  let postData;
   try {
-    const payload = JSON.parse(e.postData.contents);
-    const action = payload.action;
-
-    switch (action) {
-      case 'saveTogelData':
-        result = saveTogelData(payload.data);
-        break;
-      default:
-        result = { error: 'Action tidak valid' };
-    }
-  } catch (error) {
-    result = { error: error.message };
+    postData = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ error: "Invalid JSON payload" }))
+        .setMimeType(ContentService.MimeType.JSON);
   }
-
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
+  
+  return handleAction(postData);
 }
+
+function handleAction(params) {
+  const action = params.action;
+  const callback = params.callback; // For JSONP support
+  let result;
+  
+  try {
+    switch (action) {
+      // 1. DATA KESALAHAN STAFF
+      case 'getKesalahan':
+        result = getKesalahan();
+        break;
+      
+      // 2. DATA INVENTARIS HP WDBOS
+      case 'getInventaris':
+        result = getInventaris();
+        break;
+      
+      // 3. DATA IZIN KELUAR SISA 2
+      case 'getIzinKeluar':
+        result = getIzinKeluar();
+        break;
+        
+      // 4. CEK DATA REKENING
+      case 'checkAccountsBatch':
+        result = { results: checkAccountsBatch(params.accounts) };
+        break;
+        
+      // 5. NOTEPAD SYSTEM
+      case 'getAll':
+        result = getNotes();
+        break;
+      case 'add':
+        result = addNote(params.judul, params.isi);
+        break;
+      case 'update':
+        result = updateNote(params.id, params.judul, params.isi);
+        break;
+      case 'delete':
+        result = deleteNote(params.id);
+        break;
+        
+      // 6. TOGEL DATA
+      case 'getTogelData':
+      case 'scrapeWdbos':
+        result = getTogelData();
+        break;
+      case 'saveTogelData':
+        result = saveTogelData(params.data);
+        break;
+        
+      // 7. DRIVE OPERATIONS
+      case 'uploadImage':
+        result = handleFileUpload(params.base64, params.filename, params.folderId);
+        break;
+      case 'listFiles':
+        result = listFiles(params.folderId);
+        break;
+      case 'deleteFile':
+        result = deleteFile(params.fileId);
+        break;
+
+      // 8. SYSTEM
+      case 'testConnection':
+        result = testConnection();
+        break;
+        
+      default:
+        result = { error: "Action not found: " + action };
+    }
+  } catch (err) {
+    result = { error: err.message };
+  }
+  
+  const jsonResponse = JSON.stringify(result);
+  
+  if (callback) {
+    // Return as JSONP
+    return ContentService.createTextOutput(callback + "(" + jsonResponse + ")")
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  } else {
+    // Return as pure JSON
+    return ContentService.createTextOutput(jsonResponse)
+        .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+
+// --- MODULE: DATA FETCHING ---
+
+function getSheetRobust(name) {
+  const ss = getSS();
+  if (!ss) return null;
+  const sheets = ss.getSheets();
+  const normalizedSearch = name.toString().toLowerCase().trim();
+  
+  for (let i = 0; i < sheets.length; i++) {
+    const sheetName = sheets[i].getName().toLowerCase().trim();
+    if (sheetName === normalizedSearch || sheetName.includes(normalizedSearch)) return sheets[i];
+  }
+  return null;
+}
+
+function findHeaderRow(sheet, keyword) {
+  const maxRows = sheet.getMaxRows();
+  const maxCols = sheet.getMaxColumns();
+  const numRows = Math.min(10, maxRows > 0 ? maxRows : 1);
+  const numCols = Math.min(10, maxCols > 0 ? maxCols : 1);
+  
+  if (numRows === 0 || numCols === 0) return 1;
+  
+  const data = sheet.getRange(1, 1, numRows, numCols).getValues(); // Search safely
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      if (data[i][j] && data[i][j].toString().toLowerCase().includes(keyword.toLowerCase())) {
+        return i + 1; // Return 1-based row index
+      }
+    }
+  }
+  return 1; // Default to first row
+}
+
+function getKesalahan() {
+  const sheet = getSheetRobust("DATA KESALAHAN");
+  if (!sheet) return { error: "Sheet 'DATA KESALAHAN' tidak ditemukan." };
+  const headerRow = findHeaderRow(sheet, "NAMA STAFF");
+  const rows = sheet.getDataRange().getValues();
+  return rows.slice(headerRow).filter(row => row[1] && row[1].toString().trim() !== "");
+}
+
+function getInventaris() {
+  const sheet = getSheetRobust("DATA INVENTARIS HP WDBOS");
+  if (!sheet) return { error: "Sheet 'DATA INVENTARIS HP WDBOS' tidak ditemukan." };
+  const headerRow = findHeaderRow(sheet, "NAMA REKENING");
+  const rows = sheet.getDataRange().getValues();
+  return rows.slice(headerRow).filter(row => row[1] && row[1].toString().trim() !== "");
+}
+
+function getIzinKeluar() {
+  const sheet = getSheetRobust("IZIN KELUAR SISA 2");
+  if (!sheet) return { error: "Sheet 'IZIN KELUAR SISA 2' tidak ditemukan." };
+  const headerRow = findHeaderRow(sheet, "NAMA STAFF");
+  const rows = sheet.getDataRange().getValues();
+  return rows.slice(headerRow).filter(row => row[0] && row[0].toString().trim() !== "");
+}
+
+// --- MODULE: CEK REKENING ---
+
+function checkAccountsBatch(accountNumbers) {
+  if (!accountNumbers || !Array.isArray(accountNumbers)) return [];
+  
+  const ss = getSS();
+  if (!ss) return { error: "Could not access spreadsheet." };
+  const sheetsToSearch = [
+    "BANK KAS BERSIH DAN KOTOR", "BANK WD BERSIH DAN KOTOR", "BANK DEPOSIT",
+    "BANK E-WALLET DANA", "BANK E-WALLET GOPAY", "BANK E-WALLET OVO", "BANK E-WALLET LINKAJA"
+  ];
+  
+  let results = [];
+  
+  sheetsToSearch.forEach(name => {
+    const sheet = ss.getSheetByName(name);
+    if (!sheet) return;
+    
+    const data = sheet.getDataRange().getValues();
+    data.forEach(row => {
+      const norek = row[3] ? row[3].toString().trim() : "";
+      if (norek && accountNumbers.includes(norek)) {
+        results.push({
+          accountNumber: norek,
+          found: true,
+          details: {
+            status: row[0] || "TIDAK ADA STATUS",
+            bank: row[1] || "-",
+            name: row[2] || "-",
+            number: norek,
+            sheet: name
+          }
+        });
+      }
+    });
+  });
+  
+  return results;
+}
+
+// --- MODULE: NOTEPAD (Using a hidden sheet for persistence) ---
+
+function getNotesSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName("_SYSTEM_NOTES_");
+  if (!sheet) {
+    sheet = ss.insertSheet("_SYSTEM_NOTES_");
+    sheet.appendRow(["ID", "JUDUL", "ISI", "CREATED_AT", "UPDATED_AT"]);
+    sheet.hideSheet();
+  }
+  return sheet;
+}
+
+function getNotes() {
+  const sheet = getNotesSheet();
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return [];
+  
+  return data.slice(1).map(row => ({
+    id: row[0],
+    judul: row[1],
+    isi: row[2],
+    createdAt: row[3],
+    updatedAt: row[4]
+  })).reverse(); // Newest first
+}
+
+function addNote(judul, isi) {
+  const sheet = getNotesSheet();
+  const id = "note_" + new Date().getTime();
+  const now = new Date().toISOString();
+  sheet.appendRow([id, judul, isi, now, now]);
+  return { success: true, id: id };
+}
+
+function updateNote(id, judul, isi) {
+  const sheet = getNotesSheet();
+  const data = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] == id) {
+      sheet.getRange(i + 1, 2, 1, 2).setValues([[judul, isi]]);
+      sheet.getRange(i + 1, 5).setValue(new Date().toISOString());
+      return { success: true };
+    }
+  }
+  return { error: "Note not found" };
+}
+
+function deleteNote(id) {
+  const sheet = getNotesSheet();
+  const data = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] == id) {
+      sheet.deleteRow(i + 1);
+      return { success: true };
+    }
+  }
+  return { error: "Note not found" };
+}
+
+// --- MODULE: TOGEL DATA ---
 
 function getTogelSheet() {
-  if (togelsheet !== null) {
-    return togelsheet;
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName("_SYSTEM_TOGEL_");
+  if (!sheet) {
+    sheet = ss.insertSheet("_SYSTEM_TOGEL_");
+    sheet.appendRow(["DATA_JSON"]);
+    sheet.hideSheet();
   }
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  togelsheet = spreadsheet.getSheetByName(TOGEL_SHEET_NAME);
-
-  if (!togelsheet) {
-    togelsheet = spreadsheet.insertSheet(TOGEL_SHEET_NAME);
-    setupTogelHeaders();
-  }
-
-  return togelsheet;
-}
-
-function setupTogelHeaders() {
-  const sheet = getTogelSheet();
-  const headers = ['NAMA', 'BET_CLOSE', 'RESULT', 'LINK_RESMI', 'LINK_ACUAN', 'LOGO'];
-
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sheet.getRange(1, 1, 1, headers.length)
-    .setFontWeight('bold')
-    .setBackground('#0a0a0a')
-    .setFontColor('#00ff41');
-
-  sheet.setFrozenRows(1);
+  return sheet;
 }
 
 function getTogelData() {
   const sheet = getTogelSheet();
-  const lastRow = sheet.getLastRow();
-
-  if (lastRow <= 1) {
-    return [];
-  }
-
-  const data = sheet.getRange(2, 1, lastRow - 1, 6).getValues();
-  const togels = [];
-
-  for (let i = 0; i < data.length; i++) {
-    const row = data[i];
-    if (row[0]) {
-      togels.push({
-        nama: row[0],
-        betClose: row[1],
-        result: row[2],
-        linkResmi: row[3],
-        linkAcuan: row[4],
-        logo: row[5]
-      });
-    }
-  }
-
-  return togels;
+  const val = sheet.getRange(2, 1).getValue();
+  return val ? JSON.parse(val) : [];
 }
 
-function saveTogelData(togelData) {
-  if (!togelData || !Array.isArray(togelData)) {
-    return { error: 'Data tidak valid' };
-  }
-
+function saveTogelData(data) {
   const sheet = getTogelSheet();
-  const maxRows = sheet.getMaxRows();
-  if (maxRows > 1) {
-    sheet.deleteRows(2, maxRows - 1);
-  }
-
-  const values = togelData.map(t => [
-    t.nama || '',
-    t.betClose || '',
-    t.result || '',
-    t.linkResmi || '',
-    t.linkAcuan || '',
-    t.logo || ''
-  ]);
-
-  if (values.length > 0) {
-    sheet.getRange(2, 1, values.length, values[0].length).setValues(values);
-  }
-
-  return { success: true, count: togelData.length };
+  sheet.getRange(2, 1).setValue(JSON.stringify(data));
+  return { success: true };
 }
 
-function setupTrigger() {
-  ScriptApp.newTrigger('cleanupOldTriggers')
-    .timeBased()
-    .everyHours(1)
-    .create();
+// --- MODULE: DRIVE OPERATIONS ---
+
+function handleFileUpload(base64, filename, folderId) {
+  const folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
+  const contentType = base64.includes(';') ? base64.substring(5, base64.indexOf(';')) : 'application/octet-stream';
+  const bytes = Utilities.base64Decode(base64.includes(',') ? base64.split(',')[1] : base64);
+  const blob = Utilities.newBlob(bytes, contentType, filename);
+  
+  const file = folder.createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  
+  return {
+    id: file.getId(),
+    url: "https://drive.google.com/uc?export=view&id=" + file.getId()
+  };
 }
 
-function cleanupOldTriggers() {
-  const triggers = ScriptApp.getProjectTriggers();
-
-  for (let i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'cleanupOldTriggers') {
-      ScriptApp.deleteTrigger(triggers[i]);
-    }
+function listFiles(folderId) {
+  const folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
+  const files = folder.getFiles();
+  let result = [];
+  
+  while (files.hasNext()) {
+    const file = files.next();
+    result.push({
+      id: file.getId(),
+      name: file.getName(),
+      size: (file.getSize() / (1024 * 1024)).toFixed(2) + " MB",
+      url: file.getUrl()
+    });
   }
+  return result;
 }
 
-function initializeSheet() {
-  getSheet();
-  return 'Sheet "SB" siap digunakan!';
+function deleteFile(fileId) {
+  try {
+    const file = DriveApp.getFileById(fileId);
+    file.setTrashed(true);
+    return { success: true };
+  } catch (e) {
+    return { error: e.message };
+  }
 }
 
 function testConnection() {
+  var ssStatus = 'Error';
+  var driveStatus = 'Error';
+  var ssName = 'Unknown';
+  
   try {
-    const sheet = getSheet();
-    const notes = getAllNotes();
-    return {
-      success: true,
-      sheetName: SHEET_NAME,
-      totalNotes: notes.length,
-      message: 'Koneksi ke Google Sheet berhasil!'
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message
-    };
-  }
+    var ss = getSS();
+    if (ss) {
+      ssStatus = 'Connected';
+      ssName = ss.getName();
+    } else {
+      ssStatus = 'Disconnected (Cannot Open Spreadsheet)';
+    }
+  } catch (e) { ssStatus = 'Error: ' + e.message; }
+  
+  try {
+    var folder = DriveApp.getFolderById(CONFIG.FOLDER_GALLERY_ID);
+    if (folder) driveStatus = 'Connected';
+  } catch (e) { driveStatus = 'Error: ' + e.message; }
+
+  return {
+    status: 'success',
+    message: 'Koneksi ke Google Apps Script Berhasil!',
+    timestamp: new Date().toISOString(),
+    details: {
+      spreadsheet: ssStatus,
+      spreadsheetName: ssName,
+      drive: driveStatus
+    }
+  };
 }
