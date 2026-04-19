@@ -68,6 +68,24 @@ body {
     position: relative;
 }
 
+/* Background Image Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--body-bg-image, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.4; /* Opacity 0.4 agar dashboard tetap readable */
+    z-index: -1;
+    pointer-events: none;
+    transition: background-image 0.5s ease-in-out;
+}
+
 /* --- GLOBAL DECORATIONS --- */
 .app-wrapper {
     display: flex;

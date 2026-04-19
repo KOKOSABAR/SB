@@ -3034,7 +3034,7 @@ function openSettingsModal() {
     overlay.innerHTML = `
         <div class="modal" style="max-width: 450px;">
             <div class="modal-header">
-                <h2>Pengaturan Koneksi</h2>
+                <h2>Pengaturan Dashboard</h2>
                 <button class="btn-close" onclick="window.closeSettingsModal()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -3044,22 +3044,37 @@ function openSettingsModal() {
             </div>
             <form id="settingsForm" onsubmit="window.saveSettings(event)">
                 <div class="form-group">
-                    <label for="scriptUrlInput">Google Apps Script Web App URL</label>
-                    <input type="url" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/..." value="${scriptUrl || ''}">
-                    <small style="color: var(--text-muted); display: block; margin-top: 6px;">
-                        Kosongkan untuk menggunakan LocalStorage saja
+                    <label for="scriptUrlInput">GAS Web App URL</label>
+                    <input type="url" id="scriptUrlInput" placeholder="https://..." value="${scriptUrl || ''}">
+                </div>
+
+                <div class="max-divider" style="margin: 20px 0;"></div>
+
+                <div class="form-group">
+                    <label>Dashboard Background</label>
+                    <div style="display: flex; gap: 10px; margin-top: 5px;">
+                        <input type="file" id="bgUploadInput" style="display: none;" accept="image/*" onchange="window.handleBackgroundUpload(this)">
+                        <button type="button" class="btn btn-secondary" style="flex: 1; font-size: 11px;" 
+                                onclick="document.getElementById('bgUploadInput').click()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            GANTI BACKGROUND
+                        </button>
+                        <button type="button" class="btn btn-icon delete" style="width: 40px; height: 40px;" onclick="window.updateDashboardBackground('')" title="Reset Background">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+                        </button>
+                    </div>
+                    <small style="color: var(--text-muted); font-size: 10px; display: block; margin-top: 5px;">
+                        Gambar akan disimpan di Google Drive & Spreadsheet.
                     </small>
                 </div>
-                <div class="form-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+
+                <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; gap: 10px; width: 100%;">
                         <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="window.closeSettingsModal()">Batal</button>
-                        <button type="submit" class="btn btn-primary" style="flex: 1;">Simpan</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Simpan (URL)</button>
                     </div>
-                    ${scriptUrl ? `
-                    <button type="button" class="btn btn-accent" style="width: 100%; font-size: 11px; padding: 8px;" 
-                            onclick="window.open(scriptUrl + '?action=testConnection', '_blank')">
-                        Buka di Tab Baru (Verifikasi / Login Google)
-                    </button>` : ''}
                 </div>
             </form>
         </div>
@@ -3106,6 +3121,7 @@ function toggleSidebar() {
 function init() {
     console.log('Initializing SB Dashboard...');
     loadNotes();
+    loadBackground(); // Load persisted background
     const storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
     if (storedUrl) scriptUrl = storedUrl;
     useGoogleSheets = !!scriptUrl;
@@ -3188,6 +3204,70 @@ window.toggleSidebar = toggleSidebar;
 window.exportToCSV = exportToCSV;
 window.testGASConnection = testGASConnection;
 window.preloadDashboardData = preloadDashboardData;
+
+window.handleBackgroundUpload = async function(input) {
+    if (!input.files || !input.files[0]) return;
+    if (!useGoogleSheets || !scriptUrl) {
+        showToast('Aktifkan script URL terlebih dahulu', 'error');
+        return;
+    }
+
+    const file = input.files[0];
+    const reader = new FileReader();
+    
+    showToast('Mengupload Baground...', 'loading', 0);
+    
+    reader.onload = async function(e) {
+        const base64 = e.target.result.split(',')[1];
+        try {
+            const uploadRes = await fetchFromGoogleSheets({
+                action: 'uploadImage',
+                base64: base64,
+                filename: 'bg_' + Date.now() + '.jpg',
+                folderId: CONFIG_GAS?.FOLDER_GALLERY_ID || ''
+            });
+
+            if (uploadRes && uploadRes.url) {
+                window.updateDashboardBackground(uploadRes.url);
+            } else {
+                showToast('Gagal upload gambar', 'error');
+            }
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+        }
+    };
+    reader.readAsDataURL(file);
+};
+
+window.updateDashboardBackground = async function(url) {
+    // Apply immediate UI update
+    document.body.style.setProperty('--body-bg-image', url ? `url('${url}')` : 'none');
+    
+    if (useGoogleSheets && scriptUrl) {
+        try {
+            await fetchFromGoogleSheets({
+                action: 'updateBackground',
+                url: url
+            });
+            showToast('Background berhasil diperbarui!', 'success');
+        } catch (e) {
+            console.error('Failed to persist background:', e);
+        }
+    }
+};
+
+async function loadBackground() {
+    if (useGoogleSheets && scriptUrl) {
+        try {
+            const res = await fetchFromGoogleSheets({ action: 'getBackground' });
+            if (res && res.url) {
+                document.body.style.setProperty('--body-bg-image', `url('${res.url}')`);
+            }
+        } catch (e) {
+            console.log('Using default background');
+        }
+    }
+}
 
 document.addEventListener('DOMContentLoaded', init);
 

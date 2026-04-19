@@ -105,6 +105,13 @@ function handleAction(params) {
       case 'deleteFile':
         result = deleteFile(params.fileId);
         break;
+        
+      case 'getBackground':
+        result = getBackground();
+        break;
+      case 'updateBackground':
+        result = updateBackground(params.url);
+        break;
 
       // 8. SYSTEM
       case 'testConnection':
@@ -445,4 +452,44 @@ function testConnection() {
       drive: driveStatus
     }
   };
+}
+function updateBackground(url) {
+  const sheetName = "SB_SETTINGS";
+  let sheet = getSheetRobust(sheetName);
+  const ss = getSS();
+  
+  if (!sheet) {
+    if (!ss) return { error: "No Spreadsheet connected" };
+    sheet = ss.insertSheet(sheetName);
+    sheet.appendRow(["KEY", "VALUE"]);
+  }
+  
+  const data = sheet.getDataRange().getValues();
+  let found = false;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0] === "BACKGROUND_URL") {
+      sheet.getRange(i + 1, 2).setValue(url);
+      found = true;
+      break;
+    }
+  }
+  
+  if (!found) {
+    sheet.appendRow(["BACKGROUND_URL", url]);
+  }
+  
+  return { success: true, url: url };
+}
+
+function getBackground() {
+  const sheet = getSheetRobust("SB_SETTINGS");
+  if (!sheet) return { url: "" };
+  
+  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0] === "BACKGROUND_URL") {
+      return { url: data[i][1] };
+    }
+  }
+  return { url: "" };
 }
