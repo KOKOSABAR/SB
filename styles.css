@@ -1632,25 +1632,25 @@ body {
     pointer-events: auto;
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 16px 30px;
-    background: linear-gradient(180deg, rgba(14, 20, 26, 0.98) 0%, rgba(6, 10, 14, 1) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 255, 242, 0.25);
-    border-top: 3px solid var(--primary);
-    border-radius: 6px;
-    min-width: 350px;
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.7),
-        0 0 30px rgba(0, 255, 242, 0.15),
-        inset 0 0 20px rgba(255, 255, 255, 0.03);
+    gap: 25px;
+    padding: 22px 40px;
+    background: linear-gradient(180deg, rgba(10, 15, 25, 0.98) 0%, rgba(5, 8, 12, 1) 100%);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 2px solid var(--primary);
+    border-bottom: 2px solid #00ffaa; /* Persistent neon green bottom */
+    border-radius: 4px;
+    min-width: 500px;
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.9),
+        inset 0 0 40px rgba(0, 255, 170, 0.05);
     position: relative;
     overflow: hidden;
     animation: toast-drop 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     user-select: none;
 }
 
-/* Luxury Cyber texture */
+/* Cyber Grid Texture Overlay */
 .toast::after {
     content: "";
     position: absolute;
@@ -1658,14 +1658,13 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 2px, 4px 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
     pointer-events: none;
     z-index: 1;
-}
-
+    opacity: 0.5;
 @keyframes toast-drop {
     from {
         transform: translateY(-40px) scale(0.95);
@@ -1700,33 +1699,58 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 242, 0.5), transparent);
+    height: 100%;
+    background: radial-gradient(circle at 10% 50%, rgba(0, 255, 170, 0.1), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .toast.success {
-    border-top-color: #00ff88;
-    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+    border-top-color: #00ffaa;
+    border-bottom-color: #00ffaa;
+    box-shadow: 0 10px 50px rgba(0, 255, 170, 0.15);
+}
+
+.toast.success::before {
+    background: radial-gradient(circle at 10% 50%, rgba(0, 255, 170, 0.15), transparent 60%);
 }
 
 .toast.error {
-    border-top-color: #ff3e3e;
-    box-shadow: 0 10px 40px rgba(255, 62, 62, 0.2);
+    border-top-color: #ff3366;
+    border-bottom-color: #ff3366;
+    box-shadow: 0 10px 50px rgba(255, 51, 102, 0.15);
+}
+
+.toast.error::before {
+    background: radial-gradient(circle at 10% 50%, rgba(255, 51, 102, 0.15), transparent 60%);
 }
 
 .toast.info {
-    border-top-color: #00d4ff;
-    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+    border-top-color: #00e5ff;
+    border-bottom-color: #00e5ff;
+    box-shadow: 0 10px 50px rgba(0, 229, 255, 0.15);
+}
+
+.toast.info::before {
+    background: radial-gradient(circle at 10% 50%, rgba(0, 229, 255, 0.15), transparent 60%);
 }
 
 .toast.warning {
-    border-top-color: #ffbb00;
-    box-shadow: 0 10px 40px rgba(255, 187, 0, 0.2);
+    border-top-color: #ffaa00;
+    border-bottom-color: #00ffaa;
+    box-shadow: 
+        0 10px 50px rgba(255, 170, 0, 0.2),
+        0 0 30px rgba(0, 255, 170, 0.1);
+}
+
+.toast.warning::before {
+    background: radial-gradient(circle at 12% 50%, rgba(255, 170, 0, 0.25), transparent 70%);
 }
 
 .toast.loading {
     border-top-color: var(--primary);
-    box-shadow: 0 10px 40px rgba(0, 255, 170, 0.2);
+    border-bottom-color: var(--primary);
+    box-shadow: 0 10px 50px rgba(0, 255, 170, 0.15);
 }
 
 .toast.loading .toast-message {
@@ -1790,16 +1814,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    filter: drop-shadow(0 0 5px currentColor);
+    box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
+    color: currentColor;
 }
 
 .toast.loading .toast-icon {
-    animation: orbital-rotate 1s linear infinite;
+    animation: orbital-rotate 1.5s linear infinite;
     color: var(--primary);
 }
 
@@ -1833,13 +1858,14 @@ body {
     position: relative;
     z-index: 5;
     flex: 1;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-family: 'JetBrains Mono', 'Orbitron', sans-serif;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    letter-spacing: 3px;
+    font-family: 'Orbitron', 'Share Tech Mono', sans-serif;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    line-height: 1.4;
 }
 
 .toast-progress {

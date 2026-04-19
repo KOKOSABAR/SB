@@ -3,11 +3,15 @@ let notes = [];
 let editingId = null;
 let deleteId = null;
 let useGoogleSheets = true;
-let scriptUrl = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
+let scriptUrl = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
 
 const SCRIPT_URL_KEY = 'pk_online_script_url';
+const FOLDER_ID_KEY = 'pk_online_folder_id';
 const TOGEL_DATA_KEY = 'pk_online_togel_data';
 const GALLERY_DATA_KEY = 'pk_online_gallery_data';
+
+const DEFAULT_FOLDER_ID = '1CLolADOa94s8tKp9r1mG19YhYNBDHnku';
+let driveFolderId = localStorage.getItem(FOLDER_ID_KEY) || DEFAULT_FOLDER_ID;
 
 // --- INITIAL GALLERY DATA ---
 const INITIAL_GALLERY = [
@@ -2528,18 +2532,13 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
             const json = JSON.parse(text);
             return json;
         } catch (e) {
-            // Check if Google returned a permissions error instead of JSON
-            if (text.includes('Service-side error') || text.includes('script.google.com')) {
-                return { error: 'Izin Google Script belum diberikan secara penuh.', text: text };
-            }
-            return { error: 'Invalid JSON response', text: text };
+            return { error: 'Invalid JSON response from server' };
         }
     } catch (error) {
         console.error('Google Sheets API Error:', error);
         
         // Fallback to JSONP for GET requests if fetch fails
         if (method === 'GET') {
-            console.warn('Attempting JSONP fallback...');
             return new Promise((resolve) => {
                 const callbackName = 'gas_cb_' + Date.now();
                 window[callbackName] = (res) => {
@@ -2548,26 +2547,20 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
                     if (scriptTag) scriptTag.remove();
                     resolve(res);
                 };
-                
                 const script = document.createElement('script');
                 script.id = callbackName;
                 const separator = scriptUrl.includes('?') ? '&' : '?';
                 const params = new URLSearchParams({ ...data, action, callback: callbackName }).toString();
                 script.src = `${scriptUrl}${separator}${params}`;
-                script.onerror = () => {
-                    delete window[callbackName];
-                    script.remove();
-                    resolve({ error: 'JSONP fallback failed. Pastikan URL benar.' });
-                };
+                script.onerror = () => { resolve({ error: 'JSONP Connection Failed' }); };
                 document.body.appendChild(script);
             });
         }
 
-        let msg = error.message;
-        if (msg === 'Failed to fetch') {
-            msg = 'Failed to fetch (CORS/Network Error). Pastikan URL benar dan Anda sudah login ke Google.';
+        if (error.message === 'Failed to fetch') {
+            return { error: 'Kesalahan Jaringan / CORS (Gunakan mode "Anyone" pada Deploy)' };
         }
-        return { error: msg };
+        return { error: 'Request Error: ' + error.message };
     }
 }
 
@@ -2949,7 +2942,7 @@ function showToast(message, type = 'success', duration = 3000) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
 
-    // Bersihkan notifikasi lama dengan tipe yang sama agar tidak menumpuk (Opsional, tapi bagus untuk kesan mewah)
+    // Bersihkan notifikasi lama dengan tipe yang sama agar tidak menumpuk
     if (type === 'loading' || type === 'success') {
         const oldToasts = container.querySelectorAll('.toast');
         oldToasts.forEach(t => {
@@ -2962,18 +2955,18 @@ function showToast(message, type = 'success', duration = 3000) {
     toast.className = `toast ${type}`;
 
     const icons = {
-        success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',
-        error: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-        info: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>',
-        warning: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>',
-        loading: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin-icon"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>'
+        success: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
+        error: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        info: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>',
+        warning: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>',
+        loading: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="spin-icon"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>'
     };
 
     const iconSvg = icons[type] || icons.info;
 
     toast.innerHTML = `
         <div class="toast-icon">${iconSvg}</div>
-        <div class="toast-message">${message}</div>
+        <div class="toast-message">${message.toUpperCase()}</div>
         <div class="toast-progress" style="animation-duration: ${duration > 0 ? duration : 15000}ms"></div>
     `;
 
@@ -3048,6 +3041,12 @@ function openSettingsModal() {
                     <input type="url" id="scriptUrlInput" placeholder="https://..." value="${scriptUrl || ''}">
                 </div>
 
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="folderIdInput">Drive Folder ID (Gallery/Background)</label>
+                    <input type="text" id="folderIdInput" placeholder="Enter Folder ID..." value="${driveFolderId || ''}">
+                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">ID ini menentukan folder penyimpanan di Google Drive.</p>
+                </div>
+
                 <div class="max-divider" style="margin: 20px 0;"></div>
 
                 <div class="form-group">
@@ -3108,10 +3107,17 @@ function saveSettings(event) {
     if (event) event.preventDefault();
 
     const urlInput = document.getElementById('scriptUrlInput');
+    const folderInput = document.getElementById('folderIdInput');
+
     if (urlInput) {
         scriptUrl = urlInput.value.trim();
         localStorage.setItem(SCRIPT_URL_KEY, scriptUrl);
         useGoogleSheets = !!scriptUrl;
+    }
+
+    if (folderInput) {
+        driveFolderId = folderInput.value.trim() || DEFAULT_FOLDER_ID;
+        localStorage.setItem(FOLDER_ID_KEY, driveFolderId);
     }
 
     closeSettingsModal();
@@ -3140,14 +3146,14 @@ function init() {
     loadBackground(); // Load persisted background
     
     // FORCE UPDATE: Migrate old unauthorized URL to new authorized one
-    const OLD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
-    const NEW_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
+    const OLD_SCRIPT_URL_1 = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
+    const OLD_SCRIPT_URL_2 = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
+    const CURRENT_URL = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
     
     let storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
-    if (!storedUrl || storedUrl === OLD_SCRIPT_URL) {
-        console.log('Migrating to NEW authorized script URL...');
-        localStorage.setItem(SCRIPT_URL_KEY, NEW_SCRIPT_URL);
-        storedUrl = NEW_SCRIPT_URL;
+    if (!storedUrl || storedUrl === OLD_SCRIPT_URL_1 || storedUrl === OLD_SCRIPT_URL_2) {
+        localStorage.setItem(SCRIPT_URL_KEY, CURRENT_URL);
+        storedUrl = CURRENT_URL;
     }
     
     if (storedUrl) scriptUrl = storedUrl;
@@ -3240,66 +3246,108 @@ window.handleBackgroundUpload = async function(input) {
     }
 
     const file = input.files[0];
-    const reader = new FileReader();
     
-    showToast('Mengupload Baground...', 'loading', 0);
+    showToast('Mengompres Gambar...', 'loading', 0);
     
-    reader.onload = async function(e) {
-        const base64 = e.target.result.split(',')[1];
-        try {
-            console.log("Uploading background to Google Drive...");
-            const uploadRes = await fetchFromGoogleSheets('uploadImage', {
-                base64: base64,
-                filename: 'bg_' + Date.now() + '.jpg',
-                folderId: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku'
-            }, 'POST');
+    try {
+        const compressedBase64 = await compressImage(file, 1200, 0.7); // Resize to max 1200px, 70% quality
+        showToast('Mengupload Baground...', 'loading', 0);
+        
+        const uploadRes = await fetchFromGoogleSheets('uploadImage', {
+            base64: compressedBase64.split(',')[1],
+            filename: 'bg_' + Date.now() + '.jpg',
+            folderId: driveFolderId
+        }, 'POST');
 
-            if (uploadRes && uploadRes.url) {
-                console.log("Upload success, updating background URL:", uploadRes.url);
-                await window.updateDashboardBackground(uploadRes.url);
-            } else {
-                console.error("Upload failed:", uploadRes);
-                const errorMsg = uploadRes?.error || 'Gagal upload gambar (Mungkin file terlalu besar)';
-                showToast(errorMsg, 'error');
-                
-                // If it looks like a permission error, show a special button in settings
-                if (errorMsg.includes('permission') || errorMsg.includes('Drive Error')) {
-                    const btn = document.getElementById('fixPermissionBtn');
-                    if (btn) btn.style.display = 'block';
+        if (uploadRes && uploadRes.url) {
+            // Convert to a more reliable proxy URL if it's a Drive link
+            let finalUrl = uploadRes.url;
+            if (finalUrl.includes('drive.google.com')) {
+                const fileIdMatch = finalUrl.match(/id=([^&]+)/);
+                if (fileIdMatch) {
+                    finalUrl = `https://lh3.googleusercontent.com/u/0/d/${fileIdMatch[1]}`;
                 }
             }
-        } catch (err) {
-            console.error("Capture error during upload:", err);
-            showToast('Error: ' + err.message, 'error');
+            
+            console.log("Upload success, updating background URL:", finalUrl);
+            await window.updateDashboardBackground(finalUrl);
+            showToast('Background berhasil diperbarui!', 'success');
+        } else {
+            console.error("Upload failed:", uploadRes);
+            const errorMsg = uploadRes?.error || 'Gagal upload gambar (Server Error)';
+            showToast(errorMsg, 'error');
+            
+            if (errorMsg.toLowerCase().includes('permission') || errorMsg.toLowerCase().includes('drive')) {
+                const btn = document.getElementById('fixPermissionBtn');
+                if (btn) btn.style.display = 'block';
+            }
         }
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+        console.error("Upload error:", err);
+        showToast('Error: ' + err.message, 'error');
+    }
 };
+
+async function compressImage(file, maxWidth, quality) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = (err) => reject(new Error('Gagal memuat gambar untuk kompresi'));
+        };
+        reader.onerror = (err) => reject(new Error('Gagal membaca file'));
+    });
+}
 
 window.updateDashboardBackground = async function(url) {
     const previewEl = document.getElementById('bgPreview');
+    
+    // 1. Update UI Immediately with FORCE
     if (url) {
-        document.body.style.backgroundImage = `linear-gradient(rgba(0, 15, 15, 0.6), rgba(0, 15, 15, 0.6)), url('${url}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
+        let finalUrl = url;
+        // Ensure direct image link
+        if (finalUrl.includes('drive.google.com/uc')) {
+             const id = new URL(finalUrl).searchParams.get('id');
+             finalUrl = `https://lh3.googleusercontent.com/u/0/d/${id}`;
+        }
+
+        const bgValue = `linear-gradient(rgba(0, 15, 15, 0.7), rgba(0, 15, 15, 0.7)), url('${finalUrl}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
+        
+        document.body.style.setProperty('background-image', bgValue, 'important');
+        document.body.style.setProperty('background-size', 'cover, cover, auto, auto', 'important');
+        document.body.style.setProperty('background-attachment', 'fixed', 'important');
+        
         if (previewEl) {
             previewEl.style.display = 'flex';
-            previewEl.style.backgroundImage = `url('${url}')`;
+            previewEl.style.backgroundImage = `url('${finalUrl}')`;
         }
     } else {
         document.body.style.backgroundImage = '';
         if (previewEl) previewEl.style.display = 'none';
     }
     
+    // 2. Persist to Cloud
     if (useGoogleSheets && scriptUrl) {
         try {
-            const res = await fetchFromGoogleSheets('updateBackground', {
-                url: url
-            }, 'POST');
-            
-            if (res && res.success) {
-                showToast('Background berhasil diperbarui!', 'success');
-            } else {
-                console.error("Persistence failed:", res);
-            }
+            await fetchFromGoogleSheets('updateBackground', { url: url || "" }, 'POST');
         } catch (e) {
             console.error('Failed to persist background:', e);
         }
@@ -3311,8 +3359,7 @@ async function loadBackground() {
         try {
             const res = await fetchFromGoogleSheets('getBackground');
             if (res && res.url) {
-                // Apply same logic as update
-                document.body.style.backgroundImage = `linear-gradient(rgba(0, 15, 15, 0.6), rgba(0, 15, 15, 0.6)), url('${res.url}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
+                await window.updateDashboardBackground(res.url);
             }
         } catch (e) {
             console.log('Using default background');
@@ -4010,7 +4057,7 @@ async function renderGallery() {
     if (useGoogleSheets && scriptUrl) {
         try {
             const result = await fetchFromGoogleSheets('listFiles', { 
-            folderId: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
+            folderId: driveFolderId,
             type: 'gallery' 
         });
             if (result && Array.isArray(result)) {
@@ -4090,16 +4137,17 @@ window.deleteGalleryImageFromDrive = async function(fileId) {
 window.handleGalleryUpload = async function(input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
-        const reader = new FileReader();
         
-        showToast('Menghubungkan ke Drive...', 'loading', 5000);
+        showToast('Mengompres Foto...', 'loading', 0);
         
-        reader.onload = async function(e) {
-            const base64Data = e.target.result.split(',')[1];
-            const filename = file.name;
-            const folderId = '1CLolADOa94s8tKp9r1mG19YhYNBDHnku'; // Folder ID Galery
+        try {
+            const compressedBase64 = await compressImage(file, 1600, 0.8);
+            const base64Data = compressedBase64.split(',')[1];
+            const filename = file.name; // Extracting filename from the file object
+            const folderId = driveFolderId;
 
             if (useGoogleSheets && scriptUrl) {
+                showToast('Menghubungkan ke Drive...', 'loading', 0);
                 try {
                     const result = await fetchFromGoogleSheets('uploadImage', { 
                         base64: base64Data, 
@@ -4107,46 +4155,57 @@ window.handleGalleryUpload = async function(input) {
                         folderId: folderId 
                     }, 'POST');
 
-                    if (result && result.id) {
-                        galleryData.unshift({
-                            id: result.id,
-                            type: 'drive'
-                        });
-                        saveGalleryData();
-                        renderGallery();
-                        showToast('Berhasil: Foto terenkripsi & tersimpan di Drive!', 'success');
-                    } else {
-                        throw new Error(result.error || 'Autentikasi Drive Gagal');
-                    }
-                } catch (error) {
-                    console.error('Upload Error:', error);
-                    let errMsg = 'Koneksi Drive bermasalah. Menyimpan ke Storage Lokal...';
-                    if (!navigator.onLine) errMsg = 'Anda sedang OFFLINE. Menyimpan ke Storage Lokal...';
-                    
-                    showToast(errMsg, 'warning', 5000);
-                    
-                    // Fallback to local storage if Drive fails
+                if (result && result.id) {
                     galleryData.unshift({
-                        url: e.target.result,
-                        type: 'local',
-                        id: Date.now().toString()
+                        id: result.id,
+                        type: 'drive'
                     });
                     saveGalleryData();
                     renderGallery();
+                    showToast('Berhasil: Foto terenkripsi & tersimpan di Drive!', 'success');
+                } else {
+                    const errorMsg = result?.error || 'Server menolak koneksi Drive';
+                    throw new Error(errorMsg);
                 }
-            } else {
-                // No Script URL, save locally
+            } catch (error) {
+                console.error('Upload Error:', error);
+                const isAuthError = error.message.toLowerCase().includes('permission') || 
+                                   error.message.toLowerCase().includes('drive error') ||
+                                   error.message.toLowerCase().includes('izin');
+
+                let errMsg = 'DRIVE ERROR: ' + error.message.toUpperCase();
+                
+                showToast(errMsg, 'error', 7000);
+                
+                if (isAuthError) {
+                    const btn = document.getElementById('fixPermissionBtn');
+                    if (btn) btn.style.display = 'block';
+                }
+
+                // Fallback to local storage
+                console.warn('Falling back to local storage due to Drive error');
                 galleryData.unshift({
-                    url: e.target.result,
+                    url: compressedBase64,
                     type: 'local',
                     id: Date.now().toString()
                 });
                 saveGalleryData();
                 renderGallery();
-                showToast('Foto disimpan lokal (Koneksi Drive tidak aktif)', 'info');
             }
-        };
-        reader.readAsDataURL(file);
+            } else {
+                // No Script URL, save locally
+                galleryData.unshift({
+                    url: compressedBase64,
+                    type: 'local',
+                    id: Date.now().toString()
+                });
+                saveGalleryData();
+                renderGallery();
+            }
+        } catch (error) {
+            console.error('Compression/Setup Error:', error);
+            showToast('Gagal memproses gambar: ' + error.message, 'error');
+        }
     }
 };
 

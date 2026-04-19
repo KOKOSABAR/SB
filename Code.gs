@@ -393,53 +393,71 @@ function scrapeWdbos() {
 
 function handleFileUpload(base64, filename, folderId) {
   try {
-    if (!base64) throw new Error("File data is missing");
+    if (!base64) throw new Error("Data file tidak ditemukan (Data empty)");
     
     const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
     const bytes = Utilities.base64Decode(rawBase64);
     const blob = Utilities.newBlob(bytes, "image/jpeg", filename);
     
-    // Create directly in ROOT as fallback
-    const file = DriveApp.createFile(blob);
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    // Default folder
+    let targetFolder;
+    const targetId = folderId || CONFIG.FOLDER_GALLERY_ID;
     
-    // Try to move to folder, but don't fail if it doesn't work
     try {
-      const targetId = folderId || CONFIG.FOLDER_GALLERY_ID || '';
       if (targetId) {
-        const folder = DriveApp.getFolderById(targetId);
-        folder.addFile(file);
-        DriveApp.getRootFolder().removeFile(file);
+        targetFolder = DriveApp.getFolderById(targetId);
+      } else {
+        targetFolder = DriveApp.getRootFolder();
       }
-    } catch (moveErr) {
-      console.log("Could not move file to folder, keeping in root.");
+    } catch (e) {
+      Logger.log("Folder ID tidak valid, menggunakan Root: " + e.message);
+      targetFolder = DriveApp.getRootFolder();
+    }
+    
+    // Create the file
+    const file = targetFolder.createFile(blob);
+    
+    // Set sharing permissions (Anyone with link can view)
+    try {
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    } catch (shareErr) {
+      Logger.log("Gagal mengatur sharing (Mungkin dibatasi admin): " + shareErr.message);
+      // Tetap lanjut, file sudah tersimpan
     }
 
     return {
       success: true,
       id: file.getId(),
-      url: "https://drive.google.com/uc?export=view&id=" + file.getId()
+      url: "https://drive.google.com/uc?export=view&id=" + file.getId(),
+      filename: filename,
+      folder: targetFolder.getName()
     };
   } catch (err) {
+    Logger.log("Critical Drive Error: " + err.message);
     return { error: "Drive Error: " + err.message };
   }
 }
 
 function listFiles(folderId) {
-  const folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
-  const files = folder.getFiles();
-  let result = [];
-  
-  while (files.hasNext()) {
-    const file = files.next();
-    result.push({
-      id: file.getId(),
-      name: file.getName(),
-      size: (file.getSize() / (1024 * 1024)).toFixed(2) + " MB",
-      url: file.getUrl()
-    });
+  try {
+    const targetId = folderId || CONFIG.FOLDER_GALLERY_ID;
+    const folder = DriveApp.getFolderById(targetId);
+    const files = folder.getFiles();
+    let result = [];
+    
+    while (files.hasNext()) {
+      const file = files.next();
+      result.push({
+        id: file.getId(),
+        name: file.getName(),
+        size: (file.getSize() / (1024 * 1024)).toFixed(2) + " MB",
+        url: "https://drive.google.com/uc?export=view&id=" + file.getId()
+      });
+    }
+    return result;
+  } catch (e) {
+    return { error: "Gagal list file: " + e.message };
   }
-  return result;
 }
 
 function deleteFile(fileId) {
