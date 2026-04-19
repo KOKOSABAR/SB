@@ -3220,6 +3220,7 @@ window.handleBackgroundUpload = async function(input) {
     reader.onload = async function(e) {
         const base64 = e.target.result.split(',')[1];
         try {
+            console.log("Uploading background to Google Drive...");
             const uploadRes = await fetchFromGoogleSheets('uploadImage', {
                 base64: base64,
                 filename: 'bg_' + Date.now() + '.jpg',
@@ -3227,11 +3228,14 @@ window.handleBackgroundUpload = async function(input) {
             }, 'POST');
 
             if (uploadRes && uploadRes.url) {
-                window.updateDashboardBackground(uploadRes.url);
+                console.log("Upload success, updating background URL:", uploadRes.url);
+                await window.updateDashboardBackground(uploadRes.url);
             } else {
-                showToast('Gagal upload gambar', 'error');
+                console.error("Upload failed:", uploadRes);
+                showToast('Gagal upload gambar ke Drive', 'error');
             }
         } catch (err) {
+            console.error("Capture error during upload:", err);
             showToast('Error: ' + err.message, 'error');
         }
     };
@@ -3239,15 +3243,23 @@ window.handleBackgroundUpload = async function(input) {
 };
 
 window.updateDashboardBackground = async function(url) {
-    // Apply immediate UI update
-    document.body.style.setProperty('--body-bg-image', url ? `url('${url}')` : 'none');
+    if (url) {
+        document.body.style.setProperty('--body-bg-image', `url('${url}')`);
+    } else {
+        document.body.style.setProperty('--body-bg-image', 'none');
+    }
     
     if (useGoogleSheets && scriptUrl) {
         try {
-            await fetchFromGoogleSheets('updateBackground', {
+            const res = await fetchFromGoogleSheets('updateBackground', {
                 url: url
             }, 'POST');
-            showToast('Background berhasil diperbarui!', 'success');
+            
+            if (res && res.success) {
+                showToast('Background berhasil diperbarui!', 'success');
+            } else {
+                console.error("Persistence failed:", res);
+            }
         } catch (e) {
             console.error('Failed to persist background:', e);
         }
