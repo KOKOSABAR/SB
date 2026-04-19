@@ -3052,22 +3052,30 @@ function openSettingsModal() {
 
                 <div class="form-group">
                     <label>Dashboard Background</label>
-                    <div style="display: flex; gap: 10px; margin-top: 5px;">
-                        <input type="file" id="bgUploadInput" style="display: none;" accept="image/*" onchange="window.handleBackgroundUpload(this)">
-                        <button type="button" class="btn btn-secondary" style="flex: 1; font-size: 11px;" 
-                                onclick="document.getElementById('bgUploadInput').click()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px;">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                            </svg>
-                            GANTI BACKGROUND
-                        </button>
-                        <button type="button" class="btn btn-icon delete" style="width: 40px; height: 40px;" onclick="window.updateDashboardBackground('')" title="Reset Background">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
-                        </button>
+                    <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+                        <input type="url" id="bgUrlManualInput" placeholder="Direct Image URL (Optional)" 
+                               style="font-size: 11px;" onchange="window.updateDashboardBackground(this.value)">
+                        
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div style="height: 1px; flex: 1; background: rgba(0,255,170,0.1);"></div>
+                            <span style="font-size: 10px; color: var(--text-muted);">ATAU UPLOAD</span>
+                            <div style="height: 1px; flex: 1; background: rgba(0,255,170,0.1);"></div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <input type="file" id="bgUploadInput" style="display: none;" accept="image/*" onchange="window.handleBackgroundUpload(this)">
+                            <button type="button" class="btn btn-secondary" style="flex: 1; font-size: 11px;" 
+                                    onclick="document.getElementById('bgUploadInput').click()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px;">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                UPLOAD DARI PERANGKAT
+                            </button>
+                            <button type="button" class="btn btn-icon delete" style="width: 40px; height: 40px;" onclick="window.updateDashboardBackground('')" title="Reset Background">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+                            </button>
+                        </div>
                     </div>
-                    <small style="color: var(--text-muted); font-size: 10px; display: block; margin-top: 5px;">
-                        Gambar akan disimpan di Google Drive & Spreadsheet.
-                    </small>
                 </div>
 
                 <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">
@@ -3232,7 +3240,8 @@ window.handleBackgroundUpload = async function(input) {
                 await window.updateDashboardBackground(uploadRes.url);
             } else {
                 console.error("Upload failed:", uploadRes);
-                showToast('Gagal upload gambar ke Drive', 'error');
+                const errorMsg = uploadRes?.error || 'Gagal upload gambar (Mungkin file terlalu besar)';
+                showToast(errorMsg, 'error');
             }
         } catch (err) {
             console.error("Capture error during upload:", err);
