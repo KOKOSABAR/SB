@@ -228,36 +228,63 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-section luxury-premium">
+                    <div class="logo-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
                     <div class="logo-icon-container">
                         <div class="logo-icon-glow"></div>
-                        <svg width="45" height="45" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Hexagon Shield -->
-                            <path d="M50 5 L90 27.5 V72.5 L50 95 L10 72.5 V27.5 L50 5Z" 
-                                  stroke="url(#premiumGoldGradient)" stroke-width="2.5" fill="rgba(10, 10, 10, 0.8)"/>
-                            
-                            <!-- Inner Hexagon -->
-                            <path d="M50 15 L82 32.5 V67.5 L50 85 L18 67.5 V32.5 L50 15Z" 
-                                  stroke="url(#premiumGoldGradient)" stroke-width="1" fill="none" opacity="0.4"/>
-                            
-                            <!-- Neon Core Accent -->
-                            <path d="M50 25 L74 37.5 V62.5 L50 75 L26 62.5 V37.5 L50 25Z" 
-                                  stroke="var(--primary)" stroke-width="0.5" fill="none" opacity="0.3"/>
-                            
-                            <text x="50" y="62" text-anchor="middle" font-family="'Orbitron', sans-serif" 
-                                  font-weight="900" font-size="28" fill="url(#premiumGoldGradient)" style="letter-spacing: 2px; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));">SB</text>
-                            
+                        <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg-main">
                             <defs>
-                                <linearGradient id="premiumGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#FFFACD;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFD700" />
+                                    <stop offset="50%" stop-color="#FFFACD" />
+                                    <stop offset="100%" stop-color="#B8860B" />
                                 </linearGradient>
+                                <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="var(--primary)" />
+                                    <stop offset="100%" stop-color="var(--accent)" />
+                                </linearGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
                             </defs>
+                            
+                            <!-- Outer Hexagon Frame -->
+                            <path d="M50 5 L93 30 V70 L50 95 L7 70 V30 L50 5Z" stroke="url(#goldGrad)" stroke-width="2" fill="rgba(0,0,0,0.4)" filter="url(#glow)">
+                                <animate attributeName="stroke-opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                            </path>
+                            
+                            <!-- Scanline Animation -->
+                            <rect x="10" y="0" width="80" height="1" fill="var(--primary)" opacity="0.2">
+                                <animate attributeName="y" from="5" to="95" dur="3s" repeatCount="indefinite" />
+                            </rect>
+                            
+                            <!-- Middle Rotating Ring (Visual) -->
+                            <path d="M50 15 L80 32.5 V67.5 L50 85 L20 67.5 V32.5 L50 15Z" stroke="url(#neonGrad)" stroke-width="0.5" fill="none" opacity="0.3">
+                                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" />
+                            </path>
+                            
+                            <!-- Inner Solid Shield -->
+                            <path d="M50 22 L75 35 V65 L50 78 L25 65 V35 L50 22Z" fill="rgba(212, 175, 55, 0.1)" stroke="url(#goldGrad)" stroke-width="1.5" />
+                            
+                            <!-- Center "SB" Text -->
+                            <text x="50" y="60" text-anchor="middle" font-family="'Orbitron', sans-serif" font-weight="900" font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">SB</text>
+                            
+                            <!-- Accent Lines -->
+                            <line x1="50" y1="5" x2="50" y2="22" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
+                            <line x1="50" y1="78" x2="50" y2="95" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
                         </svg>
                     </div>
                     <div class="logo-text-luxury">
-                        <h1 style="font-family: 'Orbitron'; font-weight: 900; letter-spacing: 4px; background: linear-gradient(to right, #FFD700, #FFFACD, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));">SB</h1>
-                        <span class="luxury-badge-premium">PREMIUM SYSTEM</span>
+                        <div class="logo-main-text">
+                            <span class="char-s">S</span><span class="char-b">B</span>
+                        </div>
                     </div>
                 </div>
                 <button class="sidebar-toggle-close" onclick="window.toggleSidebar()" id="sidebarCloseBtn">
@@ -764,6 +791,10 @@
                             FULL</button>
                         <button class="btn-category" id="btnCattepat-bb"
                             onclick="window.switchPrizeCategory('tepat-bb')">TEPAT & BB</button>
+                        <button class="btn-category" id="btnCatprize"
+                            onclick="window.switchPrizeCategory('prize')">PRIZE</button>
+                        <button class="btn-category" id="btnCatlainnya"
+                            onclick="window.switchPrizeCategory('lainnya')">LAINNYA</button>
                     </div>
 
                     <!-- KATEGORI DISKON -->
@@ -1169,6 +1200,495 @@
                                 <div class="prize-result">
                                     <div class="result-row">BAYAR: <span id="bayarBB2D">0</span></div>
                                     <div class="result-row result-win">MENANG: <span id="menangBB2D">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KATEGORI PRIZE -->
+                    <div id="prizeContainerPrize" class="prize-container" style="display: none;">
+                        <div class="section-header-prize">
+                            <div class="badge-category prize">Prize</div>
+                        </div>
+                        <div class="prize-grid">
+                            <!-- PRIZE 1_1 -->
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 1 : 4D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x6500</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize1_1" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize1_1')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize1_1')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize1_1">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize1_1">0</span></div>
+                                </div>
+                            </div>
+                            <!-- ... all other prize cards ... -->
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 1 : 3D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x650</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize1_2" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize1_2')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize1_2')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize1_2">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize1_2">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 1 : 2D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x70</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize1_3" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize1_3')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize1_3')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize1_3">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize1_3">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 2 : 4D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x2100</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize2_1" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize2_1')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize2_1')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize2_1">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize2_1">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 2 : 3D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x210</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize2_2" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize2_2')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize2_2')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize2_2">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize2_2">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 2 : 2D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x20</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize2_3" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize2_3')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize2_3')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize2_3">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize2_3">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 3 : 4D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x1100</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize3_1" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize3_1')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize3_1')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize3_1">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize3_1">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 3 : 3D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x110</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize3_2" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize3_2')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize3_2')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize3_2">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize3_2">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <div class="cyber-scanline"></div>
+                                <h3 class="prize-title">PRIZE 3 : 2D</h3>
+                                <p class="prize-subtitle">Diskon : 0% | Hadiah : x8</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputPrize3_3" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Prize3_3')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Prize3_3')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarPrize3_3">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangPrize3_3">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KATEGORI LAINNYA -->
+                    <div id="prizeContainerLainnya" class="prize-container" style="display: none;">
+                        <div class="section-header-prize">
+                            <div class="badge-category lainnya">Lainnya</div>
+                        </div>
+                        <div class="prize-grid">
+                            <!-- COLOK BEBAS -->
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK BEBAS</h3>
+                                <p class="prize-subtitle">Diskon : 6% | Hadiah : x1.5</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokBebas" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokBebas')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokBebas')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokBebas">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokBebas">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokBebas">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK BEBAS 2D(2)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x7</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokBebas2D2" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokBebas2D2')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokBebas2D2')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokBebas2D2">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokBebas2D2">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokBebas2D2">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK BEBAS 2D(3)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x11</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokBebas2D3" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokBebas2D3')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokBebas2D3')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokBebas2D3">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokBebas2D3">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokBebas2D3">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK BEBAS 2D(4)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x18</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokBebas2D4" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokBebas2D4')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokBebas2D4')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokBebas2D4">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokBebas2D4">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokBebas2D4">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK BEBAS 2D(5)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x200</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokBebas2D5" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokBebas2D5')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokBebas2D5')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokBebas2D5">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokBebas2D5">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokBebas2D5">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK NAGA(3)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x23</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokNaga3" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokNaga3')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokNaga3')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokNaga3">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokNaga3">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokNaga3">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK NAGA(4)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x35</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokNaga4" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokNaga4')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokNaga4')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokNaga4">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokNaga4">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokNaga4">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK NAGA(5)</h3>
+                                <p class="prize-subtitle">Diskon : 10% | Hadiah : x125</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokNaga5" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokNaga5')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokNaga5')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokNaga5">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokNaga5">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokNaga5">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">COLOK JITU</h3>
+                                <p class="prize-subtitle">Diskon : 6% | Hadiah : x8</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputColokJitu" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('ColokJitu')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('ColokJitu')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarColokJitu">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangColokJitu">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalColokJitu">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">TENGAH TEPI</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : -2%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputTengahTepi" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('TengahTepi')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('TengahTepi')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarTengahTepi">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangTengahTepi">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalTengahTepi">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">DASAR GENAP - KECIL</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : 10%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputDasarGenapKecil" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('DasarGenapKecil')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('DasarGenapKecil')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarDasarGenapKecil">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangDasarGenapKecil">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalDasarGenapKecil">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">DASAR GANJIL - BESAR</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : -25%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputDasarGanjilBesar" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('DasarGanjilBesar')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('DasarGanjilBesar')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarDasarGanjilBesar">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangDasarGanjilBesar">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalDasarGanjilBesar">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">50 - 50</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : -2%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputFiftyFifty" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('FiftyFifty')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('FiftyFifty')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarFiftyFifty">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangFiftyFifty">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalFiftyFifty">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">SHIO</h3>
+                                <p class="prize-subtitle">Diskon : 5% | Hadiah : x9.5</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputShio" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Shio')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Shio')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarShio">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangShio">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalShio">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">SILANG HOMO</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : -2%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputSilangHomo" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('SilangHomo')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('SilangHomo')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarSilangHomo">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangSilangHomo">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalSilangHomo">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">KEMBANG KEMPIS KEMBAR</h3>
+                                <p class="prize-subtitle">Diskon : 2% | Kei : -3%</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputKembangKempis" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('KembangKempis')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('KembangKempis')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarKembangKempis">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangKembangKempis">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalKembangKempis">0</span></div>
+                                </div>
+                            </div>
+                            <div class="prize-card luxury-card">
+                                <div class="cyber-corner tl"></div><div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div><div class="cyber-corner br"></div>
+                                <h3 class="prize-title">KOMBINASI</h3>
+                                <p class="prize-subtitle">Diskon : 8% | Hadiah : x2.6</p>
+                                <div class="prize-input-group">
+                                    <input type="number" id="inputKombinasi" class="prize-input" value="1000" placeholder="Bet">
+                                </div>
+                                <div class="prize-actions">
+                                    <button class="btn-calc hitung" onclick="window.calculatePrize('Kombinasi')">HITUNG</button>
+                                    <button class="btn-calc reset" onclick="window.resetPrize('Kombinasi')">RESET</button>
+                                </div>
+                                <div class="prize-result">
+                                    <div class="result-row">BAYAR: <span id="bayarKombinasi">0</span></div>
+                                    <div class="result-row result-win">MENANG: <span id="menangKombinasi">0</span></div>
+                                    <div class="result-row result-total" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 5px; color: var(--gold-primary);">TOTAL: <span id="totalKombinasi">0</span></div>
                                 </div>
                             </div>
                         </div>
@@ -1930,15 +2450,18 @@
 
                 <!-- FRAME TERPISAH: MISTAKE LEDGER (DAFTAR STAFF BERUNGSI) -->
                 <div id="mistakeLedgerArea" style="display: none; margin-bottom: 40px;">
-                    <div class="luxury-label" style="color: #ff4d4d; margin-bottom: 20px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="3" style="margin-right: 10px; vertical-align: middle;">
-                            <path
-                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                            <line x1="12" y1="9" x2="12" y2="13" />
-                            <line x1="12" y1="17" x2="12" y2="17" />
-                        </svg>
-                        MISTAKE LEDGER / DAFTAR PELANGGARAN AKTIF
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px dashed rgba(255, 77, 77, 0.2); padding-bottom: 10px;">
+                        <div class="luxury-label" style="color: #ff4d4d; margin-bottom: 0;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3" style="margin-right: 10px; vertical-align: middle;">
+                                <path
+                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12" y2="17" />
+                            </svg>
+                            MISTAKE LEDGER / DAFTAR PELANGGARAN AKTIF
+                        </div>
+                        <button onclick="window.toggleMistakeLedger()" class="btn-mini-tag" id="btnToggleMistakeLedger" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.3); font-weight: 800; cursor: pointer;">SEMBUNYIKAN DETAIL</button>
                     </div>
                     <div id="mistakeDetailedCards"
                         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
@@ -2039,12 +2562,12 @@
                                     <th>NAMA STAFF</th>
                                     <th>NO PASPOR</th>
                                     <th>JABATAN</th>
-                                    <th style="color: #ff4d4d;">KESALAHAN WD</th>
-                                    <th style="color: #ff4d4d;">KESALAHAN DEPO</th>
-                                    <th style="color: #ff4d4d;">PROSES (FS/BS)</th>
+                                    <th style="color: #ff4d4d;">MISTAKE WD</th>
+                                    <th style="color: #ff4d4d;">MISTAKE DEPO</th>
+                                    <th style="color: #ff4d4d;">SALAH PROSES (FS/BS)</th>
                                     <th style="color: #ff4d4d;">SALAH SCATTER</th>
-                                    <th style="color: #ffaa00;">TELAT < SOP</th>
-                                    <th style="color: #ffaa00;">TELAT > SOP</th>
+                                    <th style="color: #ffaa00;">TELAT BAWAH SOP</th>
+                                    <th style="color: #ffaa00;">TELAT ATAS SOP</th>
                                     <th style="background: var(--primary); color: #000;">TOTAL</th>
                                 </tr>
                             </thead>
@@ -2067,7 +2590,7 @@
                     <label class="luxury-label" style="margin-bottom: 12px; display: block;">TENTUKAN TANGGAL</label>
                     <div class="cyber-input-group" style="position: relative;">
                         <div style="position: relative;">
-                            <input type="text" id="izinKeluarDateDisplay" class="cyber-input" placeholder="Pilih Tanggal..." readonly onclick="window.toggleCustomCalendar(event)" style="cursor: pointer; height: 50px; width: 100%; border-radius: 12px; font-size: 15px; text-align: center;">
+                            <input type="text" id="izinKeluarDateDisplay" class="cyber-input" placeholder="Pilih Tanggal..." readonly onclick="window.toggleCustomCalendar(event)" style="cursor: pointer; text-align: center; width: 100%;">
                             <input type="hidden" id="izinKeluarDate">
                             
                             <!-- Custom Calendar Dropdown -->
@@ -2559,29 +3082,6 @@
         <div class="guide-modal" onclick="event.stopPropagation()">
             <button class="btn-close-guide" onclick="window.closeGuideModal()">×</button>
             <h3 id="guideModalTitle">Judul Panduan</h3>
-            <div class="guide-zoom-controls">
-                <button class="btn-zoom" onclick="window.changeGuideZoom(0.2)" title="Zoom In">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        <line x1="11" y1="8" x2="11" y2="14" />
-                        <line x1="8" y1="11" x2="14" y2="11" />
-                    </svg>
-                </button>
-                <button class="btn-zoom" onclick="window.changeGuideZoom(-0.2)" title="Zoom Out">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        <line x1="8" y1="11" x2="14" y2="11" />
-                    </svg>
-                </button>
-                <button class="btn-zoom" onclick="window.resetGuideZoom()" title="Reset Zoom">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                        <path d="M3 3v5h5" />
-                    </svg>
-                </button>
-            </div>
             <div class="guide-image-container" id="guideImageContainer">
                 <div class="image-loader" id="guideImageLoader">Memuat Gambar...</div>
                 <img id="guideModalImage" src="" alt="Panduan" referrerpolicy="no-referrer" style="display: none;">

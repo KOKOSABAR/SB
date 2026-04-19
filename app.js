@@ -2222,22 +2222,15 @@ function renderSlotGames() {
     }).join('');
 }
 
-let currentGuideZoom = 1;
-let isPanning = false;
-let startX, startY, scrollLeft, scrollTop;
-
 function openGuideModal(title) {
     const overlay = document.getElementById('guideModalOverlay');
     const modalTitle = document.getElementById('guideModalTitle');
     const modalImage = document.getElementById('guideModalImage');
     const loader = document.getElementById('guideImageLoader');
-    const container = document.getElementById('guideImageContainer');
     
     if (overlay && modalTitle && modalImage) {
         modalTitle.textContent = title;
-        resetGuideZoom();
         
-        // Reset state
         if (loader) loader.style.display = 'flex';
         modalImage.style.display = 'none';
         
@@ -2246,85 +2239,9 @@ function openGuideModal(title) {
             modalImage.style.display = 'block';
         };
         
-        modalImage.onerror = () => {
-            if (loader) {
-                loader.textContent = 'Gagal memuat gambar. Silakan coba lagi.';
-                loader.style.color = '#ff0055';
-            }
-        };
-
         modalImage.src = guideImages[title] || '';
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-
-        // Setup Panning
-        if (container) {
-            container.onmousedown = (e) => {
-                if (currentGuideZoom <= 1) return;
-                isPanning = true;
-                container.classList.add('panning');
-                startX = e.pageX - container.offsetLeft;
-                startY = e.pageY - container.offsetTop;
-                scrollLeft = container.scrollLeft;
-                scrollTop = container.scrollTop;
-            };
-
-            container.onmouseleave = () => {
-                isPanning = false;
-                container.classList.remove('panning');
-            };
-
-            container.onmouseup = () => {
-                isPanning = false;
-                container.classList.remove('panning');
-            };
-
-            container.onmousemove = (e) => {
-                if (!isPanning) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const y = e.pageY - container.offsetTop;
-                const walkX = (x - startX) * 2;
-                const walkY = (y - startY) * 2;
-                container.scrollLeft = scrollLeft - walkX;
-                container.scrollTop = scrollTop - walkY;
-            };
-        }
-    }
-}
-
-function changeGuideZoom(delta) {
-    const modalImage = document.getElementById('guideModalImage');
-    const container = document.getElementById('guideImageContainer');
-    if (!modalImage) return;
-
-    currentGuideZoom += delta;
-    if (currentGuideZoom < 0.5) currentGuideZoom = 0.5;
-    if (currentGuideZoom > 3) currentGuideZoom = 3;
-
-    modalImage.style.transform = `scale(${currentGuideZoom})`;
-    
-    if (currentGuideZoom > 1) {
-        container.style.cursor = 'grab';
-        container.style.overflow = 'auto';
-    } else {
-        container.style.cursor = 'default';
-        container.style.overflow = 'hidden';
-        container.scrollLeft = 0;
-        container.scrollTop = 0;
-    }
-}
-
-function resetGuideZoom() {
-    currentGuideZoom = 1;
-    const modalImage = document.getElementById('guideModalImage');
-    const container = document.getElementById('guideImageContainer');
-    if (modalImage) modalImage.style.transform = 'scale(1)';
-    if (container) {
-        container.style.cursor = 'default';
-        container.style.overflow = 'hidden';
-        container.scrollLeft = 0;
-        container.scrollTop = 0;
     }
 }
 
@@ -2333,7 +2250,6 @@ function closeGuideModal() {
     if (overlay) {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
-        resetGuideZoom();
     }
 }
 
@@ -2378,8 +2294,6 @@ window.closeTogelSettings = closeTogelSettings;
 window.saveTogelSettings = saveTogelSettings;
 window.openGuideModal = openGuideModal;
 window.closeGuideModal = closeGuideModal;
-window.changeGuideZoom = changeGuideZoom;
-window.resetGuideZoom = resetGuideZoom;
 window.openLiveDraw = openLiveDraw;
 window.openSlotGame = openSlotGame;
 window.filterSlotCategory = filterSlotCategory;
@@ -2389,12 +2303,14 @@ function calculatePrize(type) {
     const input = document.getElementById(`input${type}`);
     const bayarEl = document.getElementById(`bayar${type}`);
     const menangEl = document.getElementById(`menang${type}`);
+    const totalEl = document.getElementById(`total${type}`);
     
     if (!input || !bayarEl || !menangEl) return;
     
     const bet = parseFloat(input.value) || 0;
     let diskon = 0;
     let hadiah = 0;
+    let kei = 0;
     
     switch(type) {
         case '5D': diskon = 0.38; hadiah = 50000; break;
@@ -2413,23 +2329,58 @@ function calculatePrize(type) {
         case 'BB3D': diskon = 0; hadiah = 75; break;
         case 'Tepat2D': diskon = 0; hadiah = 80; break;
         case 'BB2D': diskon = 0; hadiah = 15; break;
+        case 'Prize1_1': diskon = 0; hadiah = 6500; break;
+        case 'Prize1_2': diskon = 0; hadiah = 650; break;
+        case 'Prize1_3': diskon = 0; hadiah = 70; break;
+        case 'Prize2_1': diskon = 0; hadiah = 2100; break;
+        case 'Prize2_2': diskon = 0; hadiah = 210; break;
+        case 'Prize2_3': diskon = 0; hadiah = 20; break;
+        case 'Prize3_1': diskon = 0; hadiah = 1100; break;
+        case 'Prize3_2': diskon = 0; hadiah = 110; break;
+        case 'Prize3_2': diskon = 0; hadiah = 110; break;
+        case 'Prize3_3': diskon = 0; hadiah = 8; break;
+        
+        // LAINNYA
+        case 'ColokBebas': diskon = 0.06; hadiah = 1.5; break;
+        case 'ColokBebas2D2': diskon = 0.10; hadiah = 7; break;
+        case 'ColokBebas2D3': diskon = 0.10; hadiah = 11; break;
+        case 'ColokBebas2D4': diskon = 0.10; hadiah = 18; break;
+        case 'ColokBebas2D5': diskon = 0.10; hadiah = 200; break;
+        case 'ColokNaga3': diskon = 0.10; hadiah = 23; break;
+        case 'ColokNaga4': diskon = 0.10; hadiah = 35; break;
+        case 'ColokNaga5': diskon = 0.10; hadiah = 125; break;
+        case 'ColokJitu': diskon = 0.06; hadiah = 8; break;
+        case 'TengahTepi': diskon = 0.02; kei = -0.02; hadiah = 1; break;
+        case 'DasarGenapKecil': diskon = 0.02; kei = 0.10; hadiah = 1; break;
+        case 'DasarGanjilBesar': diskon = 0.02; kei = -0.25; hadiah = 1; break;
+        case 'FiftyFifty': diskon = 0.02; kei = -0.02; hadiah = 1; break;
+        case 'Shio': diskon = 0.05; hadiah = 9.5; break;
+        case 'SilangHomo': diskon = 0.02; kei = -0.02; hadiah = 1; break;
+        case 'KembangKempis': diskon = 0.02; kei = -0.03; hadiah = 1; break;
+        case 'Kombinasi': diskon = 0.08; hadiah = 2.6; break;
     }
     
-    const bayar = bet * (1 - diskon);
+    const bayar = bet * (1 - kei) * (1 - diskon);
     const menang = bet * hadiah;
     
     bayarEl.textContent = Math.round(bayar).toLocaleString('en-US');
     menangEl.textContent = Math.round(menang).toLocaleString('en-US');
+
+    if (totalEl) {
+        totalEl.textContent = Math.round(bayar + menang).toLocaleString('en-US');
+    }
 }
 
 function resetPrize(type) {
     const input = document.getElementById(`input${type}`);
     const bayarEl = document.getElementById(`bayar${type}`);
     const menangEl = document.getElementById(`menang${type}`);
+    const totalEl = document.getElementById(`total${type}`);
     
     if (input) input.value = 1000;
     if (bayarEl) bayarEl.textContent = '0';
     if (menangEl) menangEl.textContent = '0';
+    if (totalEl) totalEl.textContent = '0';
 }
 
 window.calculatePrize = calculatePrize;
@@ -3052,6 +3003,13 @@ function openSettingsModal() {
                 <div class="form-group">
                     <label>Dashboard Background</label>
                     <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px; padding: 10px; background: rgba(0,255,170,0.05); border-radius: 8px; border: 1px solid rgba(0,255,170,0.1);">
+                            <input type="checkbox" id="disableBgToggle" style="width: 18px; height: 18px; cursor: pointer;" 
+                                   ${localStorage.getItem('disable_bg') === 'true' ? 'checked' : ''}
+                                   onchange="window.toggleBgMode(this.checked)">
+                            <label for="disableBgToggle" style="margin: 0; cursor: pointer; font-size: 12px; color: var(--primary);">TANPA BACKGROUND (MODE GELAP MURNI)</label>
+                        </div>
+
                         <input type="url" id="bgUrlManualInput" placeholder="Direct Image URL (Optional)" 
                                style="font-size: 11px;" onchange="window.updateDashboardBackground(this.value)">
                         
@@ -3143,6 +3101,13 @@ function toggleSidebar() {
 function init() {
     console.log('Initializing SB Dashboard...');
     loadNotes();
+    
+    // Apply background mode
+    const isBgDisabled = localStorage.getItem('disable_bg') === 'true';
+    if (isBgDisabled) {
+        document.body.classList.add('no-bg-mode');
+    }
+    
     loadBackground(); // Load persisted background
     
     // FORCE UPDATE: Migrate old unauthorized URL to new authorized one
@@ -3237,6 +3202,44 @@ window.toggleSidebar = toggleSidebar;
 window.exportToCSV = exportToCSV;
 window.testGASConnection = testGASConnection;
 window.preloadDashboardData = preloadDashboardData;
+
+window.toggleBgMode = function(enabled) {
+    if (enabled) {
+        document.body.classList.add('no-bg-mode');
+        localStorage.setItem('disable_bg', 'true');
+    } else {
+        document.body.classList.remove('no-bg-mode');
+        localStorage.setItem('disable_bg', 'false');
+    }
+};
+
+window.toggleMistakeLedger = function() {
+    const cards = document.getElementById('mistakeDetailedCards');
+    const btn = document.getElementById('btnToggleMistakeLedger');
+    if (!cards || !btn) return;
+    
+    if (cards.style.display === 'none') {
+        cards.style.display = 'grid';
+        btn.textContent = 'SEMBUNYIKAN DETAIL';
+        localStorage.setItem('mistake_ledger_visible', 'true');
+    } else {
+        cards.style.display = 'none';
+        btn.textContent = 'TAMPILKAN DETAIL';
+        localStorage.setItem('mistake_ledger_visible', 'false');
+    }
+};
+
+window.toggleMistakeDetails = function(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.style.display === 'none') {
+        el.style.display = 'flex';
+        if (btn) btn.innerHTML = 'SEMBUNYIKAN KESALAHAN';
+    } else {
+        el.style.display = 'none';
+        if (btn) btn.innerHTML = 'LIHAT KESALAHAN';
+    }
+};
 
 window.handleBackgroundUpload = async function(input) {
     if (!input.files || !input.files[0]) return;
@@ -4836,28 +4839,58 @@ async function renderKesalahanTable() {
             if (ledgerArea && ledgerList) {
                 if (berulah.length > 0) {
                     ledgerArea.style.display = 'block';
-                    ledgerList.innerHTML = berulah.map(row => {
+                    
+                    // Apply saved visibility state
+                    const isVisible = localStorage.getItem('mistake_ledger_visible') !== 'false';
+                    const btn = document.getElementById('btnToggleMistakeLedger');
+                    if (isVisible) {
+                        ledgerList.style.display = 'grid';
+                        if (btn) btn.textContent = 'SEMBUNYIKAN DETAIL';
+                    } else {
+                        ledgerList.style.display = 'none';
+                        if (btn) btn.textContent = 'TAMPILKAN DETAIL';
+                    }
+
+                    ledgerList.innerHTML = berulah.map((row, idx) => {
+                        const listId = `mistakeList_${idx}`;
                         return `
-                            <div class="calc-card luxury-card" style="margin-bottom: 0; padding: 20px; border: 1px solid rgba(255, 77, 77, 0.2); background: rgba(0,0,0,0.3);">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <div class="calc-card luxury-card" style="margin-bottom: 0; padding: 20px; border: 1px solid rgba(255, 77, 77, 0.2); background: rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 15px;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div>
                                         <div style="font-family: 'Orbitron'; font-size: 14px; color: #ff4d4d; font-weight: 800; letter-spacing: 1px;">${row[1].toString().toUpperCase()}</div>
                                         <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px;">${row[3] || 'STAFF'} - ${row[2] || '-'}</div>
                                     </div>
                                     <div style="background: #ff4d4d; color: #000; padding: 4px 10px; border-radius: 4px; font-weight: 900; font-size: 12px;">SCORE: ${row[10]}</div>
                                 </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left;">
-                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">WD / DEPO</div>
-                                        <div style="font-size: 12px; color: #ff4d4d;">${row[4] || 0} / ${row[5] || 0}</div>
+
+                                <button class="btn btn-secondary" onclick="window.toggleMistakeDetails('${listId}', this)" style="width: 100%; height: 35px; font-size: 10px; font-weight: 800; border-color: rgba(255, 77, 77, 0.3); color: #ff4d4d;">
+                                    LIHAT KESALAHAN
+                                </button>
+
+                                <div id="${listId}" style="display: none; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 77, 77, 0.1);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE WD</span>
+                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[4] || 0}</span>
                                     </div>
-                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left;">
-                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">PROSES / SCATTER</div>
-                                        <div style="font-size: 12px; color: #ff4d4d;">${row[6] || 0} / ${row[7] || 0}</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE DEPO</span>
+                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[5] || 0}</span>
                                     </div>
-                                    <div class="stat-item" style="padding: 10px; background: rgba(255,255,255,0.02); text-align: left; grid-column: span 2;">
-                                        <div style="font-size: 9px; color: rgba(255,255,255,0.3);">TELAT SOP (< / >)</div>
-                                        <div style="font-size: 12px; color: #ffaa00;">${row[8] || 0} / ${row[9] || 0}</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH PROSES (FS/BS)</span>
+                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[6] || 0}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH SCATTER</span>
+                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[7] || 0}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                        <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 1px;">TELAT BAWAH SOP</span>
+                                        <span style="color: #ffaa00; font-weight: 900;">= ${row[8] || 0}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px;">
+                                        <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 1px;">TELAT ATAS SOP</span>
+                                        <span style="color: #ffaa00; font-weight: 900;">= ${row[9] || 0}</span>
                                     </div>
                                 </div>
                             </div>
