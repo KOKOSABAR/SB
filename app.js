@@ -3056,6 +3056,10 @@ function openSettingsModal() {
                         <input type="url" id="bgUrlManualInput" placeholder="Direct Image URL (Optional)" 
                                style="font-size: 11px;" onchange="window.updateDashboardBackground(this.value)">
                         
+                        <div id="bgPreview" style="width: 100%; height: 60px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark) center/cover; display: none; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted);">
+                            PREVIEW
+                        </div>
+
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <div style="height: 1px; flex: 1; background: rgba(0,255,170,0.1);"></div>
                             <span style="font-size: 10px; color: var(--text-muted);">ATAU UPLOAD</span>
@@ -3069,7 +3073,7 @@ function openSettingsModal() {
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 5px;">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                                 </svg>
-                                UPLOAD DARI PERANGKAT
+                                UPLOAD FILE
                             </button>
                             <button type="button" class="btn btn-icon delete" style="width: 40px; height: 40px;" onclick="window.updateDashboardBackground('')" title="Reset Background">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
@@ -3252,10 +3256,16 @@ window.handleBackgroundUpload = async function(input) {
 };
 
 window.updateDashboardBackground = async function(url) {
+    const previewEl = document.getElementById('bgPreview');
     if (url) {
-        document.body.style.setProperty('--body-bg-image', `url('${url}')`);
+        document.body.style.backgroundImage = `linear-gradient(rgba(0, 15, 15, 0.6), rgba(0, 15, 15, 0.6)), url('${url}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
+        if (previewEl) {
+            previewEl.style.display = 'flex';
+            previewEl.style.backgroundImage = `url('${url}')`;
+        }
     } else {
-        document.body.style.setProperty('--body-bg-image', 'none');
+        document.body.style.backgroundImage = '';
+        if (previewEl) previewEl.style.display = 'none';
     }
     
     if (useGoogleSheets && scriptUrl) {
@@ -3280,7 +3290,8 @@ async function loadBackground() {
         try {
             const res = await fetchFromGoogleSheets('getBackground');
             if (res && res.url) {
-                document.body.style.setProperty('--body-bg-image', `url('${res.url}')`);
+                // Apply same logic as update
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 15, 15, 0.6), rgba(0, 15, 15, 0.6)), url('${res.url}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
             }
         } catch (e) {
             console.log('Using default background');
