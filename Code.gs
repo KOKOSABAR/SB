@@ -110,6 +110,7 @@ function handleAction(params) {
         result = getBackground();
         break;
       case 'updateBackground':
+        if (!params.url) throw new Error("URL parameter is missing");
         result = updateBackground(params.url);
         break;
 
@@ -381,15 +382,23 @@ function scrapeWdbos() {
 // --- MODULE: DRIVE OPERATIONS ---
 
 function handleFileUpload(base64, filename, folderId) {
-  const folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
-  const contentType = base64.includes(';') ? base64.substring(5, base64.indexOf(';')) : 'application/octet-stream';
-  const bytes = Utilities.base64Decode(base64.includes(',') ? base64.split(',')[1] : base64);
+  let folder;
+  try {
+    folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
+  } catch (e) {
+    folder = DriveApp.getRootFolder();
+  }
+
+  const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
+  const contentType = base64.includes(';') ? base64.substring(5, base64.indexOf(';')) : 'image/jpeg';
+  const bytes = Utilities.base64Decode(rawBase64);
   const blob = Utilities.newBlob(bytes, contentType, filename);
   
   const file = folder.createFile(blob);
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   
   return {
+    success: true,
     id: file.getId(),
     url: "https://drive.google.com/uc?export=view&id=" + file.getId()
   };
@@ -454,6 +463,7 @@ function testConnection() {
   };
 }
 function updateBackground(url) {
+  if (!url) url = ""; // Handle null/undefined
   const sheetName = "SB_SETTINGS";
   let sheet = getSheetRobust(sheetName);
   const ss = getSS();
@@ -478,7 +488,7 @@ function updateBackground(url) {
     sheet.appendRow(["BACKGROUND_URL", url]);
   }
   
-  return { success: true, url: url };
+  return { success: true, url: url, message: "URL updated in sheet: " + url };
 }
 
 function getBackground() {
