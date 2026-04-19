@@ -3083,6 +3083,10 @@ function openSettingsModal() {
                 </div>
 
                 <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">
+                    <button type="button" id="fixPermissionBtn" class="btn btn-accent" style="display: none; width: 100%; font-size: 11px; padding: 10px;" 
+                            onclick="window.open(scriptUrl + '?action=authorize', '_blank')">
+                        PERBAIKI IZIN GOOGLE (Klik & Allow)
+                    </button>
                     <div style="display: flex; gap: 10px; width: 100%;">
                         <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="window.closeSettingsModal()">Batal</button>
                         <button type="submit" class="btn btn-primary" style="flex: 1;">Simpan (URL)</button>
@@ -3246,6 +3250,12 @@ window.handleBackgroundUpload = async function(input) {
                 console.error("Upload failed:", uploadRes);
                 const errorMsg = uploadRes?.error || 'Gagal upload gambar (Mungkin file terlalu besar)';
                 showToast(errorMsg, 'error');
+                
+                // If it looks like a permission error, show a special button in settings
+                if (errorMsg.includes('permission') || errorMsg.includes('Drive Error')) {
+                    const btn = document.getElementById('fixPermissionBtn');
+                    if (btn) btn.style.display = 'block';
+                }
             }
         } catch (err) {
             console.error("Capture error during upload:", err);

@@ -113,6 +113,9 @@ function handleAction(params) {
         result = deleteFile(params.fileId);
         break;
         
+      case 'authorize':
+        result = { success: true, message: "Authorization confirmed" };
+        break;
       case 'getBackground':
         result = getBackground();
         break;
@@ -389,26 +392,37 @@ function scrapeWdbos() {
 // --- MODULE: DRIVE OPERATIONS ---
 
 function handleFileUpload(base64, filename, folderId) {
-  let folder;
   try {
-    folder = DriveApp.getFolderById(folderId || CONFIG.FOLDER_GALLERY_ID);
-  } catch (e) {
-    folder = DriveApp.getRootFolder();
-  }
+    if (!base64) throw new Error("File data is missing");
+    
+    const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
+    const bytes = Utilities.base64Decode(rawBase64);
+    const blob = Utilities.newBlob(bytes, "image/jpeg", filename);
+    
+    // Create directly in ROOT as fallback
+    const file = DriveApp.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    
+    // Try to move to folder, but don't fail if it doesn't work
+    try {
+      const targetId = folderId || CONFIG.FOLDER_GALLERY_ID || '';
+      if (targetId) {
+        const folder = DriveApp.getFolderById(targetId);
+        folder.addFile(file);
+        DriveApp.getRootFolder().removeFile(file);
+      }
+    } catch (moveErr) {
+      console.log("Could not move file to folder, keeping in root.");
+    }
 
-  const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
-  const contentType = base64.includes(';') ? base64.substring(5, base64.indexOf(';')) : 'image/jpeg';
-  const bytes = Utilities.base64Decode(rawBase64);
-  const blob = Utilities.newBlob(bytes, contentType, filename);
-  
-  const file = folder.createFile(blob);
-  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-  
-  return {
-    success: true,
-    id: file.getId(),
-    url: "https://drive.google.com/uc?export=view&id=" + file.getId()
-  };
+    return {
+      success: true,
+      id: file.getId(),
+      url: "https://drive.google.com/uc?export=view&id=" + file.getId()
+    };
+  } catch (err) {
+    return { error: "Drive Error: " + err.message };
+  }
 }
 
 function listFiles(folderId) {
