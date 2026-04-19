@@ -3220,12 +3220,11 @@ window.handleBackgroundUpload = async function(input) {
     reader.onload = async function(e) {
         const base64 = e.target.result.split(',')[1];
         try {
-            const uploadRes = await fetchFromGoogleSheets({
-                action: 'uploadImage',
+            const uploadRes = await fetchFromGoogleSheets('uploadImage', {
                 base64: base64,
                 filename: 'bg_' + Date.now() + '.jpg',
                 folderId: ''
-            });
+            }, 'POST');
 
             if (uploadRes && uploadRes.url) {
                 window.updateDashboardBackground(uploadRes.url);
@@ -3245,10 +3244,9 @@ window.updateDashboardBackground = async function(url) {
     
     if (useGoogleSheets && scriptUrl) {
         try {
-            await fetchFromGoogleSheets({
-                action: 'updateBackground',
+            await fetchFromGoogleSheets('updateBackground', {
                 url: url
-            });
+            }, 'POST');
             showToast('Background berhasil diperbarui!', 'success');
         } catch (e) {
             console.error('Failed to persist background:', e);
@@ -3259,7 +3257,7 @@ window.updateDashboardBackground = async function(url) {
 async function loadBackground() {
     if (useGoogleSheets && scriptUrl) {
         try {
-            const res = await fetchFromGoogleSheets({ action: 'getBackground' });
+            const res = await fetchFromGoogleSheets('getBackground');
             if (res && res.url) {
                 document.body.style.setProperty('--body-bg-image', `url('${res.url}')`);
             }
