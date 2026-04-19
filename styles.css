@@ -3360,6 +3360,26 @@ body {
     letter-spacing: 1px;
 }
 
+.btn-copy-mini {
+    background: rgba(0, 255, 170, 0.05);
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    color: var(--primary);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-copy-mini:hover {
+    background: var(--primary);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px var(--glow-soft);
+    transform: scale(1.1);
+}
+
 .wd-amount-val {
     font-family: 'Orbitron', sans-serif;
     color: var(--accent);

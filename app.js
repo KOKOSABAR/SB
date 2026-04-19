@@ -3295,7 +3295,14 @@ function renderWdResults() {
     tableBody.innerHTML = extractedWdData.map((wd, index) => `
         <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
             <td><span class="wd-bank-badge">${wd.bank}</span></td>
-            <td><code style="color:var(--accent)">${wd.accNum}</code></td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <code style="color:var(--accent)">${wd.accNum}</code>
+                    <button class="btn-copy-mini" onclick="window.copyText('${wd.accNum}')" title="Copy Account Number">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                </div>
+            </td>
             <td>${wd.username}</td>
             <td style="font-weight:600">${wd.fullName}</td>
             <td><span class="wd-amount-val">${wd.amount}</span></td>
@@ -3315,7 +3322,7 @@ function resetWdData() {
 function copyWdToSheet() {
     if (extractedWdData.length === 0) return;
     const rows = extractedWdData.map(wd =>
-        `${wd.bank}\t'${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
+        `${wd.bank}\t${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
     ).join('\r\n');
 
     navigator.clipboard.writeText(rows).then(() => {
@@ -3572,7 +3579,14 @@ function renderWdPowerResults() {
     tableBody.innerHTML = extractedWdPowerData.map((wd, index) => `
         <tr class="${index % 2 === 0 ? 'alt-blue' : 'alt-red'}">
             <td><span class="wd-bank-badge">${wd.bank}</span></td>
-            <td><code style="color:var(--accent)">${wd.accNum}</code></td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <code style="color:var(--accent)">${wd.accNum}</code>
+                    <button class="btn-copy-mini" onclick="window.copyText('${wd.accNum}')" title="Copy Account Number">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                </div>
+            </td>
             <td>${wd.username}</td>
             <td style="font-weight:600">${wd.fullName}</td>
             <td><span class="wd-amount-val">${wd.amount}</span></td>
@@ -3592,7 +3606,7 @@ function resetWdPowerData() {
 function copyWdPowerToSheet() {
     if (extractedWdPowerData.length === 0) return;
     const rows = extractedWdPowerData.map(wd =>
-        `${wd.bank}\t'${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
+        `${wd.bank}\t${wd.accNum}\t${wd.username}\t${wd.fullName}\t${wd.amount.replace(/,/g, '')}`
     ).join('\r\n');
 
     navigator.clipboard.writeText(rows).then(() => {
