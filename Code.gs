@@ -13,7 +13,12 @@ const CONFIG = {
   SPREADSHEET_ID: '1L2WYrWFbQyssIxy7qV-2xnxWyzTCYJfsGjk6a5rbLdc' 
 };
 
-function getSS() {
+// Jalankan fungsi ini satu kali di Editor untuk memberikan izin Akses Drive & Sheet
+function authorizeEverything() {
+  const ss = getSS();
+  const folder = DriveApp.getRootFolder();
+  Logger.log("Izin berhasil diberikan!");
+}
   try {
     if (CONFIG.SPREADSHEET_ID) return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     return SpreadsheetApp.getActiveSpreadsheet();
