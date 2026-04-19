@@ -3,7 +3,7 @@ let notes = [];
 let editingId = null;
 let deleteId = null;
 let useGoogleSheets = true;
-let scriptUrl = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
+let scriptUrl = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
 
 const SCRIPT_URL_KEY = 'pk_online_script_url';
 const TOGEL_DATA_KEY = 'pk_online_togel_data';
