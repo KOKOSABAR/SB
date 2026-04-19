@@ -1676,6 +1676,7 @@ window.closePredictionDetail = closePredictionDetail;
 let lotteryRefreshInterval = null;
 
 function switchSection(sectionId) {
+    localStorage.setItem('activeSection', sectionId);
     const sections = document.querySelectorAll('.app-section');
     const navItems = document.querySelectorAll('.nav-item');
     const headerTitle = document.querySelector('.header-title .subtitle');
@@ -3109,7 +3110,8 @@ function init() {
     if (storedUrl) scriptUrl = storedUrl;
     useGoogleSheets = !!scriptUrl;
 
-    switchSection('notes');
+    const savedSection = localStorage.getItem('activeSection') || 'notes';
+    switchSection(savedSection);
     updateStats();
 
     const btnExport = document.getElementById('btnExport');
