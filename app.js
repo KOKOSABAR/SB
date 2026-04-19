@@ -1673,41 +1673,42 @@ window.saveManualPrediction = saveManualPrediction;
 window.viewDetailedPrediction = viewDetailedPrediction;
 window.copyDetailedPrediction = copyDetailedPrediction;
 window.closePredictionDetail = closePredictionDetail;
+let lotteryRefreshInterval = null;
 
 function switchSection(sectionId) {
     const sections = document.querySelectorAll('.app-section');
     const navItems = document.querySelectorAll('.nav-item');
     const headerTitle = document.querySelector('.header-title .subtitle');
-    const btnAddTop = document.querySelector('.btn-add-top');
+    const btnAddTop = document.getElementById('btnAddTop');
 
-    sections.forEach(s => s.style.display = 'none');
-    navItems.forEach(n => n.classList.remove('active'));
+    // Reset Interval jika pindah dari lottery
+    if (lotteryRefreshInterval) {
+        clearInterval(lotteryRefreshInterval);
+        lotteryRefreshInterval = null;
+    }
 
-    const activeSection = document.getElementById(`section${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}`);
-    if (activeSection) activeSection.style.display = 'block';
+    sections.forEach(section => {
+        section.style.display = 'none';
+        section.classList.remove('active');
+    });
 
-    navItems.forEach(n => {
-        if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(sectionId)) {
-            n.classList.add('active');
+    const activeSection = document.getElementById('section' + sectionId.charAt(0).toUpperCase() + sectionId.slice(1));
+    if (activeSection) {
+        activeSection.style.display = 'block';
+        setTimeout(() => activeSection.classList.add('active'), 10);
+    }
+
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('onclick').includes(`'${sectionId}'`)) {
+            item.classList.add('active');
         }
     });
 
     if (sectionId === 'notes') {
-        if (headerTitle) headerTitle.textContent = 'NOTE';
+        if (headerTitle) headerTitle.textContent = 'Data Catatan Pribadi';
         if (btnAddTop) btnAddTop.style.display = 'flex';
         renderNotes();
-    } else if (sectionId === 'togel') {
-        if (headerTitle) headerTitle.textContent = 'Jadwal Togel';
-        if (btnAddTop) btnAddTop.style.display = 'none';
-        renderTogelList();
-    } else if (sectionId === 'prediksi') {
-        if (headerTitle) headerTitle.textContent = 'Prediksi Togel';
-        if (btnAddTop) btnAddTop.style.display = 'none';
-        renderPredictionSection();
-    } else if (sectionId === 'parlayCalc') {
-        if (headerTitle) headerTitle.textContent = 'KALKULATOR PARLAY';
-        if (btnAddTop) btnAddTop.style.display = 'none';
-        if (typeof initParlay === 'function') initParlay();
     } else if (sectionId === 'cekRekening') {
         if (headerTitle) headerTitle.textContent = 'VERIFIKASI DATA REKENING';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -1716,13 +1717,21 @@ function switchSection(sectionId) {
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderInventarisTable();
     } else if (sectionId === 'kesalahan') {
-        if (headerTitle) headerTitle.textContent = 'DATA KESALAHAN';
+        if (headerTitle) headerTitle.textContent = 'DATA KESALAHAN STAFF';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderKesalahanTable();
     } else if (sectionId === 'izinKeluar') {
-        if (headerTitle) headerTitle.textContent = 'IZIN KELUAR SISA 2';
+        if (headerTitle) headerTitle.textContent = 'Data Izin Keluar';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderIzinKeluarTable();
+    } else if (sectionId === 'togel') {
+        if (headerTitle) headerTitle.textContent = 'Jadwal Togel';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderTogelList();
+    } else if (sectionId === 'prediksi') {
+        if (headerTitle) headerTitle.textContent = 'Prediksi Togel';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        renderPredictionSection();
     } else if (sectionId === 'slot') {
         if (headerTitle) headerTitle.textContent = 'Games Slot';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -1744,6 +1753,8 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'HASIL RESULT TOGEL';
         if (btnAddTop) btnAddTop.style.display = 'none';
         loadLotteryData();
+        // Aktifkan Auto Refresh (Setiap 60 Detik)
+        lotteryRefreshInterval = setInterval(loadLotteryData, 60000);
     } else if (sectionId === 'wdManual') {
         if (headerTitle) headerTitle.textContent = 'MANUAL WITHDRAW CORE';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -2019,13 +2030,11 @@ async function loadLotteryData() {
         `;
     }
 
-    // --- TEKNIK JSONP (Menebus Blokir Browser / CORS) ---
-    const callbackName = 'jsonp_lottery_' + Math.round(Math.random() * 1000000);
-    let safetyTimeout;
-
-    window[callbackName] = function(data) {
-        if (safetyTimeout) clearTimeout(safetyTimeout);
-        if (Array.isArray(data)) {
+    try {
+        console.log('🔄 Memulai Sinkronisasi Realtime WDBOS...');
+        const data = await fetchFromGoogleSheets('scrapeWdbos');
+        
+        if (data && Array.isArray(data)) {
             lotteryData = data;
             renderLotteryResults();
             console.log('✅ Sinkronisasi Realtime Berhasil.');
@@ -2033,28 +2042,10 @@ async function loadLotteryData() {
             console.error('GAS Error/Invalid Data:', data ? data.error : 'No data');
             if (lotteryData.length === 0) loadLocalLotteryData();
         }
-        delete window[callbackName];
-        const scriptElement = document.getElementById(callbackName);
-        if (scriptElement) scriptElement.remove();
-    };
-
-    const script = document.createElement('script');
-    script.id = callbackName;
-    script.src = `${scriptUrl}${scriptUrl.includes('?') ? '&' : '?'}action=scrapeWdbos&callback=${callbackName}`;
-    
-    safetyTimeout = setTimeout(() => {
-        if (lotteryData.length === 0) {
-            console.warn('GAS Timeout - Menggunakan data lokal sebagai cadangan.');
-            loadLocalLotteryData();
-        }
-    }, 10000);
-
-    script.onerror = () => {
-        clearTimeout(safetyTimeout);
-        console.error('Koneksi ke Google Script Gagal.');
-        loadLocalLotteryData();
-    };
-    document.body.appendChild(script);
+    } catch (error) {
+        console.error('Koneksi ke Google Script Gagal:', error);
+        if (lotteryData.length === 0) loadLocalLotteryData();
+    }
 }
 
 function loadLocalLotteryData() {

@@ -16,6 +16,11 @@
     --border-color: rgba(0, 255, 170, 0.4);
     --shining-gradient: linear-gradient(135deg, #00ffaa, #00e5ff, #00ffaa);
 
+    /* Legacy / Compatibility Vars */
+    --cyan: #00e5ff;
+    --dark-lighter: #002d2d;
+    --danger: #ff5252;
+
     /* Luxury Gold Palette */
     --gold-primary: #d4af37;
     --gold-light: #f9e29d;
@@ -2810,6 +2815,13 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     border-top: 2px solid rgba(255, 255, 255, 0.1);
     border-left: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.togel-result-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 255, 170, 0.25);
+    border-color: var(--primary);
 }
 
 .tr-overlay {

@@ -319,10 +319,10 @@ function saveTogelData(data) {
  * SCRAPER: Realtime Lottery Results from WDBOS
  */
 function scrapeWdbos() {
-  const url = 'https://wdbos.net/game/getNodeInfoList';
+  const url = 'https://wdbos.net/office/game-oc/game/getNodeInfoList';
   const payload = {
-    parentId: 2,   // Category: Lottery
-    platformId: 1  // Common platform ID for Web
+    parentId: 2,   // Number 2 is for Lottery category
+    language: "id-ID"
   };
   
   const options = {
@@ -342,21 +342,25 @@ function scrapeWdbos() {
     const text = response.getContentText();
     const json = JSON.parse(text);
     
-    if (!json || !json.data) return { error: "Failed to fetch data from WDBOS" };
+    // Check if result or data is available
+    if (!json || (!json.result && !json.data)) return { error: "Failed to fetch data from WDBOS" };
     
-    // Mapping: lotteryNodeFetchOutDto -> Internal format
-    return json.data.map(item => {
+    const dataArray = json.result || json.data;
+    if (!Array.isArray(dataArray)) return { error: "Invalid data format from WDBOS" };
+
+    const lastUpdateTs = new Date().toLocaleTimeString('id-ID');
+    
+    return dataArray.map(item => {
       const info = item.lotteryNodeFetchOutDto || {};
       const attach = info.attachInfo || {};
       
-      // Sanitasi hasil: jika hasil mengandung koma (multi-result), ambil yang terbaru atau tetap koma
       let rawRes = attach.winningNumber || "----";
       
       return {
         market: info.gameName || 'UNKNOWN',
         result: rawRes,
         period: info.gameDetail || '-',
-        countdown: 'RESULT ACTIVE',
+        countdown: 'UPDATE: ' + lastUpdateTs,
         image: attach.iconUrl || '',
         banner: attach.bgUrl || ''
       };
