@@ -19,6 +19,7 @@ function authorizeEverything() {
   const folder = DriveApp.getRootFolder();
   Logger.log("Izin berhasil diberikan!");
 }
+function getSS() {
   try {
     if (CONFIG.SPREADSHEET_ID) return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     return SpreadsheetApp.getActiveSpreadsheet();
