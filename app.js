@@ -3138,7 +3138,18 @@ function init() {
     console.log('Initializing SB Dashboard...');
     loadNotes();
     loadBackground(); // Load persisted background
-    const storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
+    
+    // FORCE UPDATE: Migrate old unauthorized URL to new authorized one
+    const OLD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
+    const NEW_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
+    
+    let storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
+    if (!storedUrl || storedUrl === OLD_SCRIPT_URL) {
+        console.log('Migrating to NEW authorized script URL...');
+        localStorage.setItem(SCRIPT_URL_KEY, NEW_SCRIPT_URL);
+        storedUrl = NEW_SCRIPT_URL;
+    }
+    
     if (storedUrl) scriptUrl = storedUrl;
     useGoogleSheets = !!scriptUrl;
 
