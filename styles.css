@@ -4125,31 +4125,259 @@ body {
 }
 
 
-/* --- GLOBAL CYBER INPUT STYLE --- */
-.cyber-input {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid rgba(0, 255, 170, 0.3) !important;
-    border-radius: 4px !important;
-    padding: 10px 15px !important;
-    color: var(--primary) !important;
-    font-family: "Share Tech Mono", monospace !important;
-    font-size: 13px !important;
-    outline: none !important;
-    transition: all 0.3s ease !important;
+
+/* --- TOGEL CALCULATOR MODULE --- */
+.prize-category-nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(0, 45, 45, 0.4);
+    border: 1px solid rgba(0, 255, 170, 0.1);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
 }
 
-.cyber-input:focus {
-    border-color: var(--primary) !important;
-    background: rgba(0, 255, 170, 0.1) !important;
-    box-shadow: 0 0 15px rgba(0, 255, 170, 0.2) !important;
-}
-
-.cyber-input::placeholder {
-    color: rgba(0, 255, 170, 0.3) !important;
-}
-
-.cyber-input[readonly] {
+.btn-category {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    color: var(--text-muted);
+    padding: 10px 25px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
+.btn-category:hover {
+    background: rgba(0, 255, 170, 0.1);
+    color: var(--primary);
+    box-shadow: 0 0 15px rgba(0, 255, 170, 0.2);
+}
+
+.btn-category.active {
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--glow-soft);
+}
+
+.prize-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.prize-card {
+    background: rgba(10, 15, 25, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 170, 0.15);
+    padding: 25px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-top: 2px solid var(--primary);
+}
+
+.prize-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.prize-category-nav .badge-category {
+    display: none; /* Already handled by page title/desc if needed */
+}
+
+.section-header-prize {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.badge-category {
+    background: rgba(0, 255, 170, 0.1);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(0, 255, 170, 0.2);
+}
+
+.prize-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: var(--primary);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.prize-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.prize-input-group {
+    margin-bottom: 20px;
+}
+
+.prize-input {
+    width: 100%;
+    background: rgba(0, 20, 20, 0.6);
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    color: #fff;
+    padding: 12px 15px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.prize-input:focus {
+    border-color: var(--primary);
+    background: rgba(0, 255, 170, 0.05);
+    box-shadow: inset 0 0 10px rgba(0, 255, 170, 0.1);
+}
+
+.prize-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-calc {
+    flex: 1;
+    padding: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-calc.hitung {
+    background: var(--primary);
+    color: #000;
+    border: 1px solid var(--primary);
+}
+
+.btn-calc.hitung:hover {
+    box-shadow: 0 0 20px var(--glow-soft);
+    transform: scale(1.02);
+}
+
+.btn-calc.reset {
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--text-muted);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-calc.reset:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.prize-result {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.result-row:last-child {
+    margin-bottom: 0;
+}
+
+.result-row span {
+    color: #fff;
+    font-weight: 700;
+}
+
+.result-row.result-win {
+    color: var(--accent);
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 8px;
+}
+
+.result-row.result-win span {
+    color: var(--accent);
+    font-size: 14px;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+
+/* --- CYBER DECORATIONS --- */
+.cyber-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: var(--primary);
+    border-style: solid;
+    border-width: 0;
+    z-index: 5;
+    opacity: 0.6;
+}
+
+.cyber-corner.tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.cyber-corner.tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
+.cyber-corner.bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.cyber-corner.br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+
+.cyber-scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 255, 170, 0.03) 50%,
+        transparent 100%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.5;
+}
+
+.luxury-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.luxury-card .cyber-scanline {
+    animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
