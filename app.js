@@ -4231,38 +4231,54 @@ window.renderParlayLegs = function() {
     const container = document.getElementById('parlayLegsContainer');
     if (!container) return;
     
-    // Check if we need to render the header labels (only once or prepended)
     let headerHtml = `
         <div class="parlay-legs-header">
-            <div class="parlay-header-label">#</div>
+            <div class="parlay-header-label" style="text-align:center;">#</div>
             <div class="parlay-header-label">MATCH / SELECTION</div>
             <div class="parlay-header-label">ODDS</div>
-            <div class="parlay-header-label">MATCH RESULT</div>
+            <div class="parlay-header-label" style="text-align:center;">MATCH RESULT</div>
             <div class="parlay-header-label"></div>
         </div>
     `;
 
-    container.innerHTML = headerHtml + parlayLegs.map((leg, index) => `
+    container.innerHTML = headerHtml + parlayLegs.map((leg, index) => {
+        const statuses = [
+            { id: 'win', label: 'WIN', class: 'win' },
+            { id: 'win-half', label: 'W 1/2', class: 'win-half' },
+            { id: 'draw', label: 'DRAW', class: 'draw' },
+            { id: 'lose-half', label: 'L 1/2', class: 'lose-half' },
+            { id: 'lose', label: 'LOSE', class: 'lose' }
+        ];
+
+        return `
         <div class="parlay-leg-row" style="animation: slideIn 0.4s ease-out ${index * 0.05}s both;">
             <div class="leg-number">${index + 1}</div>
             <div class="cyber-input-wrapper">
                 <input type="text" class="wd-input mini" placeholder="Team/Match Name..." value="${leg.title}" oninput="window.updateLegTitle(${leg.id}, this.value)">
+                <div class="cyber-line"></div>
             </div>
             <div class="cyber-input-wrapper">
-                <input type="number" step="0.01" class="wd-input mini" placeholder="Odds" value="${leg.odds}" oninput="window.updateLegOdds(${leg.id}, this.value)">
+                <input type="number" step="0.01" class="wd-input mini highlight-green" placeholder="Odds" value="${leg.odds}" oninput="window.updateLegOdds(${leg.id}, this.value)">
+                <div class="cyber-line"></div>
             </div>
             <div class="leg-status-group">
-                <button class="btn-status win ${leg.status === 'win' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'win')">WIN</button>
-                <button class="btn-status win-half ${leg.status === 'win-half' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'win-half')">W 1/2</button>
-                <button class="btn-status draw ${leg.status === 'draw' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'draw')">D</button>
-                <button class="btn-status lose-half ${leg.status === 'lose-half' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'lose-half')">L 1/2</button>
-                <button class="btn-status lose ${leg.status === 'lose' ? 'active' : ''}" onclick="window.setLegStatus(${leg.id}, 'lose')">LOSE</button>
+                ${statuses.map(s => `
+                    <button class="btn-status ${s.class} ${leg.status === s.id ? 'active' : ''}" 
+                            onclick="window.setLegStatus(${leg.id}, '${s.id}')">
+                        ${s.label}
+                    </button>
+                `).join('')}
             </div>
             <button class="btn-remove-leg" onclick="window.removeParlayLeg(${leg.id})" title="Hapus Leg">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
             </button>
         </div>
-    `).join('');
+    `}).join('');
 };
 
 window.updateParlayResult = function() {
@@ -4305,13 +4321,13 @@ window.updateParlayResult = function() {
     const payout = stake * totalMultiplier;
     const netProfit = payout - stake;
     
-    const fmt = (num) => new Intl.NumberFormat('en-US').format(Math.floor(num));
+    const fmt = (num) => new Intl.NumberFormat('id-ID').format(Math.floor(num));
     
     if (totalOddsEl) totalOddsEl.textContent = totalMultiplier.toFixed(3);
     if (payoutEl) payoutEl.textContent = fmt(payout);
     if (profitEl) {
-        profitEl.textContent = fmt(netProfit);
-        profitEl.className = netProfit >= 0 ? 'parlay-res-val success' : 'parlay-res-val error';
+        profitEl.textContent = (parlayLost || netProfit <= 0) ? fmt(0) : fmt(netProfit);
+        profitEl.className = (netProfit > 0 && !parlayLost) ? 'parlay-res-val success' : 'parlay-res-val error';
     }
 };
 
