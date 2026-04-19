@@ -3224,7 +3224,7 @@ window.handleBackgroundUpload = async function(input) {
                 action: 'uploadImage',
                 base64: base64,
                 filename: 'bg_' + Date.now() + '.jpg',
-                folderId: CONFIG_GAS?.FOLDER_GALLERY_ID || ''
+                folderId: ''
             });
 
             if (uploadRes && uploadRes.url) {
