@@ -3232,7 +3232,7 @@ window.handleBackgroundUpload = async function(input) {
             const uploadRes = await fetchFromGoogleSheets('uploadImage', {
                 base64: base64,
                 filename: 'bg_' + Date.now() + '.jpg',
-                folderId: ''
+                folderId: '1xKg0Ax5kBYSaPIFz6L3YCrc8FWT0g0gc'
             }, 'POST');
 
             if (uploadRes && uploadRes.url) {

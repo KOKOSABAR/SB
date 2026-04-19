@@ -8,6 +8,7 @@
 const CONFIG = {
   FOLDER_GALLERY_ID: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
   FOLDER_EXTENSIONS_ID: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
+  FOLDER_BACKGROUND_ID: '1xKg0Ax5kBYSaPIFz6L3YCrc8FWT0g0gc',
   // Jika script ini standalone (bukan dari spreadsheet), masukkan ID Spreadsheet di sini
   SPREADSHEET_ID: '1L2WYrWFbQyssIxy7qV-2xnxWyzTCYJfsGjk6a5rbLdc' 
 };
