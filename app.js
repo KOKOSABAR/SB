@@ -1618,24 +1618,22 @@ function copyDetailedPrediction(pasaran) {
     if (!data) return;
 
     const text = `
-✨ PREDIKSI ${pasaran} ✨
-📅 ${data.tanggal}
+PREDIKSI ${pasaran.toUpperCase()} 
+${data.tanggal}
 
-━━━━━━━━━━━━━━━━━━━━━━
-🎯 BBFS KUAT: ${data.bbfs || '-'}
-🎯 ANGKA IKUT: ${data.angkaIkut || '-'}
-━━━━━━━━━━━━━━━━━━━━━━
-🎰 4D (BB): ${data.d4 || '-'}
-🎰 3D (BB): ${data.d3 || '-'}
-🎰 2D (BB): ${data.d2 || '-'}
-━━━━━━━━━━━━━━━━━━━━━━
-🎯 COLOK BEBAS: ${data.colokBebas || '-'}
-🎯 COLOK MACAU: ${data.colokMacau || '-'}
-🎯 TWIN: ${data.twin || '-'}
-━━━━━━━━━━━━━━━━━━━━━━
-📜 SYAIR: 
+BBFS KUAT: ${data.bbfs || '-'}
+ANGKA IKUT: ${data.angkaIkut || '-'}
+
+4D (BB): ${data.d4 || '-'}
+3D (BB): ${data.d3 || '-'}
+2D (BB): ${data.d2 || '-'}
+
+COLOK BEBAS: ${data.colokBebas || '-'}
+COLOK MACAU: ${data.colokMacau || '-'}
+TWIN: ${data.twin || '-'}
+
+SYAIR: 
 "${data.syair || '-'}"
-━━━━━━━━━━━━━━━━━━━━━━
     `.trim();
 
     navigator.clipboard.writeText(text).then(() => {
