@@ -65,6 +65,10 @@ function handleAction(params) {
         result = getKesalahan();
         break;
       
+      case 'getBackupKesalahan':
+        result = getBackupKesalahan(params);
+        break;
+      
       // 2. DATA INVENTARIS HP WDBOS
       case 'getInventaris':
         result = getInventaris();
@@ -191,6 +195,79 @@ function getKesalahan() {
   const rows = sheet.getDataRange().getValues();
   return rows.slice(headerRow).filter(row => row[1] && row[1].toString().trim() !== "");
 }
+
+function getBackupKesalahan(params) {
+  const sheet = getSheetRobust("KESALAHAN LC");
+  if (!sheet) return { error: "Sheet KESALAHAN LC tidak ditemukan" };
+  
+  const filterDate = params && params.date ? params.date.toString().toLowerCase().trim() : "";
+  const data = sheet.getDataRange().getValues();
+  
+  const summary = {};
+  let currentDate = "";
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  for (let i = 0; i < data.length; i++) {
+    const colA = data[i][0] ? data[i][0].toString().trim() : "";
+    
+    // Normalisasi Col B (Tanggal)
+    let colB = data[i][1];
+    let colBStr = "";
+    if (colB instanceof Date) {
+      colBStr = colB.getDate() + " " + months[colB.getMonth()] + " " + colB.getFullYear();
+    } else {
+      colBStr = colB ? colB.toString().trim() : "";
+    }
+    
+    const colC = data[i][2] ? data[i][2].toString().trim() : "";
+    
+    // DETEKSI BARIS TANGGAL (Pemisah)
+    if (!colA && colBStr && !colBStr.includes("http") && colBStr.toLowerCase() !== "tanggal /screenshot") {
+      currentDate = colBStr.trim();
+      continue; 
+    }
+    
+    // DETEKSI DATA STAFF
+    if (colA && colA.toLowerCase() !== "nama staff" && !colA.toLowerCase().includes("coming soon")) {
+      let dateMatch = true;
+      if (filterDate) {
+        const sDate = filterDate.toLowerCase().trim();
+        const tDate = currentDate.toLowerCase().trim();
+        dateMatch = (tDate === sDate);
+        if (!dateMatch) {
+          const sNorm = sDate.replace("april", "apr");
+          const tNorm = tDate.replace("april", "apr");
+          dateMatch = (sNorm === tNorm);
+        }
+      }
+      
+      if (dateMatch) {
+        const name = colA;
+        const colBValue = data[i][1] ? data[i][1].toString().trim() : "";
+        const ket = data[i][2] ? data[i][2].toString().trim() : "-";
+        const isNote = ket.toLowerCase().includes("note");
+        
+        if (!summary[name]) {
+          summary[name] = { name: name, mistakes: 0, notes: 0, lastDate: currentDate || "-", details: [] };
+        }
+        if (isNote) summary[name].notes++; else summary[name].mistakes++;
+        if (currentDate) summary[name].lastDate = currentDate;
+        
+        // Gabungkan Keterangan dan Screenshot (Col B) dengan pemisah khusus
+        if (ket && ket !== "-") {
+          summary[name].details.push(ket + "[SS]" + colBValue);
+        }
+      }
+    }
+  }
+  
+  return Object.values(summary).map((item, idx) => {
+    const total = item.mistakes + Math.floor(item.notes / 3);
+    return [idx + 1, item.name, item.lastDate.toUpperCase(), `M: ${item.mistakes} | N: ${item.notes}`, total > 2 ? "TINGGAL 2" : "NORMAL", total, item.details.join(" || ")];
+  });
+}
+
+
 
 function getInventaris() {
   const sheet = getSheetRobust("DATA INVENTARIS HP WDBOS");

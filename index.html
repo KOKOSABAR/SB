@@ -16,9 +16,10 @@
         /* --- MAIN CONTENT REFINEMENT --- */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding: 40px 60px;
+            padding: 40px 20px;
             /* Lebar ekstra agar tidak dempet */
             min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
             background: transparent;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -220,6 +221,83 @@
             background: var(--primary);
             border-radius: 10px;
         }
+
+        /* --- LUXURY CYBER BUTTON --- */
+        .cyber-btn-luxury {
+            background: linear-gradient(135deg, rgba(0, 255, 170, 0.1) 0%, rgba(0, 255, 170, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 170, 0.3);
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 170, 0.1);
+            position: relative;
+            outline: none;
+        }
+
+        .cyber-btn-luxury:hover {
+            background: rgba(0, 255, 170, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 170, 0.3);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+            color: #fff;
+        }
+
+        .cyber-btn-luxury.active {
+            background: rgba(255, 77, 77, 0.15);
+            border-color: rgba(255, 77, 77, 0.4);
+            color: #ff4d4d;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+        }
+
+        .detail-item-luxury {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid var(--primary);
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 11px;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .detail-item-luxury:hover {
+            background: rgba(0, 255, 170, 0.05);
+            transform: translateX(5px);
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* --- DATE PICKER VISIBILITY --- */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(1.5) sepia(100%) saturate(10000%) hue-rotate(110deg);
+            cursor: pointer;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -334,6 +412,15 @@
                             <line x1="12" y1="16" x2="12.01" y2="16" />
                         </svg>
                         DATA KESALAHAN
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('backupKesalahan')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        BACKUP KESALAHAN LC
                     </a>
                     <a href="#" class="nav-item" onclick="window.switchSection('izinKeluar')">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -777,8 +864,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
             <div id="sectionPrizeCalc" class="app-section" style="display: none;">
                 <div class="section-header">
                     <h2 class="section-title">PERHITUNGAN HADIAH TOGEL</h2>
@@ -2425,13 +2510,13 @@
                         <table class="cyber-table">
                             <thead>
                                 <tr>
-                                    <th>NO</th>
-                                    <th>NAMA REKENING</th>
-                                    <th>NO URUT</th>
-                                    <th>WARNA</th>
-                                    <th>TOTAL HP</th>
-                                    <th>TOTAL TOKEN</th>
-                                    <th>JENIS BANK</th>
+                                    <th style="text-align: center;">NO</th>
+                                    <th style="text-align: center;">NAMA REKENING</th>
+                                    <th style="text-align: center;">NO URUT</th>
+                                    <th style="text-align: center;">WARNA</th>
+                                    <th style="text-align: center;">TOTAL HP</th>
+                                    <th style="text-align: center;">TOTAL TOKEN</th>
+                                    <th style="text-align: center;">JENIS BANK</th>
                                 </tr>
                             </thead>
                             <tbody id="inventarisBody">
@@ -2554,21 +2639,21 @@
                         </div>
                     </div>
 
-                    <div class="table-container-luxury" style="overflow-x: auto;">
-                        <table class="cyber-table" style="min-width: 1200px;">
+                    <div class="table-container-luxury" style="width: 100%; overflow-x: auto;">
+                        <table class="cyber-table" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th style="width: 50px;">NO</th>
-                                    <th>NAMA STAFF</th>
-                                    <th>NO PASPOR</th>
-                                    <th>JABATAN</th>
-                                    <th style="color: #ff4d4d;">MISTAKE WD</th>
-                                    <th style="color: #ff4d4d;">MISTAKE DEPO</th>
-                                    <th style="color: #ff4d4d;">SALAH PROSES (FS/BS)</th>
-                                    <th style="color: #ff4d4d;">SALAH SCATTER</th>
-                                    <th style="color: #ffaa00;">TELAT BAWAH SOP</th>
-                                    <th style="color: #ffaa00;">TELAT ATAS SOP</th>
-                                    <th style="background: var(--primary); color: #000;">TOTAL</th>
+                                    <th style="width: 50px; text-align: center;">NO</th>
+                                    <th style="text-align: center;">NAMA STAFF</th>
+                                    <th style="text-align: center;">NO PASPOR</th>
+                                    <th style="text-align: center;">JABATAN</th>
+                                    <th style="color: #ff4d4d; text-align: center;">MISTAKE WD</th>
+                                    <th style="color: #ff4d4d; text-align: center;">MISTAKE DEPO</th>
+                                    <th style="color: #ff4d4d; text-align: center;">SALAH PROSES (FS/BS)</th>
+                                    <th style="color: #ff4d4d; text-align: center;">SALAH SCATTER</th>
+                                    <th style="color: #ffaa00; text-align: center;">TELAT BAWAH SOP</th>
+                                    <th style="color: #ffaa00; text-align: center;">TELAT ATAS SOP</th>
+                                    <th style="background: var(--primary); color: #000; text-align: center;">TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody id="kesalahanBody">
@@ -2579,7 +2664,48 @@
                 </div>
             </div>
 
-            <!-- SECTION: IZIN KELUAR -->
+            <div id="sectionBackupKesalahan" class="app-section" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">BACKUP KESALAHAN LC</h2>
+                    <p class="section-desc">Data cadangan rekapitulasi kesalahan staff (Live Chat).</p>
+                </div>
+
+                <div class="calc-card luxury-card main-panel" style="min-height: 500px;">
+                    <div class="cyber-corner tl"></div>
+                    <div class="cyber-corner tr"></div>
+                    <div class="cyber-scanline"></div>
+
+                    <div class="search-premium-container" style="max-width: 300px; margin: 0 auto 40px auto; position: relative;">
+                        <!-- DATE FILTER -->
+                        <div class="luxury-card" style="width: 100%; position: relative; padding: 20px; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(0, 255, 170, 0.15); border-radius: 8px; overflow: hidden;">
+                            <h3 style="font-family: 'Orbitron'; font-size: 11px; color: #00ffa2; letter-spacing: 2px; margin-bottom: 15px; text-align: center;">
+                                SELECT DATE
+                            </h3>
+                            <input type="date" id="backupKesalahanDateInput" class="cyber-input" onchange="window.renderBackupKesalahanTable()"
+                                style="height: 45px; width: 100%; padding: 0 10px; background: rgba(0, 255, 170, 0.05); border-color: rgba(0, 255, 170, 0.2); color: #fff; font-family: 'Share Tech Mono'; text-align: center;">
+                        </div>
+                    </div>
+
+                    <div class="table-container-luxury" style="width: 100%; overflow-x: auto;">
+                        <table class="cyber-table" style="width: 100%; table-layout: fixed;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px; text-align: center;">NO</th>
+                                    <th style="text-align: center;">NAMA STAFF</th>
+                                    <th style="width: 110px; white-space: nowrap; text-align: center;">TANGGAL</th>
+                                    <th style="width: 190px; white-space: nowrap; text-align: center;">TYPE KESALAHAN</th>
+                                    <th style="width: 150px; color: #ffaa00; white-space: nowrap; text-align: center;">IZIN ISTIRAHAT</th>
+                                    <th style="width: 60px; background: var(--primary); color: #000; white-space: nowrap; text-align: center;">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="backupKesalahanBody">
+                                <!-- Data injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div id="sectionIzinKeluar" class="app-section" style="display: none;">
                 <div class="section-header">
                     <h2 class="section-title">IZIN KELUAR SISA 2</h2>

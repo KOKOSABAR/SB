@@ -1725,6 +1725,18 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'DATA KESALAHAN STAFF';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderKesalahanTable();
+    } else if (sectionId === 'backupKesalahan') {
+        if (headerTitle) headerTitle.textContent = 'BACKUP KESALAHAN LC';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        
+        // Default date to today if empty
+        const dateInput = document.getElementById('backupKesalahanDateInput');
+        if (dateInput && !dateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+        }
+        
+        renderBackupKesalahanTable();
     } else if (sectionId === 'izinKeluar') {
         if (headerTitle) headerTitle.textContent = 'Data Izin Keluar';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -2601,6 +2613,7 @@ async function preloadDashboardData(force = false) {
             syncFromGoogleSheets(),
             renderInventarisTable(),
             renderKesalahanTable(),
+            renderBackupKesalahanTable(),
             renderIzinKeluarTable()
         ]);
         
@@ -4776,13 +4789,13 @@ async function renderInventarisTable() {
 
             body.innerHTML = filteredResults.map(row => `
                 <tr>
-                    <td style="color: var(--primary); font-weight: 800;">${row[0] || ''}</td>
-                    <td>${row[1] || '-'}</td>
-                    <td style="background: rgba(0, 255, 170, 0.05); font-weight: 800;">${row[2] || '-'}</td>
-                    <td>${row[3] || '-'}</td>
-                    <td>${row[4] || '-'}</td>
-                    <td>${row[5] || '-'}</td>
-                    <td>${row[6] || '-'}</td>
+                    <td style="color: var(--primary); font-weight: 800; text-align: center;">${row[0] || ''}</td>
+                    <td style="text-align: center;">${row[1] || '-'}</td>
+                    <td style="background: rgba(0, 255, 170, 0.05); font-weight: 800; text-align: center;">${row[2] || '-'}</td>
+                    <td style="text-align: center;">${row[3] || '-'}</td>
+                    <td style="text-align: center;">${row[4] || '-'}</td>
+                    <td style="text-align: center;">${row[5] || '-'}</td>
+                    <td style="text-align: center;">${row[6] || '-'}</td>
                 </tr>
             `).join('');
         } else {
@@ -4908,17 +4921,17 @@ async function renderKesalahanTable() {
 
                 return `
                     <tr style="${rowStyle}">
-                        <td style="color: var(--primary); font-weight: 800;">${row[0] || ''}</td>
-                        <td style="font-weight: 700; color: ${total > 0 ? '#ff4d4d' : '#00ffa2'}">${row[1] || '-'}</td>
-                        <td>${row[2] || '-'}</td>
-                        <td>${row[3] || '-'}</td>
-                        <td style="${errorStyle(row[4])}">${row[4] || '0'}</td>
-                        <td style="${errorStyle(row[5])}">${row[5] || '0'}</td>
-                        <td style="${errorStyle(row[6])}">${row[6] || '0'}</td>
-                        <td style="${errorStyle(row[7])}">${row[7] || '0'}</td>
-                        <td style="${errorStyle(row[8])}">${row[8] || '0'}</td>
-                        <td style="${errorStyle(row[9])}">${row[9] || '0'}</td>
-                        <td style="background: rgba(0, 255, 170, 0.1); font-weight: 900; color: var(--primary);">${row[10] || '0'}</td>
+                        <td style="color: var(--primary); font-weight: 800; text-align: center;">${row[0] || ''}</td>
+                        <td style="font-weight: 700; color: ${total > 0 ? '#ff4d4d' : '#00ffa2'}; text-align: center;">${row[1] || '-'}</td>
+                        <td style="text-align: center;">${row[2] || '-'}</td>
+                        <td style="text-align: center;">${row[3] || '-'}</td>
+                        <td style="${errorStyle(row[4])} text-align: center;">${row[4] || '0'}</td>
+                        <td style="${errorStyle(row[5])} text-align: center;">${row[5] || '0'}</td>
+                        <td style="${errorStyle(row[6])} text-align: center;">${row[6] || '0'}</td>
+                        <td style="${errorStyle(row[7])} text-align: center;">${row[7] || '0'}</td>
+                        <td style="${errorStyle(row[8])} text-align: center;">${row[8] || '0'}</td>
+                        <td style="${errorStyle(row[9])} text-align: center;">${row[9] || '0'}</td>
+                        <td style="background: rgba(0, 255, 170, 0.1); font-weight: 900; color: var(--primary); text-align: center;">${row[10] || '0'}</td>
                     </tr>
                 `;
             }).join('');
@@ -4930,6 +4943,136 @@ async function renderKesalahanTable() {
         body.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#ff4d4d; padding: 40px;">Eror Koneksi: ${e.message}</td></tr>`;
     }
 }
+
+async function renderBackupKesalahanTable() {
+    const body = document.getElementById('backupKesalahanBody');
+    const searchInput = document.getElementById('backupKesalahanSearchInput');
+    const dateInput = document.getElementById('backupKesalahanDateInput');
+    
+    if (!body) return;
+    
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const selectedDateRaw = dateInput ? dateInput.value : '';
+    
+    // Convert YYYY-MM-DD to "14 Apr 2026"
+    const formatDateForSheet = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    };
+    
+    const filterDate = formatDateForSheet(selectedDateRaw);
+    
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memuat data backup...</td></tr>';
+    
+    try {
+        const result = await fetchFromGoogleSheets('getBackupKesalahan', { date: filterDate });
+        if (result && Array.isArray(result)) {
+            // Assume format: index 0=NO, 1=NAMA STAFF, 2=TANGGAL, 3=MISTAKE TYPE, 4=KETERANGAN, 5=TOTAL
+            let filtered = result.filter(row => {
+                const name = row[1] ? row[1].toString().trim().toLowerCase() : "";
+                return name !== "" && name !== "nama staff";
+            });
+            
+            if (query) {
+                filtered = filtered.filter(row => row[1].toString().toLowerCase().includes(query));
+            }
+
+            if (filtered.length === 0) {
+                body.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: rgba(255,255,255,0.4);">Data tidak ditemukan.</td></tr>';
+                return;
+            }
+
+            body.innerHTML = filtered.map((row, idx) => {
+                const details = row[6] ? row[6].split(" || ") : [];
+                const detailsHtml = details.map(d => {
+                    const parts = d.split("[SS]");
+                    const text = parts[0] || "";
+                    const ss = parts[1] || "";
+                    const ssHtml = ss.includes("http") ? `
+                        <a href="${ss}" target="_blank" class="cyber-btn-luxury" style="font-size: 8px; padding: 2px 8px; background: rgba(0, 255, 170, 0.1); text-decoration: none; border-color: var(--primary); color: var(--primary);">
+                            VIEW SS
+                        </a>
+                    ` : (ss ? `<span style="font-size: 9px; color: rgba(255,255,255,0.4); font-family: 'Share Tech Mono';">[${ss}]</span>` : "");
+
+                    return `
+                        <div class="detail-item-luxury" style="justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="color: var(--primary); font-size: 8px; filter: drop-shadow(0 0 5px var(--primary));">▶</span>
+                                <span>${text}</span>
+                            </div>
+                            ${ssHtml}
+                        </div>
+                    `;
+                }).join('');
+                
+                const total = parseInt(row[5] || '0');
+                let izinQuota = "4";
+                let quotaStyle = "color: #ffaa00; font-weight: 700;";
+                
+                if (total === 1) {
+                    izinQuota = "4";
+                    quotaStyle = "color: #ffaa00; font-weight: 700;";
+                } else if (total === 2) {
+                    izinQuota = "2";
+                    quotaStyle = "color: #ff4d4d; font-weight: 800; text-shadow: 0 0 10px rgba(255, 77, 77, 0.3);";
+                } else if (total > 2) {
+                    izinQuota = "TINGGAL 2";
+                    quotaStyle = "background: rgba(255, 77, 77, 0.2); color: #ff4d4d; padding: 2px 8px; border-radius: 4px; font-weight: 900;";
+                }
+
+                return `
+                    <tr style="border-bottom: none;">
+                        <td style="color: var(--primary); font-weight: 800; text-align: center; width: 40px;">${row[0] || ''}</td>
+                        <td style="font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; text-align: center;">${row[1] || '-'}</td>
+                        <td style="font-family: 'Share Tech Mono'; font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; width: 110px; white-space: nowrap;">${row[2] || '-'}</td>
+                        <td style="font-family: 'Share Tech Mono'; font-size: 11px; color: var(--primary); text-align: center; width: 190px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
+                                <span>${row[3] || '-'}</span>
+                                <button onclick="window.toggleBackupDetails(event, ${idx})" class="cyber-btn-luxury">LIHAT</button>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-family: 'Orbitron'; font-size: 12px; width: 150px; ${quotaStyle}">${izinQuota}</td>
+                        <td style="background: rgba(0, 255, 170, 0.1); font-weight: 900; color: var(--primary); font-size: 15px; text-align: center; width: 60px;">${total}</td>
+                    </tr>
+                    <tr id="backupDetails_${idx}" style="display: none; background: rgba(0,0,0,0.4);">
+                        <td colspan="5" style="padding: 20px 40px; border-top: 1px solid rgba(0, 255, 170, 0.1);">
+                            <div style="font-family: 'Orbitron'; font-size: 10px; color: var(--primary); margin-bottom: 15px; letter-spacing: 2px; display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 25px; height: 1px; background: var(--primary); box-shadow: 0 0 10px var(--primary);"></div>
+                                KESALAHAN LOG DETAILS
+                            </div>
+                            <div style="max-height: 250px; overflow-y: auto; padding-right: 10px;" class="custom-scroll">
+                                ${detailsHtml}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        } else {
+            const errorMsg = result && result.error ? result.error : 'Data Kosong atau Gagal Memuat.';
+            body.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#ff4d4d; padding: 40px;">${errorMsg}</td></tr>`;
+        }
+    } catch (e) {
+        body.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#ff4d4d; padding: 40px;">Eror Koneksi: ${e.message}</td></tr>`;
+    }
+}
+
+window.toggleBackupDetails = function(event, idx) {
+    const el = document.getElementById(`backupDetails_${idx}`);
+    const btn = event.target;
+    if (el.style.display === 'none') {
+        el.style.display = 'table-row';
+        btn.textContent = 'SEMBUNYIKAN';
+        btn.classList.add('active');
+    } else {
+        el.style.display = 'none';
+        btn.textContent = 'LIHAT';
+        btn.classList.remove('active');
+    }
+};
+
+window.renderBackupKesalahanTable = renderBackupKesalahanTable;
 
 window.filterIzinKeluar = function() {
     renderIzinKeluarTable();
