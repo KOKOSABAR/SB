@@ -1,621 +1,164 @@
-// ==========================================
-// CYBER HUD CORE SYSTEM - GOOGLE APPS SCRIPT
-// ==========================================
-
-/**
- * CONFIGURATION
- */
 const CONFIG = {
   FOLDER_GALLERY_ID: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
   FOLDER_EXTENSIONS_ID: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
-  FOLDER_BACKGROUND_ID: '1CLolADOa94s8tKp9r1mG19YhYNBDHnku',
-  // Jika script ini standalone (bukan dari spreadsheet), masukkan ID Spreadsheet di sini
   SPREADSHEET_ID: '1L2WYrWFbQyssIxy7qV-2xnxWyzTCYJfsGjk6a5rbLdc' 
 };
 
-// Jalankan fungsi ini satu kali di Editor untuk memberikan izin Akses Drive & Sheet
-function authorizeEverything() {
-  const ss = getSS();
-  const folder = DriveApp.getRootFolder();
-  Logger.log("Izin berhasil diberikan!");
-}
 function getSS() {
   try {
     if (CONFIG.SPREADSHEET_ID) return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     return SpreadsheetApp.getActiveSpreadsheet();
-  } catch (e) {
-    return null;
-  }
+  } catch (e) { return null; }
 }
 
 function doGet(e) {
   const action = e.parameter.action;
-  
   if (!action) {
-    return HtmlService.createHtmlOutputFromFile('index')
-        .setTitle('Cyber HUD - Dashboard SB')
+    return HtmlService.createHtmlOutputFromFile('index').setTitle('Cyber HUD - Dashboard SB')
         .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
         .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   }
-  
   return handleAction(e.parameter);
 }
 
 function doPost(e) {
   let postData;
-  try {
-    postData = JSON.parse(e.postData.contents);
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ error: "Invalid JSON payload" }))
-        .setMimeType(ContentService.MimeType.JSON);
+  try { postData = JSON.parse(e.postData.contents); } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ error: "Invalid JSON" })).setMimeType(ContentService.MimeType.JSON);
   }
-  
   return handleAction(postData);
 }
 
 function handleAction(params) {
-  const action = params.action;
-  const callback = params.callback; // For JSONP support
+  const action = params.action ? params.action.toString().trim() : "";
+  const callback = params.callback;
   let result;
-  
   try {
     switch (action) {
-      // 1. DATA KESALAHAN STAFF
-      case 'getKesalahan':
-        result = getKesalahan();
-        break;
-      
-      case 'getBackupKesalahan':
-        result = getBackupKesalahan(params);
-        break;
-      
-      // 2. DATA INVENTARIS HP WDBOS
-      case 'getInventaris':
-        result = getInventaris();
-        break;
-      
-      // 3. DATA IZIN KELUAR SISA 2
-      case 'getIzinKeluar':
-        result = getIzinKeluar();
-        break;
-        
-      // 4. CEK DATA REKENING
-      case 'checkAccountsBatch':
-        result = { results: checkAccountsBatch(params.accounts) };
-        break;
-        
-      // 5. NOTEPAD SYSTEM
-      case 'getAll':
-        result = getNotes();
-        break;
-      case 'add':
-        result = addNote(params.judul, params.isi);
-        break;
-      case 'update':
-        result = updateNote(params.id, params.judul, params.isi);
-        break;
-      case 'delete':
-        result = deleteNote(params.id);
-        break;
-        
-      // 6. TOGEL DATA
-      case 'scrapeWdbos':
-        result = scrapeWdbos();
-        break;
-      case 'saveTogelData':
-        result = saveTogelData(params.data);
-        break;
-        
-      // 7. DRIVE OPERATIONS
-      case 'uploadImage':
-        result = handleFileUpload(params.base64, params.filename, params.folderId);
-        break;
-      case 'listFiles':
-        result = listFiles(params.folderId);
-        break;
-      case 'deleteFile':
-        result = deleteFile(params.fileId);
-        break;
-        
-      case 'authorize':
-        result = { success: true, message: "Authorization confirmed" };
-        break;
-      case 'getBackground':
-        result = getBackground();
-        break;
-      case 'updateBackground':
-        if (!params.url) throw new Error("URL parameter is missing");
-        result = updateBackground(params.url);
-        break;
-
-      // 8. SYSTEM
-      case 'testConnection':
-        result = testConnection();
-        break;
-        
-      default:
-        result = { error: "Action not found: " + action };
+      case 'getSportsbookResults': result = getSportsbookResults(); break;
+      case 'getBackupKesalahan': result = getBackupKesalahan(params); break;
+      case 'getKesalahan': result = getKesalahan(); break;
+      case 'getInventaris': result = getInventaris(); break;
+      case 'getIzinKeluar': result = getIzinKeluar(); break;
+      case 'checkAccountsBatch': result = { results: checkAccountsBatch(params.accounts) }; break;
+      case 'getAll': result = getNotes(); break;
+      case 'add': result = addNote(params.judul, params.isi); break;
+      case 'update': result = updateNote(params.id, params.judul, params.isi); break;
+      case 'delete': result = deleteNote(params.id); break;
+      case 'scrapeWdbos': result = scrapeWdbos(); break;
+      case 'saveTogelData': result = saveTogelData(params.data); break;
+      case 'getTogelData': result = getTogelData(); break;
+      case 'uploadImage': result = handleFileUpload(params.base64, params.filename, params.folderId); break;
+      case 'listFiles': result = listFiles(params.folderId); break;
+      case 'deleteFile': result = deleteFile(params.fileId); break;
+      case 'getBackground': result = getBackground(); break;
+      case 'updateBackground': result = updateBackground(params.url); break;
+      case 'testConnection': result = { status: 'success', timestamp: new Date().toISOString() }; break;
+      default: result = { error: "Action not found: " + action };
     }
-  } catch (err) {
-    result = { error: err.message };
-  }
-  
+  } catch (err) { result = { error: err.message }; }
   const jsonResponse = JSON.stringify(result);
-  
-  if (callback) {
-    // Return as JSONP
-    return ContentService.createTextOutput(callback + "(" + jsonResponse + ")")
-        .setMimeType(ContentService.MimeType.JAVASCRIPT);
-  } else {
-    // Return as pure JSON
-    return ContentService.createTextOutput(jsonResponse)
-        .setMimeType(ContentService.MimeType.JSON);
-  }
+  if (callback) return ContentService.createTextOutput(callback + "(" + jsonResponse + ")").setMimeType(ContentService.MimeType.JAVASCRIPT);
+  return ContentService.createTextOutput(jsonResponse).setMimeType(ContentService.MimeType.JSON);
 }
 
-
-// --- MODULE: DATA FETCHING ---
-
-function getSheetRobust(name) {
+function checkAccountsBatch(accountNumbers) {
+  if (!accountNumbers || !Array.isArray(accountNumbers)) return [];
   const ss = getSS();
-  if (!ss) return null;
-  const sheets = ss.getSheets();
-  const normalizedSearch = name.toString().toLowerCase().trim();
-  
-  for (let i = 0; i < sheets.length; i++) {
-    const sheetName = sheets[i].getName().toLowerCase().trim();
-    if (sheetName === normalizedSearch || sheetName.includes(normalizedSearch)) return sheets[i];
-  }
-  return null;
-}
-
-function findHeaderRow(sheet, keyword) {
-  const maxRows = sheet.getMaxRows();
-  const maxCols = sheet.getMaxColumns();
-  const numRows = Math.min(10, maxRows > 0 ? maxRows : 1);
-  const numCols = Math.min(10, maxCols > 0 ? maxCols : 1);
-  
-  if (numRows === 0 || numCols === 0) return 1;
-  
-  const data = sheet.getRange(1, 1, numRows, numCols).getValues(); // Search safely
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data[i].length; j++) {
-      if (data[i][j] && data[i][j].toString().toLowerCase().includes(keyword.toLowerCase())) {
-        return i + 1; // Return 1-based row index
+  const sheetsToSearch = ["BANK KAS BERSIH DAN KOTOR", "BANK WD BERSIH DAN KOTOR", "BANK DEPOSIT", "BANK E-WALLET DANA", "BANK E-WALLET GOPAY", "BANK E-WALLET OVO", "BANK E-WALLET LINKAJA"];
+  let results = [];
+  const searchNumbers = accountNumbers.map(n => n.toString().replace(/\D/g, ''));
+  sheetsToSearch.forEach(name => {
+    const sheet = ss.getSheetByName(name);
+    if (!sheet) return;
+    const data = sheet.getDataRange().getValues();
+    if (data.length === 0) return;
+    let norekCol = -1, statusCol = 0, bankCol = 1, nameCol = 2;
+    const firstRow = data[0];
+    for (let j = 0; j < firstRow.length; j++) {
+      const h = firstRow[j].toString().toLowerCase();
+      if (h.includes("nomor") || h.includes("rekening") || h.includes("norek")) norekCol = j;
+      if (h.includes("status")) statusCol = j;
+      if (h.includes("bank")) bankCol = j;
+      if (h.includes("nama")) nameCol = j;
+    }
+    if (norekCol === -1) norekCol = 3;
+    for (let i = 1; i < data.length; i++) {
+      let rawVal = data[i][norekCol] ? data[i][norekCol].toString() : "";
+      if (rawVal.includes('E+') || rawVal.includes('e+')) {
+         try { rawVal = BigInt(data[i][norekCol]).toString(); } catch(e) {}
+      }
+      const cleanVal = rawVal.replace(/\D/g, '');
+      if (cleanVal && searchNumbers.indexOf(cleanVal) !== -1) {
+        results.push({ 
+          accountNumber: cleanVal, found: true, 
+          details: { status: data[i][statusCol] || "AKTIF", bank: data[i][bankCol] || "-", name: data[i][nameCol] || "-", number: cleanVal, sheet: name } 
+        });
       }
     }
-  }
-  return 1; // Default to first row
+  });
+  return results;
 }
 
-function getKesalahan() {
-  const sheet = getSheetRobust("DATA KESALAHAN");
-  if (!sheet) return { error: "Sheet 'DATA KESALAHAN' tidak ditemukan." };
-  const headerRow = findHeaderRow(sheet, "NAMA STAFF");
-  const rows = sheet.getDataRange().getValues();
-  return rows.slice(headerRow).filter(row => row[1] && row[1].toString().trim() !== "");
+function getSportsbookResults() {
+  const url = 'https://sport.ibet288.com/_view/Result.aspx';
+  const ss = getSS();
+  let proxySheet = ss.getSheetByName("_DATA_SCRAPER_") || ss.insertSheet("_DATA_SCRAPER_");
+  if (!proxySheet.isSheetHidden()) proxySheet.hideSheet();
+  try {
+    proxySheet.getRange("A1").setFormula(`=IMPORTXML("${url}", "//table[@id='dgResult']//tr")`);
+    Utilities.sleep(3000);
+    const data = proxySheet.getDataRange().getValues();
+    if (data.length <= 1 || data[0][0] === "#N/A" || data[0][0] === "") {
+      const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true, headers: { 'User-Agent': 'Mozilla/5.0 Chrome/124.0.0.0' } });
+      return { html: res.getContentText() };
+    }
+    return { tableData: data };
+  } catch (e) { return { error: e.message }; }
 }
 
 function getBackupKesalahan(params) {
   const sheet = getSheetRobust("KESALAHAN LC");
-  if (!sheet) return { error: "Sheet KESALAHAN LC tidak ditemukan" };
-  
+  if (!sheet) return { error: "Sheet not found" };
   const filterDate = params && params.date ? params.date.toString().toLowerCase().trim() : "";
-  const data = sheet.getDataRange().getValues();
-  
-  const summary = {};
+  const data = sheet.getDataRange().getValues(), summary = {}, months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   let currentDate = "";
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
   for (let i = 0; i < data.length; i++) {
     const colA = data[i][0] ? data[i][0].toString().trim() : "";
-    
-    // Normalisasi Col B (Tanggal)
-    let colB = data[i][1];
-    let colBStr = "";
-    if (colB instanceof Date) {
-      colBStr = colB.getDate() + " " + months[colB.getMonth()] + " " + colB.getFullYear();
-    } else {
-      colBStr = colB ? colB.toString().trim() : "";
-    }
-    
-    const colC = data[i][2] ? data[i][2].toString().trim() : "";
-    
-    // DETEKSI BARIS TANGGAL (Pemisah)
-    if (!colA && colBStr && !colBStr.includes("http") && colBStr.toLowerCase() !== "tanggal /screenshot") {
-      currentDate = colBStr.trim();
-      continue; 
-    }
-    
-    // DETEKSI DATA STAFF
+    let colB = data[i][1], colBStr = colB instanceof Date ? colB.getDate() + " " + months[colB.getMonth()] + " " + colB.getFullYear() : (colB ? colB.toString().trim() : "");
+    if (!colA && colBStr && !colBStr.includes("http") && colBStr.toLowerCase() !== "tanggal /screenshot") { currentDate = colBStr.trim(); continue; }
     if (colA && colA.toLowerCase() !== "nama staff" && !colA.toLowerCase().includes("coming soon")) {
-      let dateMatch = true;
-      if (filterDate) {
-        const sDate = filterDate.toLowerCase().trim();
-        const tDate = currentDate.toLowerCase().trim();
-        dateMatch = (tDate === sDate);
-        if (!dateMatch) {
-          const sNorm = sDate.replace("april", "apr");
-          const tNorm = tDate.replace("april", "apr");
-          dateMatch = (sNorm === tNorm);
-        }
-      }
-      
+      let dateMatch = filterDate ? (currentDate.toLowerCase().trim() === filterDate.toLowerCase().trim() || currentDate.toLowerCase().replace("april", "apr") === filterDate.toLowerCase().replace("april", "apr")) : true;
       if (dateMatch) {
-        const name = colA;
-        const colBValue = data[i][1] ? data[i][1].toString().trim() : "";
-        const ket = data[i][2] ? data[i][2].toString().trim() : "-";
-        const isNote = ket.toLowerCase().includes("note");
-        
-        if (!summary[name]) {
-          summary[name] = { name: name, mistakes: 0, notes: 0, lastDate: currentDate || "-", details: [] };
-        }
-        if (isNote) summary[name].notes++; else summary[name].mistakes++;
+        const name = colA, ket = data[i][2] ? data[i][2].toString().trim() : "-";
+        if (!summary[name]) summary[name] = { name: name, mistakes: 0, notes: 0, lastDate: currentDate || "-", details: [] };
+        if (ket.toLowerCase().includes("note")) summary[name].notes++; else summary[name].mistakes++;
         if (currentDate) summary[name].lastDate = currentDate;
-        
-        // Gabungkan Keterangan dan Screenshot (Col B) dengan pemisah khusus
-        if (ket && ket !== "-") {
-          summary[name].details.push(ket + "[SS]" + colBValue);
-        }
+        if (ket && ket !== "-") summary[name].details.push(ket + "[SS]" + (data[i][1] || ""));
       }
     }
   }
-  
   return Object.values(summary).map((item, idx) => {
     const total = item.mistakes + Math.floor(item.notes / 3);
     return [idx + 1, item.name, item.lastDate.toUpperCase(), `M: ${item.mistakes} | N: ${item.notes}`, total > 2 ? "TINGGAL 2" : "NORMAL", total, item.details.join(" || ")];
   });
 }
 
-
-
-function getInventaris() {
-  const sheet = getSheetRobust("DATA INVENTARIS HP WDBOS");
-  if (!sheet) return { error: "Sheet 'DATA INVENTARIS HP WDBOS' tidak ditemukan." };
-  const headerRow = findHeaderRow(sheet, "NAMA REKENING");
-  const rows = sheet.getDataRange().getValues();
-  return rows.slice(headerRow).filter(row => row[1] && row[1].toString().trim() !== "");
-}
-
-function getIzinKeluar() {
-  const sheet = getSheetRobust("IZIN KELUAR SISA 2");
-  if (!sheet) return { error: "Sheet 'IZIN KELUAR SISA 2' tidak ditemukan." };
-  const headerRow = findHeaderRow(sheet, "NAMA STAFF");
-  const rows = sheet.getDataRange().getValues();
-  return rows.slice(headerRow).filter(row => row[0] && row[0].toString().trim() !== "");
-}
-
-// --- MODULE: CEK REKENING ---
-
-function checkAccountsBatch(accountNumbers) {
-  if (!accountNumbers || !Array.isArray(accountNumbers)) return [];
-  
-  const ss = getSS();
-  if (!ss) return { error: "Could not access spreadsheet." };
-  const sheetsToSearch = [
-    "BANK KAS BERSIH DAN KOTOR", "BANK WD BERSIH DAN KOTOR", "BANK DEPOSIT",
-    "BANK E-WALLET DANA", "BANK E-WALLET GOPAY", "BANK E-WALLET OVO", "BANK E-WALLET LINKAJA"
-  ];
-  
-  let results = [];
-  
-  sheetsToSearch.forEach(name => {
-    const sheet = ss.getSheetByName(name);
-    if (!sheet) return;
-    
-    const data = sheet.getDataRange().getValues();
-    data.forEach(row => {
-      const norek = row[3] ? row[3].toString().trim() : "";
-      if (norek && accountNumbers.includes(norek)) {
-        results.push({
-          accountNumber: norek,
-          found: true,
-          details: {
-            status: row[0] || "TIDAK ADA STATUS",
-            bank: row[1] || "-",
-            name: row[2] || "-",
-            number: norek,
-            sheet: name
-          }
-        });
-      }
-    });
-  });
-  
-  return results;
-}
-
-// --- MODULE: NOTEPAD (Using a hidden sheet for persistence) ---
-
-function getNotesSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName("_SYSTEM_NOTES_");
-  if (!sheet) {
-    sheet = ss.insertSheet("_SYSTEM_NOTES_");
-    sheet.appendRow(["ID", "JUDUL", "ISI", "CREATED_AT", "UPDATED_AT"]);
-    sheet.hideSheet();
-  }
-  return sheet;
-}
-
-function getNotes() {
-  const sheet = getNotesSheet();
-  const data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return [];
-  
-  return data.slice(1).map(row => ({
-    id: row[0],
-    judul: row[1],
-    isi: row[2],
-    createdAt: row[3],
-    updatedAt: row[4]
-  })).reverse(); // Newest first
-}
-
-function addNote(judul, isi) {
-  const sheet = getNotesSheet();
-  const id = "note_" + new Date().getTime();
-  const now = new Date().toISOString();
-  sheet.appendRow([id, judul, isi, now, now]);
-  return { success: true, id: id };
-}
-
-function updateNote(id, judul, isi) {
-  const sheet = getNotesSheet();
-  const data = sheet.getDataRange().getValues();
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][0] == id) {
-      sheet.getRange(i + 1, 2, 1, 2).setValues([[judul, isi]]);
-      sheet.getRange(i + 1, 5).setValue(new Date().toISOString());
-      return { success: true };
-    }
-  }
-  return { error: "Note not found" };
-}
-
-function deleteNote(id) {
-  const sheet = getNotesSheet();
-  const data = sheet.getDataRange().getValues();
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][0] == id) {
-      sheet.deleteRow(i + 1);
-      return { success: true };
-    }
-  }
-  return { error: "Note not found" };
-}
-
-// --- MODULE: TOGEL DATA ---
-
-function getTogelSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName("_SYSTEM_TOGEL_");
-  if (!sheet) {
-    sheet = ss.insertSheet("_SYSTEM_TOGEL_");
-    sheet.appendRow(["DATA_JSON"]);
-    sheet.hideSheet();
-  }
-  return sheet;
-}
-
-function getTogelData() {
-  const sheet = getTogelSheet();
-  const val = sheet.getRange(2, 1).getValue();
-  return val ? JSON.parse(val) : [];
-}
-
-function saveTogelData(data) {
-  const sheet = getTogelSheet();
-  sheet.getRange(2, 1).setValue(JSON.stringify(data));
-  return { success: true };
-}
-
-/**
- * SCRAPER: Realtime Lottery Results from WDBOS
- */
-function scrapeWdbos() {
-  const url = 'https://wdbos.net/office/game-oc/game/getNodeInfoList';
-  const payload = {
-    parentId: 2,   // Number 2 is for Lottery category
-    language: "id-ID"
-  };
-  
-  const options = {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify(payload),
-    muteHttpExceptions: true,
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-      'Origin': 'https://wdbos.net',
-      'Referer': 'https://wdbos.net/'
-    }
-  };
-  
-  try {
-    const response = UrlFetchApp.fetch(url, options);
-    const text = response.getContentText();
-    const json = JSON.parse(text);
-    
-    // Check if result or data is available
-    if (!json || (!json.result && !json.data)) return { error: "Failed to fetch data from WDBOS" };
-    
-    const dataArray = json.result || json.data;
-    if (!Array.isArray(dataArray)) return { error: "Invalid data format from WDBOS" };
-
-    const lastUpdateTs = new Date().toLocaleTimeString('id-ID');
-    
-    return dataArray.map(item => {
-      const info = item.lotteryNodeFetchOutDto || {};
-      const attach = info.attachInfo || {};
-      
-      let rawRes = attach.winningNumber || "----";
-      
-      return {
-        market: info.gameName || 'UNKNOWN',
-        result: rawRes,
-        period: info.gameDetail || '-',
-        countdown: 'UPDATE: ' + lastUpdateTs,
-        image: attach.iconUrl || '',
-        banner: attach.bgUrl || ''
-      };
-    }).filter(it => it.market !== 'UNKNOWN');
-    
-  } catch (e) {
-    return { error: "Scraper Error: " + e.message };
-  }
-}
-
-// --- MODULE: DRIVE OPERATIONS ---
-
-function handleFileUpload(base64, filename, folderId) {
-  try {
-    if (!base64) throw new Error("Data file tidak ditemukan (Data empty)");
-    
-    const rawBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
-    const bytes = Utilities.base64Decode(rawBase64);
-    const blob = Utilities.newBlob(bytes, "image/jpeg", filename);
-    
-    // Default folder
-    let targetFolder;
-    const targetId = folderId || CONFIG.FOLDER_GALLERY_ID;
-    
-    try {
-      if (targetId) {
-        targetFolder = DriveApp.getFolderById(targetId);
-      } else {
-        targetFolder = DriveApp.getRootFolder();
-      }
-    } catch (e) {
-      Logger.log("Folder ID tidak valid, menggunakan Root: " + e.message);
-      targetFolder = DriveApp.getRootFolder();
-    }
-    
-    // Create the file
-    const file = targetFolder.createFile(blob);
-    
-    // Set sharing permissions (Anyone with link can view)
-    try {
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    } catch (shareErr) {
-      Logger.log("Gagal mengatur sharing (Mungkin dibatasi admin): " + shareErr.message);
-      // Tetap lanjut, file sudah tersimpan
-    }
-
-    return {
-      success: true,
-      id: file.getId(),
-      url: "https://drive.google.com/uc?export=view&id=" + file.getId(),
-      filename: filename,
-      folder: targetFolder.getName()
-    };
-  } catch (err) {
-    Logger.log("Critical Drive Error: " + err.message);
-    return { error: "Drive Error: " + err.message };
-  }
-}
-
-function listFiles(folderId) {
-  try {
-    const targetId = folderId || CONFIG.FOLDER_GALLERY_ID;
-    const folder = DriveApp.getFolderById(targetId);
-    const files = folder.getFiles();
-    let result = [];
-    
-    while (files.hasNext()) {
-      const file = files.next();
-      result.push({
-        id: file.getId(),
-        name: file.getName(),
-        size: (file.getSize() / (1024 * 1024)).toFixed(2) + " MB",
-        url: "https://drive.google.com/uc?export=view&id=" + file.getId()
-      });
-    }
-    return result;
-  } catch (e) {
-    return { error: "Gagal list file: " + e.message };
-  }
-}
-
-function deleteFile(fileId) {
-  try {
-    const file = DriveApp.getFileById(fileId);
-    file.setTrashed(true);
-    return { success: true };
-  } catch (e) {
-    return { error: e.message };
-  }
-}
-
-function testConnection() {
-  var ssStatus = 'Error';
-  var driveStatus = 'Error';
-  var ssName = 'Unknown';
-  
-  try {
-    var ss = getSS();
-    if (ss) {
-      ssStatus = 'Connected';
-      ssName = ss.getName();
-    } else {
-      ssStatus = 'Disconnected (Cannot Open Spreadsheet)';
-    }
-  } catch (e) { ssStatus = 'Error: ' + e.message; }
-  
-  try {
-    var folder = DriveApp.getFolderById(CONFIG.FOLDER_GALLERY_ID);
-    if (folder) driveStatus = 'Connected';
-  } catch (e) { driveStatus = 'Error: ' + e.message; }
-
-  return {
-    status: 'success',
-    message: 'Koneksi ke Google Apps Script Berhasil!',
-    timestamp: new Date().toISOString(),
-    details: {
-      spreadsheet: ssStatus,
-      spreadsheetName: ssName,
-      drive: driveStatus
-    }
-  };
-}
-function updateBackground(url) {
-  if (!url) url = ""; // Handle null/undefined
-  const sheetName = "SB_SETTINGS";
-  let sheet = getSheetRobust(sheetName);
-  const ss = getSS();
-  
-  if (!sheet) {
-    if (!ss) return { error: "No Spreadsheet connected" };
-    sheet = ss.insertSheet(sheetName);
-    sheet.appendRow(["KEY", "VALUE"]);
-  }
-  
-  const data = sheet.getDataRange().getValues();
-  let found = false;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i][0] === "BACKGROUND_URL") {
-      sheet.getRange(i + 1, 2).setValue(url);
-      found = true;
-      break;
-    }
-  }
-  
-  if (!found) {
-    sheet.appendRow(["BACKGROUND_URL", url]);
-  }
-  
-  return { success: true, url: url, message: "URL updated in sheet: " + url };
-}
-
-function getBackground() {
-  const sheet = getSheetRobust("SB_SETTINGS");
-  if (!sheet) return { url: "" };
-  
-  const data = sheet.getDataRange().getValues();
-  for (let i = 0; i < data.length; i++) {
-    if (data[i][0] === "BACKGROUND_URL") {
-      return { url: data[i][1] };
-    }
-  }
-  return { url: "" };
-}
+function getSheetRobust(n) { const ss = getSS(); if (!ss) return null; const s = n.toLowerCase().trim(); for (let sh of ss.getSheets()) { if (sh.getName().toLowerCase().trim().includes(s)) return sh; } return null; }
+function findHeaderRow(s, k) { const d = s.getRange(1, 1, 10, 10).getValues(); for (let i = 0; i < d.length; i++) { for (let j = 0; j < d[i].length; j++) { if (d[i][j] && d[i][j].toString().toLowerCase().includes(k.toLowerCase())) return i + 1; } } return 1; }
+function getKesalahan() { const s = getSheetRobust("DATA KESALAHAN"); if (!s) return []; const h = findHeaderRow(s, "NAMA STAFF"); return s.getDataRange().getValues().slice(h).filter(r => r[1]); }
+function getInventaris() { const s = getSheetRobust("DATA INVENTARIS"); if (!s) return []; const h = findHeaderRow(s, "NAMA REKENING"); return s.getDataRange().getValues().slice(h).filter(r => r[1]); }
+function getIzinKeluar() { const s = getSheetRobust("IZIN KELUAR SISA 2"); if (!s) return []; const h = findHeaderRow(s, "NAMA STAFF"); return s.getDataRange().getValues().slice(h).filter(r => r[0]); }
+function getNotesSheet() { const ss = getSS(); let s = ss.getSheetByName("_SYSTEM_NOTES_") || ss.insertSheet("_SYSTEM_NOTES_"); if (s.getLastRow() === 0) s.appendRow(["ID", "JUDUL", "ISI", "CREATED_AT", "UPDATED_AT"]); return s; }
+function getNotes() { const d = getNotesSheet().getDataRange().getValues(); return d.length <= 1 ? [] : d.slice(1).map(r => ({ id: r[0], judul: r[1], isi: r[2], createdAt: r[3], updatedAt: r[4] })).reverse(); }
+function addNote(j, i) { const id = "note_" + Date.now(); getNotesSheet().appendRow([id, j, i, new Date().toISOString(), new Date().toISOString()]); return { success: true, id: id }; }
+function updateNote(id, j, i) { const s = getNotesSheet(), d = s.getDataRange().getValues(); for (let r = 1; r < d.length; r++) { if (d[r][0] == id) { s.getRange(r + 1, 2, 1, 2).setValues([[j, i]]); s.getRange(r + 1, 5).setValue(new Date().toISOString()); return { success: true }; } } return { error: "Not found" }; }
+function deleteNote(id) { const s = getNotesSheet(), d = s.getDataRange().getValues(); for (let r = 1; r < d.length; r++) { if (d[r][0] == id) { s.deleteRow(r + 1); return { success: true }; } } return { error: "Not found" }; }
+function scrapeWdbos() { const url = 'https://wdbos.net/office/game-oc/game/getNodeInfoList?parentId=9796'; try { const res = UrlFetchApp.fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, muteHttpExceptions: true }); const json = JSON.parse(res.getContentText()), d = json.data || [], ts = new Date().toLocaleTimeString('id-ID'); return d.map(it => { const info = it.lotteryNodeFetchOutDto || {}, att = info.attachInfo || {}; return { market: info.gameName || '?', result: att.winningNumber || '----', period: info.gameDetail || '-', countdown: info.countDown > 0 ? [Math.floor(info.countDown/3600), Math.floor((info.countDown%3600)/60), info.countDown%60].map(v => v.toString().padStart(2,'0')).join(':') : '00:00:00', image: 'https://wdbos.net' + (info.iconPath || ''), banner: 'https://wdbos.net' + (info.bgPath || '') }; }).filter(it => it.market !== '?'); } catch (e) { return { error: e.message }; } }
+function saveTogelData(d) { const ss = getSS(); (ss.getSheetByName("_SYSTEM_TOGEL_") || ss.insertSheet("_SYSTEM_TOGEL_")).getRange(1, 1).setValue(JSON.stringify(d)); return { success: true }; }
+function getTogelData() { const s = getSS().getSheetByName("_SYSTEM_TOGEL_"); return s ? JSON.parse(s.getRange(1, 1).getValue() || "[]") : []; }
+function handleFileUpload(b64, fn, fid) { try { const bytes = Utilities.base64Decode(b64.includes(',') ? b64.split(',')[1] : b64), folder = fid ? DriveApp.getFolderById(fid) : DriveApp.getRootFolder(), file = folder.createFile(Utilities.newBlob(bytes, "image/jpeg", fn)); file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); return { success: true, id: file.getId(), url: "https://drive.google.com/uc?export=view&id=" + file.getId() }; } catch (e) { return { error: e.message }; } }
+function listFiles(fid) { try { const folder = DriveApp.getFolderById(fid || CONFIG.FOLDER_GALLERY_ID), files = folder.getFiles(); let res = []; while (files.hasNext()) { let f = files.next(); res.push({ id: f.getId(), name: f.getName(), size: (f.getSize() / 1048576).toFixed(2) + " MB", url: "https://drive.google.com/uc?id=" + f.getId() }); } return res; } catch (e) { return { error: e.message }; } }
+function deleteFile(id) { try { DriveApp.getFileById(id).setTrashed(true); return { success: true }; } catch (e) { return { error: e.message }; } }
+function updateBackground(u) { const ss = getSS(); let s = getSheetRobust("SB_SETTINGS") || ss.insertSheet("SB_SETTINGS"); if (s.getLastRow() === 0) s.appendRow(["KEY", "VALUE"]); const d = s.getDataRange().getValues(); let f = false; for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") { s.getRange(i + 1, 2).setValue(u); f = true; break; } } if (!f) s.appendRow(["BACKGROUND_URL", u]); return { success: true }; }
+function getBackground() { const s = getSheetRobust("SB_SETTINGS"); if (!s) return { url: "" }; const d = s.getDataRange().getValues(); for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") return { url: d[i][1] }; } return { url: "" }; }

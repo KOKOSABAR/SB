@@ -1764,8 +1764,13 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'Main Slot Game';
         if (btnAddTop) btnAddTop.style.display = 'none';
     } else if (sectionId === 'prizeCalc') {
-        if (headerTitle) headerTitle.textContent = 'PERHITUNGAN HADIAH TOGEL';
+        if (headerTitle) headerTitle.textContent = 'PERHITUNGAN HADIAH TOGEL (DEBUG)';
         if (btnAddTop) btnAddTop.style.display = 'none';
+        setTimeout(() => {
+            if (typeof window.switchPrizeCategory === 'function') {
+                window.switchPrizeCategory('diskon');
+            }
+        }, 50);
     } else if (sectionId === 'hasilResult') {
         if (headerTitle) headerTitle.textContent = 'HASIL RESULT TOGEL';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -2402,13 +2407,30 @@ function switchPrizeCategory(category) {
     const containers = document.querySelectorAll('.prize-container');
     const buttons = document.querySelectorAll('.btn-category');
     
+    // Debug logging
+    const log = (msg) => {
+        const debug = document.getElementById('debugLog');
+        if (debug) debug.innerHTML += `\n[PRIZE] ${msg}`;
+        console.log(`[PRIZE] ${msg}`);
+    };
+
+    log(`Switching to category: ${category}`);
+    log(`Total containers found: ${containers.length}`);
+
     containers.forEach(c => c.style.display = 'none');
     buttons.forEach(b => b.classList.remove('active'));
     
-    const targetContainer = document.getElementById(`prizeContainer${category.charAt(0).toUpperCase() + category.slice(1)}`);
+    const targetId = `prizeContainer${category.charAt(0).toUpperCase() + category.slice(1)}`;
+    const targetContainer = document.getElementById(targetId);
     const targetButton = document.getElementById(`btnCat${category}`);
     
-    if (targetContainer) targetContainer.style.display = 'block';
+    if (targetContainer) {
+        targetContainer.style.display = 'block';
+        log(`Container ${targetId} shown.`);
+    } else {
+        log(`ERROR: Container ${targetId} NOT FOUND.`);
+    }
+    
     if (targetButton) targetButton.classList.add('active');
 }
 
@@ -5338,3 +5360,59 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+
+async function renderSportsbookTable() {
+    const dataContainer = document.getElementById('sportsbookData');
+    const loader = document.getElementById('sportsbookLoader');
+    if (!dataContainer) return;
+    
+    loader.style.display = 'flex';
+    dataContainer.innerHTML = '';
+    const targetUrl = 'https://sport.ibet288.com/_view/Result.aspx';
+
+    // EMERGENCY TIMEOUT: Paksa tutup loading jika dalam 10 detik tidak ada respon
+    const emergencyTimer = setTimeout(() => {
+        if (loader.style.display !== 'none') {
+            loader.style.display = 'none';
+            showSportsbookFallback(dataContainer, targetUrl, "Koneksi Terlalu Lambat / Diblokir");
+        }
+    }, 10000);
+
+    try {
+        const result = await fetchFromGoogleSheets('getSportsbookResults');
+        clearTimeout(emergencyTimer); // Batalkan timer jika berhasil
+        loader.style.display = 'none';
+
+        if (result && result.tableData && result.tableData.length > 1) {
+            // Render Tabel Hasil Bersih
+            let tableHtml = '<table class="cyber-table" style="font-size:11px; margin-bottom: 20px;">';
+            result.tableData.forEach((row, idx) => {
+                const tag = idx === 0 ? 'th' : 'td';
+                tableHtml += '<tr>' + row.map(cell => `<${tag} style="text-align:center; padding:10px; border: 1px solid rgba(0,255,170,0.1);">${cell || '-'}</${tag}>`).join('') + '</tr>';
+            });
+            tableHtml += '</table>';
+            dataContainer.innerHTML = tableHtml;
+        } else {
+            showSportsbookFallback(dataContainer, targetUrl, "Server ibet288 memblokir akses otomatis.");
+        }
+    } catch (e) {
+        clearTimeout(emergencyTimer);
+        loader.style.display = 'none';
+        showSportsbookFallback(dataContainer, targetUrl, e.message);
+    }
+}
+
+// Fungsi Pembantu untuk Menampilkan Tombol Cadangan
+function showSportsbookFallback(container, url, message) {
+    container.innerHTML = `
+        <div style="text-align:center; padding: 40px; font-family: 'Share Tech Mono';">
+            <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+                <h4 style="color: #ffaa00; margin-bottom: 10px;">AKSES OTOMATIS TERHAMBAT</h4>
+                <p style="color: rgba(255,255,255,0.6); font-size: 12px;">${message}</p>
+            </div>
+            <p style="margin-bottom: 25px; color: var(--primary);">GUNAKAN TOMBOL DI BAWAH UNTUK MELIHAT HASIL:</p>
+            <button onclick="window.open('${url}', 'SB', 'width=1200,height=800')" class="btn btn-primary" style="padding: 15px 50px;">
+                LAUNCH SPORTSBOOK PORTAL
+            </button>
+        </div>`;
+}
