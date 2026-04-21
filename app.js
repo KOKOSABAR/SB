@@ -3277,10 +3277,11 @@ function init() {
     // FORCE UPDATE: Migrate old unauthorized URL to new authorized one
     const OLD_SCRIPT_URL_1 = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
     const OLD_SCRIPT_URL_2 = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
-    const CURRENT_URL = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
+    const OLD_SCRIPT_URL_3 = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
+    const CURRENT_URL = 'https://script.google.com/macros/s/AKfycbw2pGpYeusit_AWc_bzNhNUmWjJ1dZSl_M8TZOLhrrGaG6SvBGTQaTLpmYt81X6zCAS/exec';
     
     let storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
-    if (!storedUrl || storedUrl === OLD_SCRIPT_URL_1 || storedUrl === OLD_SCRIPT_URL_2) {
+    if (!storedUrl || storedUrl === OLD_SCRIPT_URL_1 || storedUrl === OLD_SCRIPT_URL_2 || storedUrl === OLD_SCRIPT_URL_3) {
         localStorage.setItem(SCRIPT_URL_KEY, CURRENT_URL);
         storedUrl = CURRENT_URL;
     }

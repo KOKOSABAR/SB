@@ -688,15 +688,15 @@
                                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #0ff, transparent); animation: laser-move 3s linear infinite;"></div>
                                 <div style="display: flex; flex-direction: column; gap: 12px;">
                                     <div style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
-                                        <i class="fas fa-search" style="color: #0ff; font-size: 20px; filter: drop-shadow(0 0 8px rgba(0,255,255,0.8));"></i>
+                                        <span class="fas fa-search" style="color: #0ff; font-size: 20px; filter: drop-shadow(0 0 8px rgba(0,255,255,0.8));"></span>
                                         <textarea id="sbSearchInput" placeholder="Ketik nama team untuk mencari hasil pertandingan... (e.g. Botafogo)" 
                                             style="flex: 1; background: transparent; border: none; color: #fff; font-family: Arial, sans-serif; font-size: 16px; resize: none; height: 40px; line-height: 20px; outline: none; letter-spacing: 0.5px;"></textarea>
                                         <div style="display: flex; align-items: center; gap: 12px;">
                                             <button onclick="window.clearSbSearch()" class="luxury-clear-btn" style="background: rgba(255, 68, 68, 0.15); border: 1px solid rgba(255, 68, 68, 0.4); color: #ff4444; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);" title="Hapus Pencarian">
-                                                <i class="fas fa-times" style="font-size: 14px;"></i>
+                                                <span class="fas fa-times" style="font-size: 14px;"></span>
                                             </button>
                                             <button onclick="window.renderSportsbookTable(true)" class="luxury-refresh-btn" style="background: rgba(0, 255, 170, 0.1); border: 1px solid rgba(0, 255, 170, 0.3); color: #0ff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 170, 0.15);" title="Refresh Data">
-                                                <i class="fas fa-sync-alt" style="font-size: 14px;"></i>
+                                                <span class="fas fa-sync-alt" style="font-size: 14px;"></span>
                                             </button>
                                         </div>
                                     </div>
@@ -1870,7 +1870,7 @@
                     <div class="calc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
                         <div class="form-group">
                             <label class="luxury-label" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: rgba(0,255,170,0.8);">
-                                <i class="fas fa-map-marker-alt"></i> TIPE PASARAN DAN BONUS
+                                <span class="fas fa-map-marker-alt"></span> TIPE PASARAN DAN BONUS
                             </label>
                             <div class="filter-dropdown">
                                 <select id="contohPasaranFilter" onchange="window.updateContohPrizeTable()" style="width: 100%; background: rgba(0,0,0,0.6); color: var(--primary); border: 1px solid rgba(0,255,170,0.3); padding: 16px; font-family: 'Arial Black'; font-size: 11px; cursor: pointer; outline: none; border-radius: 6px; box-shadow: inset 0 0 10px rgba(0,255,170,0.05);">
@@ -1887,7 +1887,7 @@
 
                         <div class="form-group" id="groupJenisTaruhan">
                             <label class="luxury-label" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: rgba(0,255,170,0.8);">
-                                <i class="fas fa-dice"></i> JENIS PASARAN DAN BONUS
+                                <span class="fas fa-dice"></span> JENIS PASARAN DAN BONUS
                             </label>
                             <div class="filter-dropdown">
                                 <select id="contohJenisFilter" onchange="window.updateContohPrizeTable()" style="width: 100%; background: rgba(0,0,0,0.6); color: var(--primary); border: 1px solid rgba(0,255,170,0.3); padding: 16px; font-family: 'Arial Black'; font-size: 11px; cursor: pointer; outline: none; border-radius: 6px;">
@@ -1952,7 +1952,7 @@
 
                         <div class="form-group" id="groupJenisBonus" style="display: none;">
                             <label class="luxury-label" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: rgba(0,255,170,0.8);">
-                                <i class="fas fa-gift"></i> JENIS PASARAN DAN BONUS
+                                <span class="fas fa-gift"></span> JENIS PASARAN DAN BONUS
                             </label>
                             <div class="filter-dropdown">
                                 <select id="contohBonusFilter" onchange="window.updateContohPrizeTable()" style="width: 100%; background: rgba(0,0,0,0.6); color: var(--primary); border: 1px solid rgba(0,255,170,0.3); padding: 16px; font-family: 'Arial Black'; font-size: 11px; cursor: pointer; outline: none; border-radius: 6px;">
@@ -1986,7 +1986,7 @@
 
                         <div class="form-group">
                             <label class="luxury-label" style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: rgba(0,255,170,0.8);">
-                                <i class="fas fa-coins"></i> NOMINAL BETTINGAN (Rp)
+                                <span class="fas fa-coins"></span> NOMINAL BETTINGAN (Rp)
                             </label>
                             <div class="cyber-input-group">
                                 <input type="text" id="contohNominalBet" class="cyber-input" placeholder="Contoh: 1.000" value="1.000" oninput="window.formatRupiahInput(this); window.updateContohPrizeTable()" style="width: 100%; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(0,255,170,0.3); padding: 15px; font-family: 'Arial Black'; font-size: 20px; outline: none; border-radius: 6px; text-align: center; color: var(--primary);">
@@ -1996,21 +1996,21 @@
 
                     <div id="contohResultWrapper" style="display: none; margin-top: 20px; animation: slideUp 0.4s ease-out;">
                         <h3 class="luxury-label" style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px; font-size: 14px;">
-                            <i class="fas fa-terminal" style="color: var(--primary);"></i>
+                            <span class="fas fa-terminal" style="color: var(--primary);"></span>
                             ANALYSIS RESULT
                             <div style="flex-grow: 1; height: 1px; background: linear-gradient(to right, rgba(0,255,170,0.3), transparent);"></div>
                             <button onclick="window.copyContohResult(this)" 
                                     onmouseenter="this.style.boxShadow='0 0 20px rgba(0,255,170,0.5)', this.style.transform='translateY(-1px)'" 
                                     onmouseleave="this.style.boxShadow='0 0 10px rgba(0,255,170,0.2)', this.style.transform='translateY(0)'"
                                     class="btn-copy-luxury" style="background: linear-gradient(135deg, rgba(0,255,170,0.2), rgba(0,255,170,0.05)); border: 1px solid rgba(0,255,170,0.5); color: #fff; padding: 6px 18px; font-family: 'Arial Black'; font-size: 10px; cursor: pointer; border-radius: 5px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,255,170,0.2), inset 0 0 5px rgba(0,255,170,0.1); text-transform: uppercase;">
-                                <i class="fas fa-copy" style="color: var(--primary); font-size: 12px;"></i> 
+                                <span class="fas fa-copy" style="color: var(--primary); font-size: 12px;"></span> 
                                 <span style="background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SALIN HASIL</span>
                             </button>
                         </h3>
                         <div class="result-display" style="background: linear-gradient(135deg, rgba(0,255,170,0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(0,255,170,0.2); border-left: 5px solid var(--primary); padding: 35px; border-radius: 8px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                             <div style="position: absolute; top: 0; right: 0; padding: 12px; font-family: 'Arial Black'; font-size: 10px; color: rgba(0,255,170,0.2); letter-spacing: 2px; pointer-events: none;">CORE_CALC_V3.0</div>
                             <div style="position: absolute; bottom: -20px; right: -20px; font-size: 100px; color: rgba(0,255,170,0.03); transform: rotate(-15deg); pointer-events: none;">
-                                <i class="fas fa-calculator"></i>
+                                <span class="fas fa-calculator"></span>
                             </div>
                             <p id="contohResultText" style="color: #e0e0e0; font-family: 'Arial Black'; font-size: 18px; line-height: 2; margin: 0; white-space: pre-wrap; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></p>
                         </div>
@@ -2032,7 +2032,7 @@
                                 <tbody id="contohPrizeTableBody">
                                     <tr>
                                         <td colspan="6" style="text-align:center; padding: 50px; color: rgba(0,220,150,0.3); font-family: 'Arial Black'; font-size: 12px; background: rgba(0,0,0,0.2);">
-                                            <i class="fas fa-info-circle" style="display: block; font-size: 24px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                            <span class="fas fa-info-circle" style="display: block; font-size: 24px; margin-bottom: 15px; opacity: 0.5;"></span>
                                             SILAKAN PILIH DATA UNTUK ANALISIS
                                         </td>
                                     </tr>
@@ -2043,7 +2043,7 @@
                 </div>
 
                 <div class="luxury-notice" style="margin-top: 25px; padding: 22px; background: rgba(0, 255, 170, 0.03); border: 1px dashed rgba(0, 255, 170, 0.2); border-radius: 8px; display: flex; align-items: flex-start; gap: 15px;">
-                    <i class="fas fa-exclamation-triangle" style="color: var(--primary); margin-top: 3px;"></i>
+                    <span class="fas fa-exclamation-triangle" style="color: var(--primary); margin-top: 3px;"></span>
                     <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 13px; font-family: 'Arial Black'; line-height: 1.6;">
                         <span style="color: var(--primary); font-weight: bold;">CATATAN SISTEM:</span> Perhitungan di atas adalah simulasi berbasis data input. Nominal hadiah dan bonus dapat berubah sewaktu-waktu sesuai dengan regulasi resmi masing-masing pasaran dan provider game. Pastikan anda selalu memeriksa memo atau informasi terbaru di dashboard utama.
                     </p>
