@@ -57,7 +57,7 @@
 }
 
 body {
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: var(--bg-dark);
     /* Multiple backgrounds: Custom Image (top) + Cyber Gradients (bottom) */
     background-image: 
@@ -157,7 +157,7 @@ body.no-bg-mode .sidebar {
 
 .nav-label {
     display: block;
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -267,7 +267,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.3);
     border-radius: 4px;
     color: var(--primary);
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -328,7 +328,7 @@ body.no-bg-mode .sidebar {
 }
 
 .header-title .subtitle {
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     letter-spacing: 2px;
     color: var(--primary);
@@ -347,7 +347,7 @@ body.no-bg-mode .sidebar {
 }
 
 .section-title {
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 32px;
     font-weight: 900;
     color: var(--primary);
@@ -361,7 +361,7 @@ body.no-bg-mode .sidebar {
     color: var(--text-secondary);
     font-size: 14px;
     letter-spacing: 1px;
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     opacity: 0.7;
 }
 
@@ -423,7 +423,7 @@ body.no-bg-mode .sidebar {
     border-radius: 12px;
     color: var(--text);
     font-size: 14px;
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     letter-spacing: 1px;
     cursor: pointer;
     outline: none;
@@ -498,7 +498,7 @@ body.no-bg-mode .sidebar {
 }
 
 .pasaran-nama {
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: var(--primary);
@@ -540,7 +540,7 @@ body.no-bg-mode .sidebar {
 }
 
 .time-value {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 16px;
     color: var(--accent);
     text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
@@ -582,7 +582,7 @@ body.no-bg-mode .sidebar {
 
 /* --- PASARAN STATUS STYLES --- */
 .pasaran-status {
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 9px;
     font-weight: 700;
     padding: 4px 8px;
@@ -633,7 +633,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.3);
     border-radius: 50px;
     color: var(--text-muted);
-    font-family: 'Arial Black', Gadget, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-weight: 900;
     cursor: pointer;
@@ -785,7 +785,7 @@ body.no-bg-mode .sidebar {
 
 .btn-play {
     width: 100%;
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     letter-spacing: 1px;
     font-size: 10px;
     padding: 6px 10px;
@@ -898,7 +898,7 @@ body.no-bg-mode .sidebar {
 }
 
 .logo-text h1 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 32px;
     font-weight: 700;
     color: var(--primary);
@@ -996,7 +996,7 @@ body.no-bg-mode .sidebar {
 }
 
 .logo-main-text {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 34px;
     font-weight: 900;
     line-height: 1;
@@ -1218,7 +1218,7 @@ body.no-bg-mode .sidebar {
 }
 
 .note-card .note-judul {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 15px;
     font-weight: 600;
     color: var(--primary);
@@ -1415,7 +1415,7 @@ body.no-bg-mode .sidebar {
 }
 
 .empty-state h3 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 28px;
     color: var(--text-secondary);
     margin-bottom: 12px;
@@ -1501,7 +1501,7 @@ body.no-bg-mode .sidebar {
 }
 
 .stat-value {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 600;
     color: var(--primary);
     text-shadow: 0 0 8px var(--glow-soft);
@@ -1575,7 +1575,7 @@ body.no-bg-mode .sidebar {
 }
 
 .modal-header h2 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 22px;
     color: var(--primary);
     text-shadow: 0 0 10px var(--glow-soft);
@@ -1607,7 +1607,7 @@ body.no-bg-mode .sidebar {
 
 .form-group label {
     display: block;
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: var(--text-secondary);
@@ -1719,7 +1719,7 @@ body.no-bg-mode .sidebar {
 }
 
 .confirm-modal h3 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 22px;
     color: var(--danger);
     margin-bottom: 12px;
@@ -2185,7 +2185,7 @@ body.no-bg-mode .sidebar {
     font-weight: 900;
     font-size: 14px;
     text-transform: uppercase;
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     letter-spacing: 3px;
     border: 2px solid var(--primary);
     background: rgba(0, 0, 0, 0.4);
@@ -2397,7 +2397,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prediction-header h2 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 28px;
     color: var(--primary);
     text-shadow: 0 0 20px var(--glow-color);
@@ -2559,7 +2559,7 @@ body.no-bg-mode .sidebar {
 }
 
 .detail-header h1 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 32px;
     color: white;
     letter-spacing: 2px;
@@ -2688,7 +2688,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prediction-card-header h3 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     color: var(--text);
     margin: 0;
@@ -2718,7 +2718,7 @@ body.no-bg-mode .sidebar {
 }
 
 .pred-value {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 24px;
     font-weight: 700;
     color: var(--primary);
@@ -2739,7 +2739,7 @@ body.no-bg-mode .sidebar {
 }
 
 .syair-section h3 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 18px;
     color: var(--primary);
     margin-bottom: 16px;
@@ -2856,7 +2856,7 @@ body.no-bg-mode .sidebar {
 }
 
 #guideModalTitle {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     color: var(--primary);
     text-align: center;
     margin: 0;
@@ -3081,7 +3081,7 @@ body.no-bg-mode .sidebar {
 
 .tr-countdown {
     color: var(--cyan);
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -3435,7 +3435,7 @@ body.no-bg-mode .sidebar {
 
 .wd-result-header .stat-badge {
     color: var(--cyan);
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 16px;
     font-weight: 700;
 }
@@ -3500,7 +3500,7 @@ body.no-bg-mode .sidebar {
 .luxury-table th {
     background: rgba(0, 255, 204, 0.08);
     color: var(--cyan);
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 11px;
     letter-spacing: 1px;
     padding: 16px;
@@ -3558,14 +3558,14 @@ body.no-bg-mode .sidebar {
 }
 
 .wd-amount-val {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     color: var(--accent);
     font-weight: 800;
     font-size: 14px;
 }
 
 .tr-market-name-top {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: #fff;
@@ -3609,7 +3609,7 @@ body.no-bg-mode .sidebar {
 }
 
 .calc-header {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 15px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -3678,7 +3678,7 @@ body.no-bg-mode .sidebar {
     border-radius: 6px;
     padding: 12px;
     color: var(--text-muted);
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 16px;
     font-weight: 800;
     cursor: pointer;
@@ -3797,7 +3797,7 @@ body.no-bg-mode .sidebar {
 }
 
 .max-value {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 38px;
     font-weight: 800;
     color: var(--gold-primary);
@@ -3974,7 +3974,7 @@ body.no-bg-mode .sidebar {
     background: rgba(255, 82, 82, 0.1);
     border: 1px solid rgba(255, 82, 82, 0.3);
     color: #ff5252;
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 9px;
     padding: 2px 8px;
     border-radius: 4px;
@@ -4169,7 +4169,7 @@ body.no-bg-mode .sidebar {
 }
 
 .calendar-header .month-year {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 13px;
     color: var(--primary);
     letter-spacing: 1px;
@@ -4287,7 +4287,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.2);
     color: var(--text-muted);
     padding: 10px 25px;
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -4358,7 +4358,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prize-title {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     color: var(--primary);
     margin-bottom: 5px;
@@ -4541,7 +4541,7 @@ body.no-bg-mode .sidebar {
 }
 
 .guide-modal h3 {
-    font-family: 'Arial Black', sans-serif;
+    font-family: Arial, sans-serif;
     color: var(--primary);
     margin-bottom: 10px;
     text-align: center;
@@ -4576,3 +4576,41 @@ body.no-bg-mode .sidebar {
     cursor: pointer;
     z-index: 10;
 }
+
+/* --- SPORTSBOOK & CYBER TABLE --- */
+.cyber-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    margin-top: 10px;
+    background: transparent;
+}
+.cyber-table th {
+    background: rgba(0, 255, 170, 0.1);
+    color: var(--primary);
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--primary);
+    text-align: center;
+}
+.cyber-table td {
+    background: rgba(0, 20, 20, 0.6);
+    padding: 12px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    border: 1px solid rgba(0, 255, 170, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.cyber-table tr:hover td {
+    background: rgba(0, 255, 170, 0.05);
+    border-color: rgba(0, 255, 170, 0.3);
+    color: var(--primary);
+}
+.cyber-table tr:nth-child(even) td {
+    background: rgba(0, 30, 30, 0.4);
+}
+

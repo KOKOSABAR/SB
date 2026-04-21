@@ -3,9 +3,8 @@ let notes = [];
 let editingId = null;
 let deleteId = null;
 let useGoogleSheets = true;
-let scriptUrl = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
-
 const SCRIPT_URL_KEY = 'pk_online_script_url';
+let scriptUrl = localStorage.getItem(SCRIPT_URL_KEY) || 'https://script.google.com/macros/s/AKfycbw2pGpYeusit_AWc_bzNhNUmWjJ1dZSl_M8TZOLhrrGaG6SvBGTQaTLpmYt81X6zCAS/exec';
 const FOLDER_ID_KEY = 'pk_online_folder_id';
 const TOGEL_DATA_KEY = 'pk_online_togel_data';
 const GALLERY_DATA_KEY = 'pk_online_gallery_data';
@@ -1676,6 +1675,7 @@ window.viewDetailedPrediction = viewDetailedPrediction;
 window.copyDetailedPrediction = copyDetailedPrediction;
 window.closePredictionDetail = closePredictionDetail;
 let lotteryRefreshInterval = null;
+let sportsbookRefreshInterval = null;
 
 function switchSection(sectionId) {
     localStorage.setItem('activeSection', sectionId);
@@ -1684,10 +1684,14 @@ function switchSection(sectionId) {
     const headerTitle = document.querySelector('.header-title .subtitle');
     const btnAddTop = document.getElementById('btnAddTop');
 
-    // Reset Interval jika pindah dari lottery
+    // Reset Intervals
     if (lotteryRefreshInterval) {
         clearInterval(lotteryRefreshInterval);
         lotteryRefreshInterval = null;
+    }
+    if (sportsbookRefreshInterval) {
+        clearInterval(sportsbookRefreshInterval);
+        sportsbookRefreshInterval = null;
     }
 
     sections.forEach(section => {
@@ -1803,6 +1807,50 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'EXTENSIONS';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderExtensions();
+    } else if (sectionId === 'sportsbook') {
+        if (headerTitle) headerTitle.textContent = 'SPORTSBOOK RESULTS';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        
+        // Inisialisasi Filter Tanggal
+        const dateSelect = document.getElementById('sbDateSelect');
+        if (dateSelect && dateSelect.options.length === 0) {
+            const today = new Date();
+            for (let i = 0; i < 7; i++) {
+                const d = new Date();
+                d.setDate(today.getDate() - i);
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                const val = `${year}-${month}-${day}`;
+                const label = i === 0 ? 'Today' : (i === 1 ? 'Yesterday' : `${day}/${month}/${year}`);
+                const opt = new Option(val, val); // Value must be YYYY-MM-DD for ibet288
+                opt.text = label;
+                dateSelect.add(opt);
+            }
+        }
+
+        // Global function untuk tombol Yesterday/Today
+        window.setSbDateOffset = function(offset) {
+            if (dateSelect) {
+                dateSelect.selectedIndex = offset;
+                renderSportsbookTable(true);
+            }
+        };
+
+        // Tambahkan Listener agar League terupdate otomatis saat Sport ganti
+        const sportSelect = document.getElementById('sbSportSelect');
+        if (sportSelect && !sportSelect.dataset.listener) {
+            sportSelect.dataset.listener = 'true';
+            sportSelect.addEventListener('change', () => renderSportsbookTable(true));
+        }
+        if (dateSelect && !dateSelect.dataset.listener) {
+            dateSelect.dataset.listener = 'true';
+            dateSelect.addEventListener('change', () => renderSportsbookTable(true));
+        }
+        
+        renderSportsbookTable();
+        // Aktifkan Auto Refresh (Setiap 60 Detik)
+        sportsbookRefreshInterval = setInterval(renderSportsbookTable, 60000);
     }
 
 
@@ -2513,18 +2561,20 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
 
     try {
         const response = await fetch(url, options);
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
         const text = await response.text();
         try {
             const json = JSON.parse(text);
+            if (json.error) console.warn('GAS Server Error:', json.error);
             return json;
         } catch (e) {
-            return { error: 'Invalid JSON response from server' };
+            console.error('JSON Parse Error. Server sent:', text.substring(0, 200));
+            return { error: 'Format data dari server tidak valid (Bukan JSON)' };
         }
     } catch (error) {
-        console.error('Google Sheets API Error:', error);
+        console.error('Fetch Error:', error);
         
-        // Fallback to JSONP for GET requests if fetch fails
+        // Fallback to JSONP for GET requests if fetch fails (Common for GAS CORS issues)
         if (method === 'GET') {
             return new Promise((resolve) => {
                 const callbackName = 'gas_cb_' + Date.now();
@@ -2539,15 +2589,24 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
                 const separator = scriptUrl.includes('?') ? '&' : '?';
                 const params = new URLSearchParams({ ...data, action, callback: callbackName }).toString();
                 script.src = `${scriptUrl}${separator}${params}`;
-                script.onerror = () => { resolve({ error: 'JSONP Connection Failed' }); };
+                script.onerror = () => { 
+                    resolve({ 
+                        error: 'Koneksi Gagal (JSONP). Pastikan Script di-Deploy sebagai "Web App" dengan akses "Anyone".' 
+                    }); 
+                };
                 document.body.appendChild(script);
+                
+                // Timeout for JSONP
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                        resolve({ error: 'Koneksi Timeout. Periksa koneksi internet atau status Script.' });
+                    }
+                }, 15000);
             });
         }
 
-        if (error.message === 'Failed to fetch') {
-            return { error: 'Kesalahan Jaringan / CORS (Gunakan mode "Anyone" pada Deploy)' };
-        }
-        return { error: 'Request Error: ' + error.message };
+        return { error: 'Gagal menghubungi server: ' + error.message };
     }
 }
 
@@ -2576,9 +2635,11 @@ async function syncFromGoogleSheets() {
 async function testGASConnection() {
     const statusText = document.getElementById('connStatusText');
     const statusDot = document.getElementById('connStatusDot');
+    const log = document.getElementById('debugLog');
     
     if (statusText) statusText.textContent = 'Testing...';
     if (statusDot) statusDot.className = 'status-dot warning';
+    if (log) log.innerHTML = `[${new Date().toLocaleTimeString()}] Memulai tes koneksi...\n` + log.innerHTML;
 
     try {
         const result = await fetchFromGoogleSheets('testConnection');
@@ -2586,28 +2647,34 @@ async function testGASConnection() {
             showToast('Koneksi Backend Berhasil!', 'success');
             updateConnectionStatus(true);
             
-            if (result.details) {
-                const log = document.getElementById('debugLog');
-                if (log) {
-                    log.innerHTML = `[${new Date().toLocaleTimeString()}] SS: ${result.details.spreadsheet} (${result.details.spreadsheetName})\n` +
-                                  `[${new Date().toLocaleTimeString()}] Drive: ${result.details.drive}\n` +
-                                  `-------------------\n` + log.innerHTML;
-                }
-                
-                if (result.details.spreadsheet.includes('Error')) {
-                    showToast('Peringatan: Script tidak bisa baca Spreadsheet!', 'error');
-                }
+            if (log) {
+                log.innerHTML = `[${new Date().toLocaleTimeString()}] TERHUBUNG: ${result.spreadsheet}\n` +
+                              `[${new Date().toLocaleTimeString()}] ID: ${result.id}\n` +
+                              `-------------------\n` + log.innerHTML;
             }
         } else {
-            const errMsg = result && result.error ? result.error : 'Koneksi Gagal / Respon Invalid';
+            const errMsg = result && result.error ? result.error : 'Respon Server Tidak Valid';
             showToast(errMsg, 'error');
             updateConnectionStatus(false, errMsg);
+            if (log) log.innerHTML = `[${new Date().toLocaleTimeString()}] ERROR: ${errMsg}\n` + log.innerHTML;
         }
     } catch (e) {
-        showToast('Kesalahan Jaringan: ' + e.message, 'error');
-        updateConnectionStatus(false, e.message);
+        const msg = 'Kesalahan Jaringan: ' + e.message;
+        showToast(msg, 'error');
+        updateConnectionStatus(false, msg);
+        if (log) log.innerHTML = `[${new Date().toLocaleTimeString()}] FATAL: ${msg}\n` + log.innerHTML;
     }
 }
+
+// Helper to open script in new tab for direct testing
+window.openScriptDiagnostic = function() {
+    if (scriptUrl) {
+        window.open(scriptUrl, '_blank');
+        showToast('Membuka URL Script... Jika muncul error Google, periksa izin Deploy.', 'info');
+    } else {
+        showToast('URL Script belum diatur!', 'error');
+    }
+};
 
 function updateConnectionStatus(isOk, errorMsg = '') {
     const statusText = document.getElementById('connStatusText');
@@ -4202,7 +4269,7 @@ window.handleGalleryUpload = async function(input) {
                     });
                     saveGalleryData();
                     renderGallery();
-                    showToast('Berhasil: Foto terenkripsi & tersimpan di Drive!', 'success');
+                    showToast('⚡ SYSTEM: IMAGE SECURELY UPLOADED TO NEURAL CLOUD', 'success');
                 } else {
                     const errorMsg = result?.error || 'Server menolak koneksi Drive';
                     throw new Error(errorMsg);
@@ -4364,7 +4431,7 @@ window.handleExtensionUpload = async function(input) {
                     }, 'POST');
 
                     if (result && result.id) {
-                        showToast('Extension Managed: File berhasil masuk ke Cloud!', 'success');
+                        showToast('💠 EXTENSION DEPLOYED: FILE SYNCED TO CLOUD STORAGE', 'success');
                         renderExtensions();
                     } else {
                         throw new Error(result.error || 'Server menolak file ini.');
@@ -4636,19 +4703,51 @@ function parseRekeningRaw(line) {
     const cleanLine = line.trim();
     if (!cleanLine) return null;
 
-    // Cari deretan angka minimal 5 digit di mana saja dalam baris
-    const numberMatch = cleanLine.match(/\d{5,}/g); 
-    if (!numberMatch) return null;
+    // Find sequences of digits, potentially separated by common delimiters like - or .
+    // We look for segments that contain at least 5 digits in total.
+    const potentialNumbers = cleanLine.match(/[\d\-\.]{5,}/g);
+    if (!potentialNumbers) return null;
 
-    // Angka terakhir biasanya adalah nomor rekening
-    const number = numberMatch[numberMatch.length - 1];
+    // Find the match that contains the most digits (likely the account number)
+    let bestMatchRaw = "";
+    let number = "";
+    let maxDigits = 0;
+
+    potentialNumbers.forEach(m => {
+        const digits = m.replace(/\D/g, '');
+        if (digits.length > maxDigits) {
+            maxDigits = digits.length;
+            bestMatchRaw = m;
+            number = digits;
+        }
+    });
+
+    if (maxDigits < 5) return null;
     
-    // Ambil kata pertama sebagai Nama Bank
+    // Extract Bank: usually the first word
     const parts = cleanLine.split(/\s+/);
-    const bank = parts[0].toUpperCase();
+    let bank = parts[0].toUpperCase();
     
-    // Nama adalah sisanya setelah bank dan sebelum nomor
-    let name = cleanLine.replace(parts[0], '').replace(number, '').trim();
+    // If the first word is the number itself, default bank to 'BANK'
+    if (bank === bestMatchRaw || bank === number) {
+        bank = "BANK";
+    }
+    
+    // Extract Name: remove bank and the raw number segment from the line
+    let name = cleanLine;
+    // Remove the bank part if it's not the number
+    if (bank !== "BANK") {
+        const firstWordPattern = new RegExp('^' + parts[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+        name = name.replace(firstWordPattern, '');
+    } else if (parts[0] === bestMatchRaw) {
+        // If the first word was the number, remove it
+        name = name.replace(parts[0], '');
+    }
+    
+    // Remove the raw number segment (with its delimiters)
+    name = name.replace(bestMatchRaw, '');
+    
+    name = name.trim().replace(/^[\s\-\:\.\/]+|[\s\-\:\.\/]+$/g, ''); // Clean leading/trailing symbols
     if (!name) name = 'PELANGGAN';
 
     return { bank, name, number };
@@ -4696,7 +4795,7 @@ function renderCekRekeningResults(originalAccounts, results) {
             <td>${resBank}</td>
             <td>${resName}</td>
             <td style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
-                <span style="font-family: 'Share Tech Mono'; letter-spacing: 1px;">${resNumber}</span>
+                <span style="font-family: Arial, sans-serif; letter-spacing: 1px;">${resNumber}</span>
                 <button class="btn-mini-action" onclick="window.copyText('${resNumber}')" title="Salin Nomor" style="width: 28px; height: 28px;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
@@ -4905,27 +5004,27 @@ async function renderKesalahanTable() {
                                 </button>
 
                                 <div id="${listId}" style="display: none; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 77, 77, 0.1);">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
                                         <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE WD</span>
                                         <span style="color: #ff4d4d; font-weight: 900;">= ${row[4] || 0}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
                                         <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE DEPO</span>
                                         <span style="color: #ff4d4d; font-weight: 900;">= ${row[5] || 0}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
                                         <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH PROSES (FS/BS)</span>
                                         <span style="color: #ff4d4d; font-weight: 900;">= ${row[6] || 0}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
                                         <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH SCATTER</span>
                                         <span style="color: #ff4d4d; font-weight: 900;">= ${row[7] || 0}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
                                         <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 1px;">TELAT BAWAH SOP</span>
                                         <span style="color: #ffaa00; font-weight: 900;">= ${row[8] || 0}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono'; font-size: 13px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px;">
                                         <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 1px;">TELAT ATAS SOP</span>
                                         <span style="color: #ffaa00; font-weight: 900;">= ${row[9] || 0}</span>
                                     </div>
@@ -5018,7 +5117,7 @@ async function renderBackupKesalahanTable() {
                         <a href="${ss}" target="_blank" class="cyber-btn-luxury" style="font-size: 8px; padding: 2px 8px; background: rgba(0, 255, 170, 0.1); text-decoration: none; border-color: var(--primary); color: var(--primary);">
                             VIEW SS
                         </a>
-                    ` : (ss ? `<span style="font-size: 9px; color: rgba(255,255,255,0.4); font-family: 'Share Tech Mono';">[${ss}]</span>` : "");
+                    ` : (ss ? `<span style="font-size: 9px; color: rgba(255,255,255,0.4); font-family: Arial, sans-serif;">[${ss}]</span>` : "");
 
                     return `
                         <div class="detail-item-luxury" style="justify-content: space-between;">
@@ -5050,8 +5149,8 @@ async function renderBackupKesalahanTable() {
                     <tr style="border-bottom: none;">
                         <td style="color: var(--primary); font-weight: 800; text-align: center; width: 40px;">${row[0] || ''}</td>
                         <td style="font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; text-align: center;">${row[1] || '-'}</td>
-                        <td style="font-family: 'Share Tech Mono'; font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; width: 110px; white-space: nowrap;">${row[2] || '-'}</td>
-                        <td style="font-family: 'Share Tech Mono'; font-size: 11px; color: var(--primary); text-align: center; width: 190px;">
+                        <td style="font-family: Arial, sans-serif; font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; width: 110px; white-space: nowrap;">${row[2] || '-'}</td>
+                        <td style="font-family: Arial, sans-serif; font-size: 11px; color: var(--primary); text-align: center; width: 190px;">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
                                 <span>${row[3] || '-'}</span>
                                 <button onclick="window.toggleBackupDetails(event, ${idx})" class="cyber-btn-luxury">LIHAT</button>
@@ -5131,14 +5230,14 @@ async function renderIzinKeluarTable() {
             });
 
             if (filtered.length === 0) {
-                body.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 40px; color: rgba(255,150,150,0.6); font-family: 'Share Tech Mono';">Tidak ada data izin keluar untuk tanggal ${indonesianDateLong(selectedDate)}.</td></tr>`;
+                body.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 40px; color: rgba(255,150,150,0.6); font-family: Arial, sans-serif;">Tidak ada data izin keluar untuk tanggal ${indonesianDateLong(selectedDate)}.</td></tr>`;
                 return;
             }
 
             body.innerHTML = filtered.map(row => `
                 <tr style="animation: slideInUp 0.3s ease forwards;">
                     <td style="font-weight: 700; color: var(--primary); padding: 20px;">${row[0] || '-'}</td>
-                    <td style="font-family: 'Share Tech Mono'; letter-spacing: 1px; padding: 20px;">${indonesianDateLong(row[1])}</td>
+                    <td style="font-family: Arial, sans-serif; letter-spacing: 1px; padding: 20px;">${indonesianDateLong(row[1])}</td>
                 </tr>
             `).join('');
         } else {
@@ -5201,7 +5300,7 @@ window.calculateBagiWd = function() {
         const formatted = new Intl.NumberFormat('id-ID').format(amt);
         html += `
             <div class="split-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0,255,170,0.05); margin-bottom: 8px; border-left: 3px solid var(--primary); border-radius: 4px; animation: slideInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s; opacity: 0;">
-                <div style="font-family: 'Share Tech Mono'; color: #fff;">
+                <div style="font-family: Arial, sans-serif; color: #fff;">
                     <span style="color: var(--text-muted); font-size: 10px; margin-right: 10px;">#${index+1}</span>
                     Rp ${formatted}
                 </div>
@@ -5363,51 +5462,221 @@ document.addEventListener('click', function(e) {
     }
 });
 
-async function renderSportsbookTable() {
-    const dataContainer = document.getElementById('sportsbookData');
+async function renderSportsbookTable(isManual = false) {
+    const resultsContainer = document.getElementById('sportsbookResultsContainer');
     const loader = document.getElementById('sportsbookLoader');
-    if (!dataContainer) return;
+    if (!resultsContainer) return;
     
-    loader.style.display = 'flex';
-    dataContainer.innerHTML = '';
+    const searchInput = document.getElementById('sbSearchInput');
+    const dateVal = document.getElementById('sbDateSelect')?.value || '';
+    const sortVal = document.getElementById('sbSortSelect')?.value || '0';
+
+    if (isManual) loader.style.display = 'flex';
     const targetUrl = 'https://sport.ibet288.com/_view/Result.aspx';
 
-    // EMERGENCY TIMEOUT: Paksa tutup loading jika dalam 10 detik tidak ada respon
     const emergencyTimer = setTimeout(() => {
         if (loader.style.display !== 'none') {
             loader.style.display = 'none';
-            showSportsbookFallback(dataContainer, targetUrl, "Koneksi Terlalu Lambat / Diblokir");
+            if (resultsContainer.innerHTML === '') {
+                showSportsbookFallback(resultsContainer, targetUrl, "Koneksi Terlalu Lambat / Diblokir");
+            }
         }
-    }, 10000);
+    }, 15000);
 
     try {
-        const result = await fetchFromGoogleSheets('getSportsbookResults');
-        clearTimeout(emergencyTimer); // Batalkan timer jika berhasil
+        const result = await fetchFromGoogleSheets('getSportsbookResults', { 
+            date: dateVal, 
+            sport: 'S,S,p1,g1',
+            league: '-1',
+            sort: sortVal
+        });
+        
+        clearTimeout(emergencyTimer);
         loader.style.display = 'none';
 
         if (result && result.tableData && result.tableData.length > 1) {
-            // Render Tabel Hasil Bersih
             let tableHtml = '<table class="cyber-table" style="font-size:11px; margin-bottom: 20px;">';
             result.tableData.forEach((row, idx) => {
                 const tag = idx === 0 ? 'th' : 'td';
-                tableHtml += '<tr>' + row.map(cell => `<${tag} style="text-align:center; padding:10px; border: 1px solid rgba(0,255,170,0.1);">${cell || '-'}</${tag}>`).join('') + '</tr>';
+                tableHtml += '<tr>' + row.map((cell, cIdx) => {
+                    let style = `text-align:center; padding:10px; border: 1px solid rgba(0,255,170,0.1); font-family: Arial, sans-serif;`;
+                    if (idx === 0) {
+                        style += `position:sticky; top:127px; background:#0a0f19; z-index:900; border-bottom: 2px solid #0ff; font-weight:bold;`;
+                        const text = (cell || '').toUpperCase();
+                        if (text.includes('DATE')) style += 'color:#00f2ff;';
+                        else if (text.includes('HOME')) style += 'color:#00ffaa;';
+                        else if (text.includes('RESULTS')) style += 'color:#ffcc00;';
+                        else if (text.includes('AWAY')) style += 'color:#ff55aa;';
+                        else if (text.includes('H/T')) style += 'color:#cc88ff;';
+                    }
+                    return `<${tag} style="${style}">${cell || '-'}</${tag}>`;
+                }).join('') + '</tr>';
             });
             tableHtml += '</table>';
-            dataContainer.innerHTML = tableHtml;
+            resultsContainer.innerHTML = tableHtml;
+        } else if (result && result.html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(result.html, 'text/html');
+            
+            // Sync All Dropdowns (Sport, Date, League, Sort) agar ID rahasia ikut terbawa
+            const syncDropdown = (remoteId, localId) => {
+                const remote = doc.getElementById(remoteId);
+                const local = document.getElementById(localId);
+                if (remote && local) {
+                    const currentVal = local.value;
+                    // Simpan teks yang sedang terpilih untuk pencocokan fallback
+                    const currentText = local.options[local.selectedIndex]?.text;
+                    
+                    local.innerHTML = remote.innerHTML;
+                    
+                    // Coba kembalikan pilihan sebelumnya (berdasarkan Value atau Teks)
+                    let found = false;
+                    for (let i = 0; i < local.options.length; i++) {
+                        if (local.options[i].value === currentVal || local.options[i].text === currentText) {
+                            local.selectedIndex = i;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            };
+
+            syncDropdown('lstDates', 'sbDateSelect');
+            // syncDropdown('lstSortBy', 'sbSortSelect');
+            
+            // Mencari tabel hasil dengan beberapa kemungkinan ID
+            let table = doc.getElementById('dgResult') || doc.querySelector('table[id*="Result"]') || doc.querySelector('table.cyber-table');
+            
+            // Jika tidak ketemu ID, cari tabel pertama yang punya baris data
+            if (!table) {
+                const tables = doc.getElementsByTagName('table');
+                for (let t of tables) {
+                    if (t.rows.length > 2) { // Cari tabel yang punya konten
+                        table = t;
+                        break;
+                    }
+                }
+            }
+
+            if (table) {
+                // Sembunyikan gambar yang rusak/tidak perlu
+                table.querySelectorAll('img').forEach(img => img.style.display = 'none');
+                
+                table.className = 'cyber-table-luxury';
+                table.style.width = '100%';
+                table.style.borderCollapse = 'separate';
+                table.style.borderSpacing = '0 4px'; // Jarak antar baris
+                table.removeAttribute('border');
+                table.removeAttribute('cellspacing');
+                table.removeAttribute('cellpadding');
+                
+                table.querySelectorAll('tr').forEach((row, idx) => {
+                    const isLeagueRow = row.cells.length === 1;
+                    if (isLeagueRow) {
+                        row.style.background = 'rgba(0, 255, 170, 0.12)';
+                        row.style.color = 'var(--primary)';
+                        row.style.fontWeight = 'bold';
+                        row.style.letterSpacing = '1px';
+                    } else {
+                        row.style.background = idx % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(0,255,170,0.02)';
+                    }
+                    row.style.transition = 'all 0.2s ease';
+                    row.onmouseover = () => {
+                        if (!isLeagueRow) row.style.background = 'rgba(0,255,170,0.1)';
+                    };
+                    row.onmouseout = () => {
+                        if (isLeagueRow) {
+                            row.style.background = 'rgba(0, 255, 170, 0.12)';
+                        } else {
+                            row.style.background = idx % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(0,255,170,0.02)';
+                        }
+                    };
+
+                    row.querySelectorAll('td, th').forEach((cell, cellIdx) => {
+                        cell.style.padding = '12px 15px';
+                        cell.style.textAlign = 'center';
+                        cell.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        cell.style.color = isLeagueRow ? 'var(--primary)' : '#e0e0e0';
+                        cell.style.fontWeight = isLeagueRow ? 'bold' : 'normal';
+                        cell.style.fontSize = isLeagueRow ? '13px' : '12px';
+                        cell.style.fontFamily = "Arial, sans-serif";
+
+                        // Buat header jadi sticky (Freeze)
+                        const isHeader = cell.tagName === 'TH' || (idx === 0);
+                        if (isHeader) {
+                            cell.style.position = 'sticky';
+                            cell.style.top = '127px'; // Jarak dari filter bar (disesuaikan)
+                            cell.style.background = '#0a0f19'; // Solid background
+                            cell.style.zIndex = '900';
+                            cell.style.boxShadow = '0 2px 5px rgba(0,0,0,0.5)';
+                            cell.style.borderBottom = '2px solid #0ff';
+                            cell.style.fontWeight = 'bold';
+                            cell.style.textTransform = 'uppercase';
+                            
+                            // Warna berbeda untuk tiap header
+                            const text = cell.innerText.trim().toUpperCase();
+                            if (text.includes('DATE')) cell.style.color = '#00f2ff'; // Cyan
+                            else if (text.includes('HOME')) cell.style.color = '#00ffaa'; // Neon Green
+                            else if (text.includes('RESULTS')) cell.style.color = '#ffcc00'; // Gold/Yellow
+                            else if (text.includes('AWAY')) cell.style.color = '#ff55aa'; // Neon Pink
+                            else if (text.includes('H/T')) cell.style.color = '#cc88ff'; // Purple
+                        }
+                        
+                        // Highlight skor
+                        if (!isHeader && cell.textContent.includes('-') && cell.textContent.length < 10) {
+                            cell.style.color = '#0ff';
+                            cell.style.fontWeight = 'bold';
+                            cell.style.textShadow = '0 0 10px rgba(0,255,255,0.3)';
+                        }
+                    });
+                });
+                table.id = 'dgResult';
+                resultsContainer.innerHTML = '';
+                resultsContainer.appendChild(table);
+
+                // Tambahkan fungsionalitas pencarian real-time
+                if (searchInput) {
+                    const runFilter = () => {
+                        const filter = searchInput.value.toLowerCase().trim();
+                        const rows = table.getElementsByTagName('tr');
+                        for (let i = 0; i < rows.length; i++) {
+                            const text = rows[i].textContent.toLowerCase();
+                            if (filter === "") {
+                                rows[i].style.display = '';
+                                continue;
+                            }
+                            rows[i].style.display = text.includes(filter) ? '' : 'none';
+                        }
+                    };
+                    searchInput.addEventListener('input', runFilter);
+                    runFilter(); 
+                }
+            } else {
+                showSportsbookFallback(resultsContainer, targetUrl, "Data tabel tidak ditemukan dalam respon HTML.");
+            }
         } else {
-            showSportsbookFallback(dataContainer, targetUrl, "Server ibet288 memblokir akses otomatis.");
+            showSportsbookFallback(resultsContainer, targetUrl, result.error || "Server memblokir akses otomatis.");
         }
     } catch (e) {
         clearTimeout(emergencyTimer);
         loader.style.display = 'none';
-        showSportsbookFallback(dataContainer, targetUrl, e.message);
+        showSportsbookFallback(resultsContainer, targetUrl, e.message);
     }
 }
+
+window.clearSbSearch = function() {
+    const searchInput = document.getElementById('sbSearchInput');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+    }
+};
 
 // Fungsi Pembantu untuk Menampilkan Tombol Cadangan
 function showSportsbookFallback(container, url, message) {
     container.innerHTML = `
-        <div style="text-align:center; padding: 40px; font-family: 'Share Tech Mono';">
+        <div style="text-align:center; padding: 40px; font-family: Arial, sans-serif;">
             <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 25px; border-radius: 12px; margin-bottom: 30px;">
                 <h4 style="color: #ffaa00; margin-bottom: 10px;">AKSES OTOMATIS TERHAMBAT</h4>
                 <p style="color: rgba(255,255,255,0.6); font-size: 12px;">${message}</p>

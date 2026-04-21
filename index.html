@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SB - Dashboard Note</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Arial Black:wght@400;500;600;700&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="parlay.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* --- MAIN CONTENT REFINEMENT --- */
         .main-content {
@@ -352,7 +349,7 @@
                             <path d="M50 22 L75 35 V65 L50 78 L25 65 V35 L50 22Z" fill="rgba(212, 175, 55, 0.1)" stroke="url(#goldGrad)" stroke-width="1.5" />
                             
                             <!-- Center "SB" Text -->
-                            <text x="50" y="60" text-anchor="middle" font-family="'Arial Black', sans-serif" font-weight="900" font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">SB</text>
+                            <text x="50" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">SB</text>
                             
                             <!-- Accent Lines -->
                             <line x1="50" y1="5" x2="50" y2="22" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
@@ -658,7 +655,7 @@
                     <div style="display: flex; align-items: center; margin-right: 20px;">
                         <span id="connStatusDot" class="status-dot status-offline"></span>
                         <span id="connStatusText"
-                            style="font-size: 10px; color: rgba(255,255,255,0.5); font-family: 'Arial Black'; letter-spacing: 1px;">OFFLINE</span>
+                            style="font-size: 10px; color: #fff; font-family: Arial, sans-serif; letter-spacing: 1px;">OFFLINE</span>
                     </div>
                     <button class="btn-refresh" id="btnRefreshMain" onclick="window.preloadDashboardData(true)">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -685,9 +682,47 @@
                     <div id="sportsbookContent" style="width: 100%; height: 800px; background: rgba(0,0,0,0.2); position: relative;">
                         <div id="sportsbookLoader" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; background: rgba(10,15,15,0.9);">
                             <div class="cyber-loader"></div>
-                            <p style="margin-top: 20px; font-family: 'Arial Black'; color: var(--primary); letter-spacing: 2px;">FETCHING LIVE RESULTS...</p>
+                            <p style="margin-top: 20px; font-family: Arial, sans-serif; color: var(--primary); letter-spacing: 2px;">FETCHING LIVE RESULTS...</p>
                         </div>
-                        <div id="sportsbookData" style="width: 100%; height: 100%; overflow: auto; padding: 20px;">
+                        <div id="sportsbookData" style="width: 100%; height: 100%; overflow: auto; padding: 0;">
+                            <!-- Improved Filter Bar (Faithful to Source) -->
+                            <div class="sportsbook-filter-container" style="background: rgba(10, 15, 25, 1); backdrop-filter: blur(15px); padding: 18px; border-radius: 0 0 15px 15px; margin-bottom: 0; border: 1px solid rgba(0, 255, 170, 0.4); border-top: none; font-family: Arial, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1000; overflow: hidden;">
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #0ff, transparent); animation: laser-move 3s linear infinite;"></div>
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
+                                        <i class="fas fa-search" style="color: #0ff; font-size: 20px; filter: drop-shadow(0 0 8px rgba(0,255,255,0.8));"></i>
+                                        <textarea id="sbSearchInput" placeholder="Ketik nama team untuk mencari hasil pertandingan... (e.g. Botafogo)" 
+                                            style="flex: 1; background: transparent; border: none; color: #fff; font-family: Arial, sans-serif; font-size: 16px; resize: none; height: 40px; line-height: 20px; outline: none; letter-spacing: 0.5px;"></textarea>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <button onclick="window.clearSbSearch()" class="luxury-clear-btn" style="background: rgba(255, 68, 68, 0.15); border: 1px solid rgba(255, 68, 68, 0.4); color: #ff4444; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);" title="Hapus Pencarian">
+                                                <i class="fas fa-times" style="font-size: 14px;"></i>
+                                            </button>
+                                            <button onclick="window.renderSportsbookTable(true)" class="luxury-refresh-btn" style="background: rgba(0, 255, 170, 0.1); border: 1px solid rgba(0, 255, 170, 0.3); color: #0ff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 170, 0.15);" title="Refresh Data">
+                                                <i class="fas fa-sync-alt" style="font-size: 14px;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 8px;">
+                                        <div id="sbSearchInfo" style="font-size: 11px; color: rgba(0,255,170,0.7); letter-spacing: 2px; text-transform: uppercase; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 8px; height: 8px; background: #0ff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #0ff; animation: pulse 2s infinite;"></span>
+                                            REALTIME NEURAL FILTER ACTIVE
+                                        </div>
+                                        <div style="font-size: 10px; color: rgba(255,255,255,0.3); font-style: italic;">
+                                            v2.4 LUXURY EDITION
+                                        </div>
+                                        <input type="hidden" id="sbSortSelect" value="0">
+                                    </div>
+                                </div>
+                                <style>
+                                    @keyframes laser-move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+                                    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+                                    .luxury-clear-btn:hover { background: rgba(255, 68, 68, 0.3) !important; transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 68, 68, 0.6) !important; border-color: #ff4444 !important; }
+                                    .luxury-refresh-btn:hover { background: rgba(0, 255, 170, 0.3) !important; transform: rotate(180deg) scale(1.1); box-shadow: 0 0 15px rgba(0, 255, 170, 0.6) !important; border-color: #0ff !important; }
+                                    #sbSearchInput::placeholder { color: rgba(255,255,255,0.2); }
+                                    #sbSearchInput:focus { color: #0ff; }
+                                </style>
+                            </div>
+                            <div id="sportsbookResultsContainer" style="padding: 0 20px 20px 20px;"></div>
                             <!-- Scraped data will be rendered here -->
                         </div>
                     </div>
@@ -3589,9 +3624,14 @@
                 style="color:#fff; background:none; border:none; cursor:pointer;">[X]</button>
         </div>
         <div id="debugLog" style="color:#00ff88; font-size:11px; white-space:pre-wrap;">Initializing log...</div>
-        <button onclick="window.testGASConnection()"
-            style="margin-top:20px; width:100%; background:var(--primary); color:#000; border:none; padding:10px; cursor:pointer; font-weight:900;">TEST
-            CONNECTION</button>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="window.testGASConnection()"
+                style="flex:1; background:var(--primary); color:#000; border:none; padding:10px; cursor:pointer; font-weight:900;">TEST
+                CONNECTION</button>
+            <button onclick="window.openScriptDiagnostic()"
+                style="flex:1; background:#444; color:#fff; border:none; padding:10px; cursor:pointer; font-weight:900;">DIAGNOSTIC
+                TEST</button>
+        </div>
     </div>
 
     <script src="app.js"></script>
