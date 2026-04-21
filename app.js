@@ -1769,6 +1769,10 @@ function switchSection(sectionId) {
                 window.switchPrizeCategory('diskon');
             }
         }, 50);
+    } else if (sectionId === 'contohPrize') {
+        if (headerTitle) headerTitle.textContent = 'CONTOH PERHITUNGAN HADIAH';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        window.updateContohPrizeTable();
     } else if (sectionId === 'hasilResult') {
         if (headerTitle) headerTitle.textContent = 'HASIL RESULT TOGEL';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -5413,4 +5417,431 @@ function showSportsbookFallback(container, url, message) {
                 LAUNCH SPORTSBOOK PORTAL
             </button>
         </div>`;
+}
+
+window.formatRupiahInput = function(element) {
+    let value = element.value.replace(/[^0-9]/g, '');
+    if (value === "") {
+        element.value = "";
+        return;
+    }
+    element.value = new Intl.NumberFormat('id-ID').format(parseInt(value));
+};
+
+window.formatRupiah = function(number) {
+    return new Intl.NumberFormat('id-ID').format(number);
+};
+
+window.copyContohResult = function(btn) {
+    const text = document.getElementById('contohResultText').innerText;
+    if (!text) return;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btn.innerHTML;
+        const originalShadow = btn.style.boxShadow;
+        
+        btn.innerHTML = '<i class="fas fa-check"></i> DISALIN!';
+        btn.style.background = 'linear-gradient(135deg, rgba(0, 255, 170, 0.4), rgba(0, 255, 170, 0.2))';
+        btn.style.boxShadow = '0 0 25px rgba(0, 255, 170, 0.6)';
+        btn.style.borderColor = 'var(--primary)';
+        
+        setTimeout(() => {
+            btn.innerHTML = originalHtml;
+            btn.style.background = 'linear-gradient(135deg, rgba(0, 255, 170, 0.2), rgba(0, 255, 170, 0.05))';
+            btn.style.boxShadow = originalShadow;
+            btn.style.borderColor = 'rgba(0, 255, 170, 0.5)';
+        }, 1500);
+    });
+};
+
+// Fungsi untuk memperbarui tabel contoh perhitungan hadiah
+// --- DATA CONTOH PERHITUNGAN ---
+const CONTOH_RULES = {
+    "umum": {
+        "PRIZE 1 4D": { hadiah: 6500, type: "multiplier" },
+        "PRIZE 1 3D": { hadiah: 650, type: "multiplier" },
+        "PRIZE 1 2D": { hadiah: 70, type: "multiplier" },
+        "PRIZE 2 4D": { hadiah: 2100, type: "multiplier" },
+        "PRIZE 2 3D": { hadiah: 210, type: "multiplier" },
+        "PRIZE 2 2D": { hadiah: 20, type: "multiplier" },
+        "PRIZE 3 4D": { hadiah: 1100, type: "multiplier" },
+        "PRIZE 3 3D": { hadiah: 110, type: "multiplier" },
+        "PRIZE 3 2D": { hadiah: 8, type: "multiplier" },
+        "4D FULL": { hadiah: 10000, type: "multiplier" },
+        "3D FULL": { hadiah: 1000, type: "multiplier" },
+        "2D FULL": { hadiah: 100, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 4000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 400, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 70, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 200, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 100, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 20, type: "multiplier" },
+        "DISC 4D": { diskon: 66.5, hadiah: 3000, type: "discount" },
+        "DISC 3D": { diskon: 59.5, hadiah: 400, type: "discount" },
+        "DISC 2D": { diskon: 29.5, hadiah: 70, type: "discount" },
+        "DISC 2D D/T": { diskon: 29.5, hadiah: 65, type: "discount" },
+        "COLOK BEBAS 1 DIGIT": { diskon: 6, hadiah: 1.5, type: "colok" },
+        "COLOK BEBAS 2 DIGIT": { diskon: 6, hadiah: 3, type: "colok" },
+        "COLOK BEBAS 3 DIGIT": { diskon: 6, hadiah: 4.5, type: "colok" },
+        "COLOK BEBAS 4 DIGIT": { diskon: 6, hadiah: 6, type: "colok" },
+        "COLOK BEBAS 2D 2 DIGIT": { diskon: 10, hadiah: 7, type: "colok" },
+        "COLOK BEBAS 2D 3 DIGIT": { diskon: 10, hadiah: 11, type: "colok" },
+        "COLOK BEBAS 2D 4 DIGIT": { diskon: 10, hadiah: 18, type: "colok" },
+        "COLOK NAGA 3 DIGIT": { diskon: 10, hadiah: 23, type: "colok" },
+        "COLOK NAGA 4 DIGIT": { diskon: 10, hadiah: 35, type: "colok" },
+        "COLOK JITU": { diskon: 6, hadiah: 8, type: "colok" },
+        "SHIO": { diskon: 5, hadiah: 9.5, type: "colok" },
+        "MACAU SHIO": { diskon: 10, hadiah: 110, type: "colok" },
+        "KOMBINASI": { diskon: 8, hadiah: 2.6, type: "colok" },
+        "TEPI TENGAH": { diskon: 2, key: 3, keyType: "minus", type: "5050" },
+        "SILANG HOMO": { diskon: 2, key: 3, keyType: "minus", type: "5050" },
+        "DASAR GANJIL-BESAR": { diskon: 2, key: 25, keyType: "minus", type: "5050" },
+        "DASAR GENAP-KECIL": { diskon: 2, key: 10, keyType: "plus", type: "5050" },
+        "50-50": { diskon: 2, key: 3, keyType: "minus", type: "5050" },
+        "KEMBANG KEMPIS": { diskon: 2, key: 3, keyType: "minus", type: "5050" }
+    },
+    "macau": {
+        "4D FULL": { hadiah: 10000, type: "multiplier" },
+        "3D FULL": { hadiah: 1000, type: "multiplier" },
+        "2D FULL": { hadiah: 100, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 4000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 400, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 70, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 200, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 100, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 20, type: "multiplier" },
+        "DISC 4D": { diskon: 33, hadiah: 3000, type: "discount" },
+        "DISC 3D": { diskon: 24, hadiah: 400, type: "discount" },
+        "DISC 2D": { diskon: 15, hadiah: 70, type: "discount" },
+        "DISC 2D D/T": { diskon: 15, hadiah: 70, type: "discount" },
+        "S.DISC 4D": { diskon: 66.5, hadiah: 3000, type: "discount", label: "S.diskon" },
+        "S.DISC 3D": { diskon: 59.5, hadiah: 400, type: "discount", label: "S.diskon" },
+        "S.DISC 2D": { diskon: 29.5, hadiah: 70, type: "discount", label: "S.diskon" },
+        "S.DISC 2D D/T": { diskon: 29.5, hadiah: 70, type: "discount", label: "S.diskon" },
+        "COLOK BEBAS 1 DIGIT": { hadiah: 1.6, type: "multiplier_plus" },
+        "COLOK BEBAS 2 DIGIT": { hadiah: 3.2, type: "multiplier_plus" },
+        "COLOK BEBAS 3 DIGIT": { hadiah: 4.8, type: "multiplier_plus" },
+        "COLOK BEBAS 4 DIGIT": { hadiah: 6.4, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 2 DIGIT": { hadiah: 7, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 3 DIGIT": { hadiah: 13, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 4 DIGIT": { hadiah: 21, type: "multiplier_plus" },
+        "COLOK NAGA 3 DIGIT": { hadiah: 27, type: "multiplier_plus" },
+        "COLOK NAGA 4 DIGIT": { hadiah: 41, type: "multiplier_plus" },
+        "COLOK JITU": { hadiah: 8.3, type: "multiplier_plus" },
+        "SHIO": { hadiah: 10, type: "multiplier_plus" },
+        "MACAU SHIO": { hadiah: 110, type: "multiplier_plus" },
+        "KOMBINASI": { hadiah: 2.8, type: "multiplier_plus" },
+        "TEPI TENGAH": { key: 2.2, keyType: "minus", type: "5050_no_disc" },
+        "SILANG HOMO": { key: 2.2, keyType: "minus", type: "5050_no_disc" },
+        "DASAR GANJIL-BESAR": { key: 25, keyType: "minus", type: "5050_no_disc" },
+        "DASAR GENAP-KECIL": { key: 10, keyType: "plus", type: "5050_plus" },
+        "50-50": { key: 2.2, keyType: "minus", type: "5050_no_disc" },
+        "KEMBANG KEMPIS": { key: 2.2, keyType: "minus", type: "5050_no_disc" }
+    },
+    "hoki5d": {
+        "5D FULL": { hadiah: 88000, type: "multiplier" },
+        "4D FULL": { hadiah: 10000, type: "multiplier" },
+        "3D FULL": { hadiah: 1000, type: "multiplier" },
+        "2D FULL": { hadiah: 100, type: "multiplier" },
+        "BB 5D TEPAT": { hadiah: 50000, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 5000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 500, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 80, type: "multiplier" },
+        "BB 5D TIDAK TEPAT": { hadiah: 350, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 180, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 75, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 15, type: "multiplier" },
+        "DISC 5D": { diskon: 38, hadiah: 50000, type: "discount" },
+        "DISC 4D": { diskon: 20, hadiah: 7000, type: "discount" },
+        "DISC 3D": { diskon: 20, hadiah: 750, type: "discount" },
+        "DISC 2D": { diskon: 20, hadiah: 75, type: "discount" },
+        "COLOK BEBAS 1 DIGIT": { diskon: 6, hadiah: 0.9, type: "colok_special", base: 4000 },
+        "COLOK BEBAS 2 DIGIT": { diskon: 6, hadiah: 1.8, type: "colok_special", base: 6000 },
+        "COLOK BEBAS 3 DIGIT": { diskon: 6, hadiah: 2.7, type: "colok_special", base: 20000 },
+        "COLOK BEBAS 4 DIGIT": { diskon: 6, hadiah: 3.6, type: "colok_special", base: 200000 },
+        "COLOK BEBAS 5 DIGIT": { diskon: 6, hadiah: 4.5, type: "colok_special", base: 50000 },
+        "COLOK BEBAS 2D 2 DIGIT": { diskon: 10, hadiah: 4, type: "colok" },
+        "COLOK BEBAS 2D 3 DIGIT": { diskon: 10, hadiah: 6, type: "colok" },
+        "COLOK BEBAS 2D 4 DIGIT": { diskon: 10, hadiah: 20, type: "colok" },
+        "COLOK BEBAS 2D 5 DIGIT": { diskon: 10, hadiah: 200, type: "colok" },
+        "COLOK BEBAS 4D 4 DIGIT": { hadiah: 50, type: "multiplier_special", base: 900 },
+        "COLOK BEBAS 4D 5 DIGIT": { hadiah: 200, type: "multiplier_special", base: 900 },
+        "COLOK NAGA 3 DIGIT": { diskon: 10, hadiah: 12, type: "colok" },
+        "COLOK NAGA 4 DIGIT": { diskon: 10, hadiah: 30, type: "colok" },
+        "COLOK NAGA 5 DIGIT": { diskon: 10, hadiah: 125, type: "colok" },
+        "COLOK JITU": { diskon: 6, hadiah: 8, type: "colok" },
+        "SHIO": { diskon: 5, hadiah: 10, type: "colok" },
+        "KOMBINASI": { diskon: 8, hadiah: 2.7, type: "colok" },
+        "TEPI TENGAH": { key: 2.2, keyType: "minus", type: "5050_22" },
+        "DASAR GANJIL-BESAR": { key: 25, keyType: "minus", type: "5050_no_disc" },
+        "DASAR GENAP-KECIL": { key: 10, keyType: "plus", type: "5050_plus" },
+        "50-50": { key: 2.2, keyType: "minus", type: "5050_no_disc" }
+    },
+    "kingkong": {
+        "4D FULL": { hadiah: 10000, type: "multiplier" },
+        "3D FULL": { hadiah: 1000, type: "multiplier" },
+        "2D FULL": { hadiah: 100, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 4000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 400, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 70, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 200, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 100, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 20, type: "multiplier" },
+        "DISC 4D": { diskon: 33, hadiah: 6000, type: "discount" },
+        "DISC 3D": { diskon: 24, hadiah: 700, type: "discount" },
+        "DISC 2D": { diskon: 15, hadiah: 80, type: "discount" },
+        "DISC 2D D/T": { diskon: 15, hadiah: 80, type: "discount" },
+        "COLOK BEBAS 1 DIGIT": { hadiah: 1.6, type: "multiplier_plus" },
+        "COLOK BEBAS 2 DIGIT": { hadiah: 3.2, type: "multiplier_plus" },
+        "COLOK BEBAS 3 DIGIT": { hadiah: 4.8, type: "multiplier_plus" },
+        "COLOK BEBAS 4 DIGIT": { hadiah: 6.4, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 2 DIGIT": { hadiah: 7, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 3 DIGIT": { hadiah: 13, type: "multiplier_plus" },
+        "COLOK BEBAS 2D 4 DIGIT": { hadiah: 21, type: "multiplier_plus" },
+        "COLOK NAGA 3 DIGIT": { hadiah: 27, type: "multiplier_plus" },
+        "COLOK NAGA 4 DIGIT": { hadiah: 41, type: "multiplier_plus" },
+        "COLOK JITU": { hadiah: 8.3, type: "multiplier_plus" },
+        "SHIO": { hadiah: 10, type: "multiplier_plus" },
+        "MACAU SHIO": { hadiah: 110, type: "multiplier_plus" },
+        "KOMBINASI": { hadiah: 2.8, type: "multiplier_plus" },
+        "TEPI TENGAH": { key: 2.2, keyType: "minus", type: "5050_no_disc" },
+        "SILANG HOMO": { key: 2.2, keyType: "minus", type: "5050_no_disc" },
+        "DASAR GANJIL-BESAR": { key: 25, keyType: "minus", type: "5050_no_disc" },
+        "DASAR GENAP-KECIL": { key: 10, keyType: "plus", type: "5050_plus" },
+        "50-50": { key: 5, keyType: "minus", type: "5050_no_disc" },
+        "KEMBANG KEMPIS": { key: 2.2, keyType: "minus", type: "5050_no_disc" }
+    },
+    "jakarta": {
+        "4D FULL": { hadiah: 9000, type: "multiplier" },
+        "3D FULL": { hadiah: 950, type: "multiplier" },
+        "2D FULL": { hadiah: 95, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 4000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 400, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 70, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 200, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 100, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 20, type: "multiplier" },
+        "DISC 4D": { diskon: 66.5, hadiah: 3000, type: "discount" },
+        "DISC 3D": { diskon: 59.5, hadiah: 400, type: "discount" },
+        "DISC 2D": { diskon: 29, hadiah: 70, type: "discount" },
+        "DISC 2D D/T": { diskon: 29, hadiah: 70, type: "discount" },
+        "COLOK BEBAS 1 DIGIT": { diskon: 6, hadiah: 1.6, type: "colok" },
+        "COLOK BEBAS 2 DIGIT": { diskon: 6, hadiah: 3.2, type: "colok" },
+        "COLOK BEBAS 3 DIGIT": { diskon: 6, hadiah: 4.8, type: "colok" },
+        "COLOK BEBAS 4 DIGIT": { diskon: 6, hadiah: 6.4, type: "colok" },
+        "COLOK BEBAS 2D 2 DIGIT": { diskon: 10, hadiah: 7, type: "colok" },
+        "COLOK BEBAS 2D 3 DIGIT": { diskon: 10, hadiah: 13, type: "colok" },
+        "COLOK BEBAS 2D 4 DIGIT": { diskon: 10, hadiah: 21, type: "colok" },
+        "COLOK NAGA 3 DIGIT": { diskon: 10, hadiah: 27, type: "colok" },
+        "COLOK NAGA 4 DIGIT": { diskon: 10, hadiah: 41, type: "colok" },
+        "COLOK JITU": { diskon: 6, hadiah: 8.3, type: "colok" },
+        "SHIO": { diskon: 5, hadiah: 10, type: "colok" },
+        "MACAU SHIO": { diskon: 10, hadiah: 110, type: "colok" },
+        "KOMBINASI": { diskon: 8, hadiah: 2.8, type: "colok" },
+        "TEPI TENGAH": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" },
+        "SILANG HOMO": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" },
+        "DASAR GANJIL-BESAR": { diskon: 2, key: 25, keyType: "minus", type: "5050" },
+        "DASAR GENAP-KECIL": { diskon: 2, key: 10, keyType: "plus", type: "5050" },
+        "50-50": { diskon: 2, key: 5, keyType: "minus", type: "5050" },
+        "KEMBANG KEMPIS": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" }
+    },
+    "totomali": {
+        "4D FULL": { hadiah: 10000, type: "multiplier" },
+        "3D FULL": { hadiah: 1000, type: "multiplier" },
+        "2D FULL": { hadiah: 100, type: "multiplier" },
+        "BB 4D TEPAT": { hadiah: 4000, type: "multiplier" },
+        "BB 3D TEPAT": { hadiah: 400, type: "multiplier" },
+        "BB 2D TEPAT": { hadiah: 70, type: "multiplier" },
+        "BB 4D TIDAK TEPAT": { hadiah: 200, type: "multiplier" },
+        "BB 3D TIDAK TEPAT": { hadiah: 100, type: "multiplier" },
+        "BB 2D TIDAK TEPAT": { hadiah: 20, type: "multiplier" },
+        "DISC 4D": { diskon: 67, hadiah: 3000, type: "discount" },
+        "DISC 3D": { diskon: 57, hadiah: 400, type: "discount" },
+        "DISC 2D": { diskon: 27, hadiah: 70, type: "discount" },
+        "DISC 2D D/T": { diskon: 27, hadiah: 70, type: "discount" },
+        "COLOK BEBAS 1 DIGIT": { diskon: 6, hadiah: 1.6, type: "colok" },
+        "COLOK BEBAS 2 DIGIT": { diskon: 6, hadiah: 3.2, type: "colok" },
+        "COLOK BEBAS 3 DIGIT": { diskon: 6, hadiah: 4.8, type: "colok" },
+        "COLOK BEBAS 4 DIGIT": { diskon: 6, hadiah: 6.4, type: "colok" },
+        "COLOK BEBAS 2D 2 DIGIT": { diskon: 10, hadiah: 7, type: "colok" },
+        "COLOK BEBAS 2D 3 DIGIT": { diskon: 10, hadiah: 13, type: "colok" },
+        "COLOK BEBAS 2D 4 DIGIT": { diskon: 10, hadiah: 21, type: "colok" },
+        "COLOK NAGA 3 DIGIT": { diskon: 10, hadiah: 27, type: "colok" },
+        "COLOK NAGA 4 DIGIT": { diskon: 10, hadiah: 41, type: "colok" },
+        "COLOK JITU": { diskon: 6, hadiah: 8.3, type: "colok" },
+        "SHIO": { diskon: 5, hadiah: 10, type: "colok" },
+        "MACAU SHIO": { diskon: 10, hadiah: 110, type: "colok" },
+        "KOMBINASI": { diskon: 8, hadiah: 2.8, type: "colok" },
+        "TEPI TENGAH": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" },
+        "SILANG HOMO": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" },
+        "DASAR GANJIL-BESAR": { diskon: 2, key: 25, keyType: "minus", type: "5050" },
+        "DASAR GENAP-KECIL": { diskon: 2, key: 10, keyType: "plus", type: "5050" },
+        "50-50": { diskon: 2, key: 5, keyType: "minus", type: "5050" },
+        "KEMBANG KEMPIS": { diskon: 2, key: 2.2, keyType: "minus", type: "5050" }
+    },
+    "bonus": {
+        "Bonus cashback Slot game": { rate: 5, type: "bonus_cashback", period: "Selasa s/d Senin" },
+        "Bonus cashback Live game": { rate: 5, type: "bonus_cashback", period: "Senin s/d Minggu" },
+        "Bonus cashback LIVE CASINO PRAGMATIC PLAY": { rate: 5, type: "bonus_cashback", period: "Senin s/d Minggu" },
+        "Bonus Rollingan Slot game": { rate: 0.5, type: "bonus_rollingan", period: "Kamis s/d Rabu" },
+        "Bonus Rollingan Live game": { rate: 0.7, type: "bonus_rollingan", period: "Kamis s/d Rabu" },
+        "Bonus Rollingan LIVE CASINO PRAGMATIC PLAY": { rate: 0.7, type: "bonus_rollingan", period: "Kamis s/d Rabu" },
+        "Bonus Referral Slot game": { rate: 0.1, type: "bonus_referral_to" },
+        "Bonus Referral Live game": { rate: 0.1, type: "bonus_referral_to" },
+        "Bonus Referral LIVE CASINO PRAGMATIC PLAY": { rate: 0.1, type: "bonus_referral_to" },
+        "Bonus Referral Togel": { rate: 0.5, type: "bonus_referral_bet" },
+        "Bonus Referral Togel TOTO MACAU full/bb 4D / 3D / 2D": { rate: 2.5, type: "bonus_referral_bet" },
+        "Bonus Referral Togel TOTO MACAU Diskon 4D / 3D": { rate: 2.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel TOTO MACAU Diskon 2D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel TOTO MACAU S.Diskon 4D / 3D": { rate: 2.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel TOTO MACAU S.Diskon 2D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel semua pasaran Diskon 4D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel semua pasaran Diskon 3D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel semua pasaran Diskon 2D": { rate: 0.5, type: "bonus_referral_bet" },
+        "Bonus Referral Togel semua pasaran Bett colok": { rate: 0.1, type: "bonus_referral_bet" },
+        "Bonus Referral Togel poipet loterry 4D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel poipet loterry 3D": { rate: 1.0, type: "bonus_referral_bet" },
+        "Bonus Referral Togel poipet loterry 2D": { rate: 0.5, type: "bonus_referral_bet" },
+        "Bonus Referral Togel poipet loterry Bett colok": { rate: 0.1, type: "bonus_referral_bet" }
+    }
+};
+
+window.updateContohPrizeTable = function() {
+    const pasaran = document.getElementById('contohPasaranFilter').value;
+    const jenis = document.getElementById('contohJenisFilter').value;
+    const bonus = document.getElementById('contohBonusFilter').value;
+    const nominalRaw = document.getElementById('contohNominalBet').value;
+    const resultWrapper = document.getElementById('contohResultWrapper');
+    const resultText = document.getElementById('contohResultText');
+    const tbody = document.getElementById('contohPrizeTableBody');
+    const tableWrapper = document.getElementById('contohTableWrapper');
+
+    if (!tbody || !resultWrapper || !resultText) return;
+
+    // Toggle Groups
+    const groupTaruhan = document.getElementById('groupJenisTaruhan');
+    const groupBonus = document.getElementById('groupJenisBonus');
+    
+    if (pasaran === 'bonus') {
+        if (groupBonus) groupBonus.style.display = 'block';
+        if (groupTaruhan) groupTaruhan.style.display = 'none';
+    } else {
+        if (groupBonus) groupBonus.style.display = 'none';
+        if (groupTaruhan) groupTaruhan.style.display = 'block';
+    }
+
+    const nominal = parseInt(nominalRaw.replace(/[^0-9]/g, '')) || 0;
+    const format = (num) => new Intl.NumberFormat('id-ID').format(num);
+
+    let rule = null;
+    let selectedType = "";
+    if (pasaran === 'bonus') {
+        if (CONTOH_RULES.bonus[bonus]) {
+            rule = CONTOH_RULES.bonus[bonus];
+            selectedType = bonus;
+        }
+    } else {
+        if (CONTOH_RULES[pasaran] && CONTOH_RULES[pasaran][jenis]) {
+            rule = CONTOH_RULES[pasaran][jenis];
+            selectedType = jenis;
+        }
+    }
+
+    if (rule && nominal > 0) {
+        resultWrapper.style.display = 'block';
+        tableWrapper.style.display = 'none';
+        let explanation = "";
+
+        const basicMultiplier = (r, n) => {
+            const win = r.hadiah * n;
+            return `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(n)} x ${format(r.hadiah)} ( hadiah ) = ${format(win)} kemenangan anda ya bosku`;
+        };
+
+        const resultValue = (nominal * (rule.rate / 100));
+
+        switch (rule.type) {
+            case "multiplier":
+                explanation = basicMultiplier(rule, nominal);
+                break;
+            case "multiplier_plus":
+                const winPlus = rule.hadiah * nominal;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} x ${rule.hadiah} ( Hadiah ) = ${format(winPlus)} + ${format(nominal)} ( modal ) = ${format(winPlus + nominal)} kemenangan anda ya bosku`;
+                break;
+            case "discount":
+                const discLabel = rule.label || "diskon";
+                const toPay = nominal - (nominal * (rule.diskon / 100));
+                const winDisc = rule.hadiah * nominal;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - ${rule.diskon}% ( ${discLabel} ) = ${format(toPay)} yang harus anda bayar\nHadiah ${format(rule.hadiah)} x ${format(nominal)} = ${format(winDisc)} kemenangan anda ya bosku`;
+                break;
+            case "colok":
+                const toPayColok = nominal - (nominal * (rule.diskon / 100));
+                const winColok = rule.hadiah * nominal;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - diskon sebesar ${rule.diskon}% = ${format(toPayColok)} yang harus anda bayar\nHadiah ${rule.hadiah} x ${format(nominal)} = ${format(winColok)} + ${format(toPayColok)} ( modal ) = ${format(winColok + toPayColok)} kemenangan anda ya bosku`;
+                break;
+            case "colok_special":
+                const toPaySpec = nominal - (nominal * (rule.diskon / 100));
+                const winSpec = rule.hadiah * nominal;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - diskon sebesar ${rule.diskon}% = ${format(toPaySpec)} yang harus anda bayar\nHadiah ${rule.hadiah} x ${format(nominal)} = ${format(winSpec)} + ${format(toPaySpec)} ( modal ) = ${format(winSpec + toPaySpec + (rule.base || 0))} kemenangan anda ya bosku`;
+                if (pasaran === "hoki5d") {
+                    if (jenis === "COLOK BEBAS 3 DIGIT") explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - diskon sebesar ${rule.diskon}% = ${format(toPaySpec)} yang harus anda bayar\nHadiah ${rule.hadiah} x ${format(nominal)} = ${format(winSpec)} + ${format(toPaySpec)} ( modal ) = 20,900 kemenangan anda ya bosku`;
+                }
+                break;
+            case "multiplier_special":
+                const winSpecMult = rule.hadiah * nominal;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} x ${rule.hadiah} ( Hadiah ) = ${format(winSpecMult)} + ${format(nominal)} ( modal ) = ${format(winSpecMult + nominal + (rule.base || 0))} kemenangan anda ya bosku`;
+                break;
+            case "5050":
+                const toPay5050 = nominal - (nominal * (rule.diskon / 100));
+                const keyAmount = nominal * (rule.key / 100);
+                const finalPay = rule.keyType === "minus" ? toPay5050 + keyAmount : toPay5050;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - diskon sebesar ${rule.diskon}% = ${format(toPay5050)} ${rule.keyType === 'minus' ? `+ ( key - ) ${rule.key}% = ${format(finalPay)}` : ''} yang harus anda bayar\nJika anda menang ( Hadiah 1:1 ) ${format(nominal)} + ${format(finalPay)} ( modal ) = ${format(nominal + finalPay)} kemenangan anda ya bosku`;
+                if (rule.keyType === "plus") {
+                    const keyWin = nominal * (rule.key / 100);
+                    explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nNominal bet ${format(nominal)} - diskon sebesar ${rule.diskon}% = ${format(toPay5050)} yang harus anda bayar\nPerhitungan ( key +) ${rule.key}% x ${format(nominal)} = ${format(keyWin)} key yang anda dapat jika mengalamin kemenangan\nJika anda menang ( Hadiah 1:1 ) ${format(nominal)} + ${format(keyWin)} + ${format(toPay5050)} ( modal ) = ${format(nominal + keyWin + toPay5050)} kemenangan anda ya bosku`;
+                }
+                break;
+            case "5050_no_disc":
+                const keyAmtNoDisc = nominal * (rule.key / 100);
+                const payNoDisc = nominal + keyAmtNoDisc;
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku \nNominal bet ${format(nominal)} + ( key - ) ${rule.key}% = ${format(payNoDisc)} yang harus anda bayar \nJika anda menang ( Hadiah 1:1 ) ${format(nominal)} + ${format(payNoDisc)} ( modal ) = ${format(nominal + payNoDisc)} kemenangan anda ya bosku`;
+                break;
+            case "5050_plus":
+                const keyWinPlus = nominal * (rule.key / 100);
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku\nPerhitungan ( key +) ${rule.key}% x ${format(nominal)} = ${format(keyWinPlus)} key yang anda dapat jika mengalamin kemenangan\nJika anda menang ( Hadiah 1:1 ) ${format(nominal)} + ${format(keyWinPlus)} + ${format(nominal)} ( modal ) = ${format(nominal + keyWinPlus + nominal)} kemenangan anda ya bosku`;
+                break;
+            case "5050_22":
+                const pay22 = nominal + (nominal * 0.002);
+                explanation = `Berikut contoh perhitungan tipe ${selectedType} ya bosku \nNominal bet ${format(nominal)} + ( key - ) ${rule.key}% = ${format(finalPay)} yang harus anda bayar \nJika anda menang ( Hadiah 1:1 ) ${format(nominal)} + ${format(pay22)} ( modal ) = ${format(nominal + pay22)} kemenangan anda ya bosku`;
+                break;
+            case "bonus_cashback":
+                explanation = `Berikut contoh perhitungan ${selectedType} ${rule.rate}% ya bosku\nuntuk kekalahan anda dalam periode 1 minggu diambil dari hari ${rule.period} sebesar ${format(nominal)} dikali dengan bonus ${rule.rate}.0% yang anda dapatkan ${format(resultValue)} ya bosku`;
+                break;
+            case "bonus_rollingan":
+                explanation = `Berikut contoh perhitungan ${selectedType} ${rule.rate}% ya bosku\nuntuk Turnover anda dalam periode 1 minggu diambil dari hari ${rule.period} sebesar ${format(nominal)} dikali dengan bonus ${rule.rate}% yang anda dapatkan ${format(resultValue)} ya bosku`;
+                break;
+            case "bonus_referral_to":
+                explanation = `Berikut contoh perhitungan ${selectedType} ${rule.rate}% ya bosku\nuntuk Turnover Refferral anda total ${format(nominal)} dikali ${rule.rate}% yang anda dapatkan ${format(resultValue)} ya bosku`;
+                break;
+            case "bonus_referral_bet":
+                explanation = `Berikut contoh perhitungan ${selectedType} ya bosku\nuntuk bettingan Refferral anda total ${format(nominal)} dikali ${rule.rate}% yang anda dapatkan ${format(resultValue)} ya bosku`;
+                break;
+        }
+
+        resultText.innerText = explanation;
+        // Add a subtle update effect
+        resultText.parentElement.style.borderColor = 'var(--primary)';
+        setTimeout(() => {
+            resultText.parentElement.style.borderColor = 'rgba(0, 255, 170, 0.2)';
+        }, 500);
+    } else {
+        resultWrapper.style.display = 'none';
+        tableWrapper.style.display = 'block';
+    }
+};
+
+// Inisialisasi saat load
+if (document.readyState === 'complete') {
+    window.updateContohPrizeTable();
+} else {
+    window.addEventListener('load', window.updateContohPrizeTable);
 }

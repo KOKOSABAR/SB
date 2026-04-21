@@ -57,7 +57,7 @@
 }
 
 body {
-    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    font-family: 'Arial Black', Gadget, sans-serif;
     background-color: var(--bg-dark);
     /* Multiple backgrounds: Custom Image (top) + Cyber Gradients (bottom) */
     background-image: 
@@ -157,7 +157,7 @@ body.no-bg-mode .sidebar {
 
 .nav-label {
     display: block;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 10px;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -267,7 +267,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.3);
     border-radius: 4px;
     color: var(--primary);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -328,7 +328,7 @@ body.no-bg-mode .sidebar {
 }
 
 .header-title .subtitle {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 14px;
     letter-spacing: 2px;
     color: var(--primary);
@@ -347,7 +347,7 @@ body.no-bg-mode .sidebar {
 }
 
 .section-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 32px;
     font-weight: 900;
     color: var(--primary);
@@ -361,7 +361,7 @@ body.no-bg-mode .sidebar {
     color: var(--text-secondary);
     font-size: 14px;
     letter-spacing: 1px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', Gadget, sans-serif;
     opacity: 0.7;
 }
 
@@ -423,7 +423,7 @@ body.no-bg-mode .sidebar {
     border-radius: 12px;
     color: var(--text);
     font-size: 14px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     letter-spacing: 1px;
     cursor: pointer;
     outline: none;
@@ -498,7 +498,7 @@ body.no-bg-mode .sidebar {
 }
 
 .pasaran-nama {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: var(--primary);
@@ -540,7 +540,7 @@ body.no-bg-mode .sidebar {
 }
 
 .time-value {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 16px;
     color: var(--accent);
     text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
@@ -582,7 +582,7 @@ body.no-bg-mode .sidebar {
 
 /* --- PASARAN STATUS STYLES --- */
 .pasaran-status {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 9px;
     font-weight: 700;
     padding: 4px 8px;
@@ -633,7 +633,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.3);
     border-radius: 50px;
     color: var(--text-muted);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 13px;
     font-weight: 900;
     cursor: pointer;
@@ -785,7 +785,7 @@ body.no-bg-mode .sidebar {
 
 .btn-play {
     width: 100%;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     letter-spacing: 1px;
     font-size: 10px;
     padding: 6px 10px;
@@ -898,7 +898,7 @@ body.no-bg-mode .sidebar {
 }
 
 .logo-text h1 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 32px;
     font-weight: 700;
     color: var(--primary);
@@ -996,7 +996,7 @@ body.no-bg-mode .sidebar {
 }
 
 .logo-main-text {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 34px;
     font-weight: 900;
     line-height: 1;
@@ -1218,7 +1218,7 @@ body.no-bg-mode .sidebar {
 }
 
 .note-card .note-judul {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 15px;
     font-weight: 600;
     color: var(--primary);
@@ -1415,7 +1415,7 @@ body.no-bg-mode .sidebar {
 }
 
 .empty-state h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 28px;
     color: var(--text-secondary);
     margin-bottom: 12px;
@@ -1501,7 +1501,7 @@ body.no-bg-mode .sidebar {
 }
 
 .stat-value {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-weight: 600;
     color: var(--primary);
     text-shadow: 0 0 8px var(--glow-soft);
@@ -1575,7 +1575,7 @@ body.no-bg-mode .sidebar {
 }
 
 .modal-header h2 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 22px;
     color: var(--primary);
     text-shadow: 0 0 10px var(--glow-soft);
@@ -1607,7 +1607,7 @@ body.no-bg-mode .sidebar {
 
 .form-group label {
     display: block;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: var(--text-secondary);
@@ -1681,7 +1681,7 @@ body.no-bg-mode .sidebar {
     background: rgba(10, 20, 20, 0.8) !important;
     border: 1px solid rgba(0, 255, 170, 0.3) !important;
     color: var(--primary) !important;
-    font-family: 'Share Tech Mono', monospace !important;
+    font-family: 'Arial Black', monospace !important;
     padding: 12px 20px;
     border-radius: 8px;
     outline: none;
@@ -1719,7 +1719,7 @@ body.no-bg-mode .sidebar {
 }
 
 .confirm-modal h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 22px;
     color: var(--danger);
     margin-bottom: 12px;
@@ -2000,7 +2000,7 @@ body.no-bg-mode .sidebar {
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 3px;
-    font-family: 'Orbitron', 'Share Tech Mono', sans-serif;
+    font-family: 'Arial Black', 'Arial Black', sans-serif;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
     line-height: 1.4;
 }
@@ -2185,7 +2185,7 @@ body.no-bg-mode .sidebar {
     font-weight: 900;
     font-size: 14px;
     text-transform: uppercase;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     letter-spacing: 3px;
     border: 2px solid var(--primary);
     background: rgba(0, 0, 0, 0.4);
@@ -2225,7 +2225,7 @@ body.no-bg-mode .sidebar {
     color: #ffffff;
     margin-bottom: 10px;
     font-weight: 900;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     border-bottom: 2px solid rgba(0, 255, 170, 0.2);
     padding-bottom: 12px;
     letter-spacing: 1px;
@@ -2236,7 +2236,7 @@ body.no-bg-mode .sidebar {
     font-size: 14px;
     color: #bdc3c7;
     margin-bottom: 16px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     letter-spacing: 0.5px;
 }
 
@@ -2298,7 +2298,7 @@ body.no-bg-mode .sidebar {
     color: #bdc3c7;
     margin-bottom: 10px;
     font-weight: 900;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     letter-spacing: 1px;
     display: flex;
     justify-content: space-between;
@@ -2397,7 +2397,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prediction-header h2 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 28px;
     color: var(--primary);
     text-shadow: 0 0 20px var(--glow-color);
@@ -2559,7 +2559,7 @@ body.no-bg-mode .sidebar {
 }
 
 .detail-header h1 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 32px;
     color: white;
     letter-spacing: 2px;
@@ -2606,7 +2606,7 @@ body.no-bg-mode .sidebar {
 
 .box-value {
     color: white;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 16px;
     line-height: 1.4;
 }
@@ -2688,7 +2688,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prediction-card-header h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 14px;
     color: var(--text);
     margin: 0;
@@ -2718,7 +2718,7 @@ body.no-bg-mode .sidebar {
 }
 
 .pred-value {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 24px;
     font-weight: 700;
     color: var(--primary);
@@ -2739,7 +2739,7 @@ body.no-bg-mode .sidebar {
 }
 
 .syair-section h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 18px;
     color: var(--primary);
     margin-bottom: 16px;
@@ -2804,7 +2804,7 @@ body.no-bg-mode .sidebar {
 }
 
 .guide-card-title {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 15px;
     color: var(--text);
     flex: 1;
@@ -2856,7 +2856,7 @@ body.no-bg-mode .sidebar {
 }
 
 #guideModalTitle {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     color: var(--primary);
     text-align: center;
     margin: 0;
@@ -2912,7 +2912,7 @@ body.no-bg-mode .sidebar {
 
 .image-loader {
     color: var(--primary);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -2960,7 +2960,7 @@ body.no-bg-mode .sidebar {
 .link-row .link-item {
     cursor: pointer;
     border: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 12px;
     text-transform: uppercase;
 }
@@ -3061,7 +3061,7 @@ body.no-bg-mode .sidebar {
 }
 
 .tr-period {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 12px;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -3081,7 +3081,7 @@ body.no-bg-mode .sidebar {
 
 .tr-countdown {
     color: var(--cyan);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -3097,7 +3097,7 @@ body.no-bg-mode .sidebar {
     color: #fff;
     font-size: 18px;
     font-weight: 800;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     letter-spacing: 1px;
     text-shadow: 0 0 10px var(--cyan);
 }
@@ -3355,7 +3355,7 @@ body.no-bg-mode .sidebar {
     border-radius: 10px;
     padding: 25px;
     color: var(--primary);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 15px;
     line-height: 1.8;
     outline: none;
@@ -3435,7 +3435,7 @@ body.no-bg-mode .sidebar {
 
 .wd-result-header .stat-badge {
     color: var(--cyan);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 16px;
     font-weight: 700;
 }
@@ -3500,7 +3500,7 @@ body.no-bg-mode .sidebar {
 .luxury-table th {
     background: rgba(0, 255, 204, 0.08);
     color: var(--cyan);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 11px;
     letter-spacing: 1px;
     padding: 16px;
@@ -3558,14 +3558,14 @@ body.no-bg-mode .sidebar {
 }
 
 .wd-amount-val {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     color: var(--accent);
     font-weight: 800;
     font-size: 14px;
 }
 
 .tr-market-name-top {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: #fff;
@@ -3609,7 +3609,7 @@ body.no-bg-mode .sidebar {
 }
 
 .calc-header {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 15px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -3635,7 +3635,7 @@ body.no-bg-mode .sidebar {
     border-radius: 8px;
     padding: 20px;
     color: var(--primary);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 26px;
     font-weight: 700;
     text-align: center;
@@ -3678,7 +3678,7 @@ body.no-bg-mode .sidebar {
     border-radius: 6px;
     padding: 12px;
     color: var(--text-muted);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 16px;
     font-weight: 800;
     cursor: pointer;
@@ -3730,7 +3730,7 @@ body.no-bg-mode .sidebar {
 }
 
 .res-value {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 38px;
     font-weight: 800;
     color: #fff;
@@ -3797,7 +3797,7 @@ body.no-bg-mode .sidebar {
 }
 
 .max-value {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 38px;
     font-weight: 800;
     color: var(--gold-primary);
@@ -3820,7 +3820,7 @@ body.no-bg-mode .sidebar {
 }
 
 #remainingQuotaResult {
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'Arial Black', sans-serif !important;
     font-size: 38px !important;
     font-weight: 800;
     color: var(--gold-primary);
@@ -3828,7 +3828,7 @@ body.no-bg-mode .sidebar {
 }
 
 #finalClaimResult {
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'Arial Black', sans-serif !important;
     font-size: 38px !important;
     font-weight: 800;
     color: var(--primary);
@@ -3884,7 +3884,7 @@ body.no-bg-mode .sidebar {
 }
 
 .total-value-big {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 38px;
     font-weight: 800;
     color: var(--primary);
@@ -3911,7 +3911,7 @@ body.no-bg-mode .sidebar {
 
 .wd-textarea.mini {
     padding: 0 12px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'Arial Black', sans-serif !important;
     font-size: 38px !important;
     font-weight: 800;
     line-height: 60px;
@@ -3974,7 +3974,7 @@ body.no-bg-mode .sidebar {
     background: rgba(255, 82, 82, 0.1);
     border: 1px solid rgba(255, 82, 82, 0.3);
     color: #ff5252;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 9px;
     padding: 2px 8px;
     border-radius: 4px;
@@ -4035,7 +4035,7 @@ body.no-bg-mode .sidebar {
 
 .image-loader {
     color: var(--primary);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -4083,7 +4083,7 @@ body.no-bg-mode .sidebar {
 .link-row .link-item {
     cursor: pointer;
     border: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 12px;
     text-transform: uppercase;
 }
@@ -4096,7 +4096,7 @@ body.no-bg-mode .sidebar {
     font-size: 9px;
     border-radius: 3px;
     cursor: pointer;
-    font-family: "Orbitron", sans-serif;
+    font-family: "Arial Black", sans-serif;
     transition: all 0.2s ease;
 }
 .btn-mini-tag:hover {
@@ -4169,7 +4169,7 @@ body.no-bg-mode .sidebar {
 }
 
 .calendar-header .month-year {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 13px;
     color: var(--primary);
     letter-spacing: 1px;
@@ -4256,7 +4256,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid var(--primary);
     color: var(--primary);
     padding: 4px 12px;
-    font-family: 'Share Tech Mono';
+    font-family: 'Arial Black';
     font-size: 11px;
     border-radius: 4px;
     cursor: pointer;
@@ -4287,7 +4287,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.2);
     color: var(--text-muted);
     padding: 10px 25px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -4358,7 +4358,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prize-title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     font-size: 14px;
     color: var(--primary);
     margin-bottom: 5px;
@@ -4366,7 +4366,7 @@ body.no-bg-mode .sidebar {
 }
 
 .prize-subtitle {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 11px;
     color: var(--text-muted);
     margin-bottom: 20px;
@@ -4383,7 +4383,7 @@ body.no-bg-mode .sidebar {
     border: 1px solid rgba(0, 255, 170, 0.2);
     color: #fff;
     padding: 12px 15px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 16px;
     border-radius: 4px;
     outline: none;
@@ -4405,7 +4405,7 @@ body.no-bg-mode .sidebar {
 .btn-calc {
     flex: 1;
     padding: 10px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 11px;
     font-weight: 700;
     border-radius: 4px;
@@ -4447,7 +4447,7 @@ body.no-bg-mode .sidebar {
 .result-row {
     display: flex;
     justify-content: space-between;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Arial Black', monospace;
     font-size: 12px;
     color: var(--text-muted);
     margin-bottom: 8px;
@@ -4541,7 +4541,7 @@ body.no-bg-mode .sidebar {
 }
 
 .guide-modal h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Arial Black', sans-serif;
     color: var(--primary);
     margin-bottom: 10px;
     text-align: center;
