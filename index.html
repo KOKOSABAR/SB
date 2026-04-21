@@ -330,30 +330,33 @@
                                 </filter>
                             </defs>
                             
-                            <!-- Outer Hexagon Frame -->
-                            <path d="M50 5 L93 30 V70 L50 95 L7 70 V30 L50 5Z" stroke="url(#goldGrad)" stroke-width="2" fill="rgba(0,0,0,0.4)" filter="url(#glow)">
-                                <animate attributeName="stroke-opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                            <!-- Outer Rotating Cyber Ring -->
+                            <path d="M50 5 A45 45 0 0 1 95 50 A45 45 0 0 1 50 95 A45 45 0 0 1 5 50 A45 45 0 0 1 5 5" fill="none" stroke="url(#neonGrad)" stroke-width="2" stroke-dasharray="20 10" opacity="0.6">
+                                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="8s" repeatCount="indefinite" />
                             </path>
+
+                            <!-- Inner Rotating Ring (Opposite Direction) -->
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="url(#goldGrad)" stroke-width="1" stroke-dasharray="5 15" opacity="0.4">
+                                <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="12s" repeatCount="indefinite" />
+                            </circle>
                             
-                            <!-- Scanline Animation -->
-                            <rect x="10" y="0" width="80" height="1" fill="var(--primary)" opacity="0.2">
-                                <animate attributeName="y" from="5" to="95" dur="3s" repeatCount="indefinite" />
-                            </rect>
+                            <!-- Notched Gaming Shield (Double Layer) -->
+                            <path d="M50 12 L88 30 V70 L50 88 L12 70 V30 L50 12Z" fill="rgba(0, 255, 170, 0.05)" stroke="url(#neonGrad)" stroke-width="2.5" filter="url(#glow)" />
+                            <path d="M50 22 L75 35 V65 L50 78 L25 65 V35 L50 22Z" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.8" />
                             
-                            <!-- Middle Rotating Ring (Visual) -->
-                            <path d="M50 15 L80 32.5 V67.5 L50 85 L20 67.5 V32.5 L50 15Z" stroke="url(#neonGrad)" stroke-width="0.5" fill="none" opacity="0.3">
-                                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="10s" repeatCount="indefinite" />
-                            </path>
-                            
-                            <!-- Inner Solid Shield -->
-                            <path d="M50 22 L75 35 V65 L50 78 L25 65 V35 L50 22Z" fill="rgba(212, 175, 55, 0.1)" stroke="url(#goldGrad)" stroke-width="1.5" />
-                            
-                            <!-- Center "SB" Text -->
-                            <text x="50" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">SB</text>
-                            
-                            <!-- Accent Lines -->
-                            <line x1="50" y1="5" x2="50" y2="22" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
-                            <line x1="50" y1="78" x2="50" y2="95" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
+                            <!-- Energy Beams -->
+                            <line x1="50" y1="5" x2="50" y2="15" stroke="url(#neonGrad)" stroke-width="2" opacity="0.8">
+                                <animate attributeName="stroke-opacity" values="0.8;0.2;0.8" dur="1s" repeatCount="indefinite" />
+                            </line>
+                            <line x1="50" y1="85" x2="50" y2="95" stroke="url(#neonGrad)" stroke-width="2" opacity="0.8">
+                                <animate attributeName="stroke-opacity" values="0.8;0.2;0.8" dur="1s" repeatCount="indefinite" />
+                            </line>
+
+                            <!-- Center "SB" with Energy Pulse -->
+                            <text x="50" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">
+                                SB
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+                            </text>
                         </svg>
                     </div>
                     <div class="logo-text-luxury">
