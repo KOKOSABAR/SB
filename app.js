@@ -8,6 +8,42 @@ let scriptUrl = localStorage.getItem(SCRIPT_URL_KEY) || 'https://script.google.c
 const FOLDER_ID_KEY = 'pk_online_folder_id';
 const TOGEL_DATA_KEY = 'pk_online_togel_data';
 const GALLERY_DATA_KEY = 'pk_online_gallery_data';
+const THEME_KEY = 'pk_online_theme';
+
+const THEMES = [
+    { id: 'after-eight', name: 'After Eight', color: '#00ffaa' },
+    { id: 'gx-classic', name: 'GX Classic', color: '#ff0033' },
+    { id: 'ultraviolet', name: 'Ultraviolet', color: '#9900ff' },
+    { id: 'sub-zero', name: 'Sub Zero', color: '#0066ff' },
+    { id: 'frutti-di-mare', name: 'Frutti Di Mare', color: '#ff4d00' },
+    { id: 'purple-haze', name: 'Purple Haze', color: '#ccff00' },
+    { id: 'vaporwave', name: 'Vaporwave', color: '#00ffff' },
+    { id: 'rose-quartz', name: 'Rose Quartz', color: '#ff6699' },
+    { id: 'hackerman', name: 'Hackerman', color: '#00ff00' },
+    { id: 'lambda', name: 'Lambda', color: '#ff9900' },
+    { id: 'pay-to-win', name: 'Pay-To-Win', color: '#ffd700' },
+    { id: 'white-wolf', name: 'White Wolf', color: '#ffffff' }
+];
+
+function initTheme() {
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'after-eight';
+    document.body.setAttribute('data-theme', savedTheme);
+}
+
+function switchTheme(themeId) {
+    document.body.setAttribute('data-theme', themeId);
+    localStorage.setItem(THEME_KEY, themeId);
+    
+    // Update active state in UI if settings modal is open
+    document.querySelectorAll('.theme-card').forEach(card => {
+        card.classList.toggle('active', card.getAttribute('data-id') === themeId);
+    });
+}
+
+window.initTheme = initTheme;
+window.switchTheme = switchTheme;
+
+initTheme();
 
 const DEFAULT_FOLDER_ID = '1CLolADOa94s8tKp9r1mG19YhYNBDHnku';
 let driveFolderId = localStorage.getItem(FOLDER_ID_KEY) || DEFAULT_FOLDER_ID;
@@ -3079,6 +3115,23 @@ function openSettingsModal() {
         }
     };
 
+    const currentTheme = localStorage.getItem(THEME_KEY) || 'after-eight';
+    const themesHTML = THEMES.map(theme => `
+        <div class="theme-card ${theme.id === currentTheme ? 'active' : ''}" 
+             data-id="${theme.id}" 
+             onclick="window.switchTheme('${theme.id}')">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a0a 0%, ${theme.color}22 100%);">
+                <div class="dots">
+                    <div class="dot" style="background: ${theme.color}; box-shadow: 0 0 5px ${theme.color}88;"></div>
+                    <div class="dot" style="background: ${theme.color}; opacity: 0.7;"></div>
+                    <div class="dot" style="background: ${theme.color}; opacity: 0.4;"></div>
+                </div>
+                <div class="theme-check"></div>
+            </div>
+            <div class="theme-name">${theme.name}</div>
+        </div>
+    `).join('');
+
     overlay.innerHTML = `
         <div class="modal" style="max-width: 450px;">
             <div class="modal-header">
@@ -3140,6 +3193,13 @@ function openSettingsModal() {
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <div class="theme-section">
+                    <label>Dashboard Themes</label>
+                    <div class="theme-grid">
+                        ${themesHTML}
                     </div>
                 </div>
 
@@ -4993,31 +5053,31 @@ async function renderKesalahanTable() {
                             <div class="calc-card luxury-card" style="margin-bottom: 0; padding: 20px; border: 1px solid rgba(255, 77, 77, 0.2); background: rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 15px;">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div>
-                                        <div style="font-family: 'Orbitron'; font-size: 14px; color: #ff4d4d; font-weight: 800; letter-spacing: 1px;">${row[1].toString().toUpperCase()}</div>
-                                        <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px;">${row[3] || 'STAFF'} - ${row[2] || '-'}</div>
+                                        <div style="font-family: 'Orbitron'; font-size: 14px; color: var(--danger); font-weight: 800; letter-spacing: 1px;">${row[1].toString().toUpperCase()}</div>
+                                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">${row[3] || 'STAFF'} - ${row[2] || '-'}</div>
                                     </div>
-                                    <div style="background: #ff4d4d; color: #000; padding: 4px 10px; border-radius: 4px; font-weight: 900; font-size: 12px;">SCORE: ${row[10]}</div>
+                                    <div style="background: var(--danger); color: #000; padding: 4px 10px; border-radius: 4px; font-weight: 900; font-size: 12px;">SCORE: ${row[10]}</div>
                                 </div>
 
-                                <button class="btn btn-secondary" onclick="window.toggleMistakeDetails('${listId}', this)" style="width: 100%; height: 35px; font-size: 10px; font-weight: 800; border-color: rgba(255, 77, 77, 0.3); color: #ff4d4d;">
+                                <button class="btn btn-secondary" onclick="window.toggleMistakeDetails('${listId}', this)" style="width: 100%; height: 35px; font-size: 10px; font-weight: 800; border-color: var(--danger); color: var(--danger);">
                                     LIHAT KESALAHAN
                                 </button>
 
                                 <div id="${listId}" style="display: none; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 77, 77, 0.1);">
                                     <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
-                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE WD</span>
-                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[4] || 0}</span>
+                                        <span style="color: var(--text-muted); font-weight: 800; letter-spacing: 1px;">MISTAKE WD</span>
+                                        <span style="color: var(--danger); font-weight: 900;">= ${row[4] || 0}</span>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
-                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">MISTAKE DEPO</span>
-                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[5] || 0}</span>
+                                        <span style="color: var(--text-muted); font-weight: 800; letter-spacing: 1px;">MISTAKE DEPO</span>
+                                        <span style="color: var(--danger); font-weight: 900;">= ${row[5] || 0}</span>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
-                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH PROSES (FS/BS)</span>
-                                        <span style="color: #ff4d4d; font-weight: 900;">= ${row[6] || 0}</span>
+                                        <span style="color: var(--text-muted); font-weight: 800; letter-spacing: 1px;">SALAH PROSES (FS/BS)</span>
+                                        <span style="color: var(--danger); font-weight: 900;">= ${row[6] || 0}</span>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
-                                        <span style="color: rgba(255,255,255,0.5); font-weight: 800; letter-spacing: 1px;">SALAH SCATTER</span>
+                                        <span style="color: var(--text-muted); font-weight: 800; letter-spacing: 1px;">SALAH SCATTER</span>
                                         <span style="color: #ff4d4d; font-weight: 900;">= ${row[7] || 0}</span>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px;">
@@ -5677,7 +5737,7 @@ window.clearSbSearch = function() {
 function showSportsbookFallback(container, url, message) {
     container.innerHTML = `
         <div style="text-align:center; padding: 40px; font-family: Arial, sans-serif;">
-            <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+            <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.3); padding: 25px; border-radius: 12px; margin-bottom: 30px; transition: box-shadow 0.3s ease;" onmouseover="this.style.boxShadow='0 0 20px rgba(255,170,0,0.2)'" onmouseout="this.style.boxShadow='none'">
                 <h4 style="color: #ffaa00; margin-bottom: 10px;">AKSES OTOMATIS TERHAMBAT</h4>
                 <p style="color: rgba(255,255,255,0.6); font-size: 12px;">${message}</p>
             </div>
