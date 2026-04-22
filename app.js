@@ -33,7 +33,7 @@ function initTheme() {
 function switchTheme(themeId) {
     document.body.setAttribute('data-theme', themeId);
     localStorage.setItem(THEME_KEY, themeId);
-    
+
     // Update active state in UI if settings modal is open
     document.querySelectorAll('.theme-card').forEach(card => {
         card.classList.toggle('active', card.getAttribute('data-id') === themeId);
@@ -71,582 +71,582 @@ let galleryData = [];
 
 // --- DATA ---
 const DEFAULT_TOGEL_DATA = [
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "00:00:00", 
-        result: "00:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU PAGI", 
-        betClose: "00:00:01", 
-        result: "00:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "01:00:00", 
-        result: "01:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "KENTUCKY MIDDAY", 
-        betClose: "01:05:00", 
-        result: "01:20:00", 
-        linkResmi: "https://www.kylottery.com/apps/draw_games", 
-        linkAcuan: "https://play.kylottery.com/en-us/playnow/pick4.html", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a5fafa0102d98ab3959ceb9bb1045729/kl-logo.png" 
-    }, 
-    { 
-        nama: "FLORIDA MIDDAY", 
-        betClose: "01:20:00", 
-        result: "01:30:00", 
-        linkResmi: "https://www.youtube.com/@floridalottery/videos", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a3e564ccb04c2b751ad4fa88c06e39c1/1-removebg-preview.png" 
-    }, 
-    { 
-        nama: "HUAHIN0100", 
-        betClose: "00:30:00", 
-        result: "01:00:00", 
-        linkResmi: "https://huahinlottery.com/livedraw", 
-        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg", 
-        logo: "https://huahinlottery.com/assets/img/logo.png" 
-    }, 
-    { 
-        nama: "BANGKOK 0130", 
-        betClose: "01:00:00", 
-        result: "01:30:00", 
-        linkResmi: "https://bangkokpoolstoday.com/liveDraw.html", 
-        linkAcuan: "-", 
-        logo: "https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "02:00:00", 
-        result: "02:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "NEW YORK MIDDAY", 
-        betClose: "02:15:00", 
-        result: "02:25:00", 
-        linkResmi: "https://nylottery.ny.gov/draw-game?game=win4", 
-        linkAcuan: "-", 
-        logo: "https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png" 
-    }, 
-    { 
-        nama: "NORTH CAROLINA DAY", 
-        betClose: "02:45:00", 
-        result: "03:00:00", 
-        linkResmi: "https://www.wral.com/entertainment/lottery/", 
-        linkAcuan: "https://www.wral.com/news/video/1075494/", 
-        logo: "https://nclottery.com/Site/GFX/NCEL_Alt.svg" 
-    }, 
-    { 
-        nama: "BRUNEI02", 
-        betClose: "02:30:00", 
-        result: "02:45:00", 
-        linkResmi: "https://bruneipools.com/live-draw.html", 
-        linkAcuan: "-", 
-        logo: "https://bruneipools.com/assets/img/brunei-logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "03:00:00", 
-        result: "03:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "OREGON 03", 
-        betClose: "03:50:00", 
-        result: "04:00:00", 
-        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "04:00:00", 
-        result: "04:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "05:00:00", 
-        result: "05:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "06:00:00", 
-        result: "06:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "OREGON 06", 
-        betClose: "06:50:00", 
-        result: "07:00:00", 
-        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "07:00:00", 
-        result: "07:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "08:00:00", 
-        result: "08:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "09:00:00", 
-        result: "09:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "CALIFORNIA", 
-        betClose: "09:25:00", 
-        result: "09:30:00", 
-        linkResmi: "http://www.calottery.com/play/draw-games/daily-4", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/7c3b7b0affd7880d2dddf918ba2ac258/calottlogo.png" 
-    }, 
-    { 
-        nama: "FLORIDA EVENING", 
-        betClose: "09:35:00", 
-        result: "09:45:00", 
-        linkResmi: "https://www.youtube.com/@floridalottery/videos", 
-        linkAcuan: "https://floridalottery.com/where-to-play", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a3e564ccb04c2b751ad4fa88c06e39c1/1-removebg-preview.png" 
-    }, 
-    { 
-        nama: "OREGON 09", 
-        betClose: "09:50:00", 
-        result: "10:00:00", 
-        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "10:00:00", 
-        result: "10:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "BANGKOK 0930", 
-        betClose: "09:00:00", 
-        result: "09:30:00", 
-        linkResmi: "https://bangkokpoolstoday.com/liveDraw.html", 
-        linkAcuan: "-", 
-        logo: "https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png" 
-    }, 
-    { 
-        nama: "NEW YORK EVENING", 
-        betClose: "10:25:00", 
-        result: "10:35:00", 
-        linkResmi: "https://nylottery.ny.gov/draw-game?game=win4", 
-        linkAcuan: "-", 
-        logo: "https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png" 
-    }, 
-    { 
-        nama: "KENTUCKY EVENING", 
-        betClose: "10:45:00", 
-        result: "11:00:00", 
-        linkResmi: "https://www.kylottery.com/apps/draw_games/pick4/index.html", 
-        linkAcuan: "https://play.kylottery.com/en-us/playnow/pick4.html", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a5fafa0102d98ab3959ceb9bb1045729/kl-logo.png" 
-    }, 
-    { 
-        nama: "TOTO CAMBODIA LIVE", 
-        betClose: "10:45:00", 
-        result: "11:00:00", 
-        linkResmi: "https://www.youtube.com/@TotoCambodiaOfficial", 
-        linkAcuan: "https://totocambodialive.com/live-draw.html", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/f07d4e2a6517ef1cea9e2a897e4abb98/cambodia-draw.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "11:00:00", 
-        result: "11:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "CAROLINA EVENING", 
-        betClose: "11:17:00", 
-        result: "11:22:00", 
-        linkResmi: "https://www.wral.com/entertainment/lottery/", 
-        linkAcuan: "https://www.wral.com/news/video/1075494/", 
-        logo: "https://nclottery.com/Site/GFX/NCEL_Alt.svg" 
-    }, 
-    { 
-        nama: "CHELSEA11", 
-        betClose: "11:00:00", 
-        result: "11:15:00", 
-        linkResmi: "https://chelseapools.co.uk/", 
-        linkAcuan: "-", 
-        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "12:00:00", 
-        result: "12:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "BULLSEYE", 
-        betClose: "12:00:00", 
-        result: "12:15:00", 
-        linkResmi: "https://mylotto.co.nz/results/bullseye", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/f07d4e2a6517ef1cea9e2a897e4abb98/nz-bullseye.png" 
-    }, 
-    { 
-        nama: "POIPET12", 
-        betClose: "12:15:00", 
-        result: "12:30:00", 
-        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw", 
-        linkAcuan: "https://poipetlottery.com/liveresult", 
-        logo: "https://poipetpools.com/assets/img/poipet_logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "13:00:00", 
-        result: "13:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "OREGON 12", 
-        betClose: "12:50:00", 
-        result: "13:00:00", 
-        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU SIANG", 
-        betClose: "13:00:00", 
-        result: "13:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "SYDNEY LOTTO", 
-        betClose: "13:25:00", 
-        result: "13:50:00", 
-        linkResmi: "https://www.youtube.com/@SYDNEYLOTTOOFFICIAL1", 
-        linkAcuan: "https://lottosydney.fun/", 
-        logo: "https://sydneypoolstoday.com/assets/img/sydneypoolstoday.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "14:00:00", 
-        result: "14:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "BRUNEI14", 
-        betClose: "14:30:00", 
-        result: "14:45:00", 
-        linkResmi: "https://bruneipools.com/live-draw.html", 
-        linkAcuan: "-", 
-        logo: "https://bruneipools.com/assets/img/brunei-logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "15:00:00", 
-        result: "15:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "CHELSEA15", 
-        betClose: "15:00:00", 
-        result: "15:15:00", 
-        linkResmi: "https://chelseapools.co.uk/", 
-        linkAcuan: "-", 
-        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png" 
-    }, 
-    { 
-        nama: "POIPET15", 
-        betClose: "15:15:00", 
-        result: "15:30:00", 
-        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw", 
-        linkAcuan: "https://poipetlottery.com/liveresult", 
-        logo: "https://poipetpools.com/assets/img/poipet_logo.png" 
-    }, 
-    { 
-        nama: "TOTOMALI1530", 
-        betClose: "15:15:00", 
-        result: "15:30:00", 
-        linkResmi: "https://www.youtube.com/@TotoMaliLive", 
-        linkAcuan: "https://totomali.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "16:00:00", 
-        result: "16:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU SORE", 
-        betClose: "16:00:00", 
-        result: "16:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "HUAHIN1630", 
-        betClose: "16:00:00", 
-        result: "16:30:00", 
-        linkResmi: "https://huahinlottery.com/", 
-        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg", 
-        logo: "https://huahinlottery.com/assets/img/logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "17:00:00", 
-        result: "17:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "KING KONG4D SORE", 
-        betClose: "17:00:00", 
-        result: "17:15:00", 
-        linkResmi: "https://kingkongpools.com/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/d1f18e378e4a422b41ffe8d03065ce7d/logo-7.png" 
-    }, 
-    { 
-        nama: "SINGAPORE", 
-        betClose: "17:30:00", 
-        result: "17:45:00", 
-        linkResmi: "http://www.singaporepools.com.sg", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/651f502072e9d29074094a4066928e35/sgpools.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "18:00:00", 
-        result: "18:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "MAGNUM4D", 
-        betClose: "18:10:00", 
-        result: "18:40:00", 
-        linkResmi: "https://www.magnum4d.my/en/", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/8889f1c5fc738b5148145100c08a0ebc/439-4390693-magnum-pengeluaran-magnum-4d-hari-clipart-removebg-preview.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "19:00:00", 
-        result: "19:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU MALAM 1", 
-        betClose: "19:00:00", 
-        result: "19:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "CHELSEA19", 
-        betClose: "19:00:00", 
-        result: "19:15:00", 
-        linkResmi: "https://chelseapools.co.uk/", 
-        linkAcuan: "-", 
-        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png" 
-    }, 
-    { 
-        nama: "POIPET19", 
-        betClose: "19:30:00", 
-        result: "19:45:00", 
-        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw", 
-        linkAcuan: "https://poipetlottery.com/liveresult", 
-        logo: "https://poipetpools.com/assets/img/poipet_logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "20:00:00", 
-        result: "20:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "PCSO", 
-        betClose: "19:50:00", 
-        result: "20:10:00", 
-        linkResmi: "https://www.pcso.gov.ph/LiveStreaming.aspx", 
-        linkAcuan: "https://www.youtube.com/watch?v=POvsGpYUeHg", 
-        logo: "https://pcso.gov.ph/Images/Logos/PCSO_Logo.png" 
-    }, 
-    { 
-        nama: "TOTOMALI2030", 
-        betClose: "20:15:00", 
-        result: "20:30:00", 
-        linkResmi: "https://www.youtube.com/@TotoMaliLive", 
-        linkAcuan: "https://totomali.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "21:00:00", 
-        result: "21:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HUAHIN2100", 
-        betClose: "20:30:00", 
-        result: "21:00:00", 
-        linkResmi: "https://huahinlottery.com/", 
-        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg", 
-        logo: "https://huahinlottery.com/assets/img/logo.png" 
-    }, 
-    { 
-        nama: "CHELSEA21", 
-        betClose: "21:00:00", 
-        result: "21:15:00", 
-        linkResmi: "https://chelseapools.co.uk/", 
-        linkAcuan: "-", 
-        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png" 
-    }, 
-    { 
-        nama: "NEVADA", 
-        betClose: "21:15:00", 
-        result: "21:30:00", 
-        linkResmi: "https://www.nevadalottery.us", 
-        linkAcuan: "-", 
-        logo: "https://www.nevadalottery.us/images/logo.gif" 
-    }, 
-    { 
-        nama: "BRUNEI21", 
-        betClose: "21:30:00", 
-        result: "21:45:00", 
-        linkResmi: "https://bruneipools.com/live-draw.html", 
-        linkAcuan: "-", 
-        logo: "https://bruneipools.com/assets/img/brunei-logo.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "22:00:00", 
-        result: "22:00:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU MALAM 2", 
-        betClose: "22:00:00", 
-        result: "22:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "POIPET22", 
-        betClose: "22:30:00", 
-        result: "22:45:00", 
-        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw", 
-        linkAcuan: "https://poipetlottery.com/liveresult", 
-        logo: "https://poipetpools.com/assets/img/poipet_logo.png" 
-    }, 
-    { 
-        nama: "HONGKONG LOTTO", 
-        betClose: "22:35:00", 
-        result: "23:00:00", 
-        linkResmi: "https://kick.com/hongkong-lotto-official", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/a95376101165db91cfcd742f66dd8564/hklott.png" 
-    }, 
-    { 
-        nama: "TOTO MACAU MALAM 3", 
-        betClose: "22:00:00", 
-        result: "22:15:00", 
-        linkResmi: "https://kick.com/live-ttm4d", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png" 
-    }, 
-    { 
-        nama: "KING KONG4D MALAM", 
-        betClose: "23:30:00", 
-        result: "23:45:00", 
-        linkResmi: "https://kick.com/king-kong-pools", 
-        linkAcuan: "-", 
-        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/d1f18e378e4a422b41ffe8d03065ce7d/logo-7.png" 
-    }, 
-    { 
-        nama: "TOTOMALI2330", 
-        betClose: "23:15:00", 
-        result: "23:30:00", 
-        linkResmi: "https://www.youtube.com/@TotoMaliLive", 
-        linkAcuan: "https://totomali.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    }, 
-    { 
-        nama: "HOKIDRAW", 
-        betClose: "23:15:00", 
-        result: "23:30:00", 
-        linkResmi: "https://dlive.tv/u/HOKIDRAW", 
-        linkAcuan: "https://hokidraw.com/live-draw.html", 
-        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png" 
-    } 
+    {
+        nama: "HOKIDRAW",
+        betClose: "00:00:00",
+        result: "00:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "TOTO MACAU PAGI",
+        betClose: "00:00:01",
+        result: "00:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "01:00:00",
+        result: "01:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "KENTUCKY MIDDAY",
+        betClose: "01:05:00",
+        result: "01:20:00",
+        linkResmi: "https://www.kylottery.com/apps/draw_games",
+        linkAcuan: "https://play.kylottery.com/en-us/playnow/pick4.html",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a5fafa0102d98ab3959ceb9bb1045729/kl-logo.png"
+    },
+    {
+        nama: "FLORIDA MIDDAY",
+        betClose: "01:20:00",
+        result: "01:30:00",
+        linkResmi: "https://www.youtube.com/@floridalottery/videos",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a3e564ccb04c2b751ad4fa88c06e39c1/1-removebg-preview.png"
+    },
+    {
+        nama: "HUAHIN0100",
+        betClose: "00:30:00",
+        result: "01:00:00",
+        linkResmi: "https://huahinlottery.com/livedraw",
+        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg",
+        logo: "https://huahinlottery.com/assets/img/logo.png"
+    },
+    {
+        nama: "BANGKOK 0130",
+        betClose: "01:00:00",
+        result: "01:30:00",
+        linkResmi: "https://bangkokpoolstoday.com/liveDraw.html",
+        linkAcuan: "-",
+        logo: "https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "02:00:00",
+        result: "02:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "NEW YORK MIDDAY",
+        betClose: "02:15:00",
+        result: "02:25:00",
+        linkResmi: "https://nylottery.ny.gov/draw-game?game=win4",
+        linkAcuan: "-",
+        logo: "https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png"
+    },
+    {
+        nama: "NORTH CAROLINA DAY",
+        betClose: "02:45:00",
+        result: "03:00:00",
+        linkResmi: "https://www.wral.com/entertainment/lottery/",
+        linkAcuan: "https://www.wral.com/news/video/1075494/",
+        logo: "https://nclottery.com/Site/GFX/NCEL_Alt.svg"
+    },
+    {
+        nama: "BRUNEI02",
+        betClose: "02:30:00",
+        result: "02:45:00",
+        linkResmi: "https://bruneipools.com/live-draw.html",
+        linkAcuan: "-",
+        logo: "https://bruneipools.com/assets/img/brunei-logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "03:00:00",
+        result: "03:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "OREGON 03",
+        betClose: "03:50:00",
+        result: "04:00:00",
+        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "04:00:00",
+        result: "04:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "05:00:00",
+        result: "05:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "06:00:00",
+        result: "06:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "OREGON 06",
+        betClose: "06:50:00",
+        result: "07:00:00",
+        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "07:00:00",
+        result: "07:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "08:00:00",
+        result: "08:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "09:00:00",
+        result: "09:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "CALIFORNIA",
+        betClose: "09:25:00",
+        result: "09:30:00",
+        linkResmi: "http://www.calottery.com/play/draw-games/daily-4",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/7c3b7b0affd7880d2dddf918ba2ac258/calottlogo.png"
+    },
+    {
+        nama: "FLORIDA EVENING",
+        betClose: "09:35:00",
+        result: "09:45:00",
+        linkResmi: "https://www.youtube.com/@floridalottery/videos",
+        linkAcuan: "https://floridalottery.com/where-to-play",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a3e564ccb04c2b751ad4fa88c06e39c1/1-removebg-preview.png"
+    },
+    {
+        nama: "OREGON 09",
+        betClose: "09:50:00",
+        result: "10:00:00",
+        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "10:00:00",
+        result: "10:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "BANGKOK 0930",
+        betClose: "09:00:00",
+        result: "09:30:00",
+        linkResmi: "https://bangkokpoolstoday.com/liveDraw.html",
+        linkAcuan: "-",
+        logo: "https://bangkokpoolstoday.com/assets/img/bangkokpools_logo.png"
+    },
+    {
+        nama: "NEW YORK EVENING",
+        betClose: "10:25:00",
+        result: "10:35:00",
+        linkResmi: "https://nylottery.ny.gov/draw-game?game=win4",
+        linkAcuan: "-",
+        logo: "https://edit.nylottery.ny.gov/sites/default/files/logo-2179655b4229a219a9305b3f0e734bd0.png"
+    },
+    {
+        nama: "KENTUCKY EVENING",
+        betClose: "10:45:00",
+        result: "11:00:00",
+        linkResmi: "https://www.kylottery.com/apps/draw_games/pick4/index.html",
+        linkAcuan: "https://play.kylottery.com/en-us/playnow/pick4.html",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/a5fafa0102d98ab3959ceb9bb1045729/kl-logo.png"
+    },
+    {
+        nama: "TOTO CAMBODIA LIVE",
+        betClose: "10:45:00",
+        result: "11:00:00",
+        linkResmi: "https://www.youtube.com/@TotoCambodiaOfficial",
+        linkAcuan: "https://totocambodialive.com/live-draw.html",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/f07d4e2a6517ef1cea9e2a897e4abb98/cambodia-draw.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "11:00:00",
+        result: "11:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "CAROLINA EVENING",
+        betClose: "11:17:00",
+        result: "11:22:00",
+        linkResmi: "https://www.wral.com/entertainment/lottery/",
+        linkAcuan: "https://www.wral.com/news/video/1075494/",
+        logo: "https://nclottery.com/Site/GFX/NCEL_Alt.svg"
+    },
+    {
+        nama: "CHELSEA11",
+        betClose: "11:00:00",
+        result: "11:15:00",
+        linkResmi: "https://chelseapools.co.uk/",
+        linkAcuan: "-",
+        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "12:00:00",
+        result: "12:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "BULLSEYE",
+        betClose: "12:00:00",
+        result: "12:15:00",
+        linkResmi: "https://mylotto.co.nz/results/bullseye",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/f07d4e2a6517ef1cea9e2a897e4abb98/nz-bullseye.png"
+    },
+    {
+        nama: "POIPET12",
+        betClose: "12:15:00",
+        result: "12:30:00",
+        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw",
+        linkAcuan: "https://poipetlottery.com/liveresult",
+        logo: "https://poipetpools.com/assets/img/poipet_logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "13:00:00",
+        result: "13:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "OREGON 12",
+        betClose: "12:50:00",
+        result: "13:00:00",
+        linkResmi: "https://www.oregonlottery.org/pick-4/winning-numbers/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/0a72e6fa9a2d4ee4106678a8aeeab33624/favpng-oregon-lottery-video-lottery-terminal-game.png"
+    },
+    {
+        nama: "TOTO MACAU SIANG",
+        betClose: "13:00:00",
+        result: "13:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "SYDNEY LOTTO",
+        betClose: "13:25:00",
+        result: "13:50:00",
+        linkResmi: "https://www.youtube.com/@SYDNEYLOTTOOFFICIAL1",
+        linkAcuan: "https://lottosydney.fun/",
+        logo: "https://sydneypoolstoday.com/assets/img/sydneypoolstoday.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "14:00:00",
+        result: "14:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "BRUNEI14",
+        betClose: "14:30:00",
+        result: "14:45:00",
+        linkResmi: "https://bruneipools.com/live-draw.html",
+        linkAcuan: "-",
+        logo: "https://bruneipools.com/assets/img/brunei-logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "15:00:00",
+        result: "15:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "CHELSEA15",
+        betClose: "15:00:00",
+        result: "15:15:00",
+        linkResmi: "https://chelseapools.co.uk/",
+        linkAcuan: "-",
+        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png"
+    },
+    {
+        nama: "POIPET15",
+        betClose: "15:15:00",
+        result: "15:30:00",
+        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw",
+        linkAcuan: "https://poipetlottery.com/liveresult",
+        logo: "https://poipetpools.com/assets/img/poipet_logo.png"
+    },
+    {
+        nama: "TOTOMALI1530",
+        betClose: "15:15:00",
+        result: "15:30:00",
+        linkResmi: "https://www.youtube.com/@TotoMaliLive",
+        linkAcuan: "https://totomali.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "16:00:00",
+        result: "16:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "TOTO MACAU SORE",
+        betClose: "16:00:00",
+        result: "16:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "HUAHIN1630",
+        betClose: "16:00:00",
+        result: "16:30:00",
+        linkResmi: "https://huahinlottery.com/",
+        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg",
+        logo: "https://huahinlottery.com/assets/img/logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "17:00:00",
+        result: "17:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "KING KONG4D SORE",
+        betClose: "17:00:00",
+        result: "17:15:00",
+        linkResmi: "https://kingkongpools.com/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/d1f18e378e4a422b41ffe8d03065ce7d/logo-7.png"
+    },
+    {
+        nama: "SINGAPORE",
+        betClose: "17:30:00",
+        result: "17:45:00",
+        linkResmi: "http://www.singaporepools.com.sg",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/651f502072e9d29074094a4066928e35/sgpools.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "18:00:00",
+        result: "18:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "MAGNUM4D",
+        betClose: "18:10:00",
+        result: "18:40:00",
+        linkResmi: "https://www.magnum4d.my/en/",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az4/2024/08/11/20240811/8889f1c5fc738b5148145100c08a0ebc/439-4390693-magnum-pengeluaran-magnum-4d-hari-clipart-removebg-preview.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "19:00:00",
+        result: "19:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "TOTO MACAU MALAM 1",
+        betClose: "19:00:00",
+        result: "19:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "CHELSEA19",
+        betClose: "19:00:00",
+        result: "19:15:00",
+        linkResmi: "https://chelseapools.co.uk/",
+        linkAcuan: "-",
+        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png"
+    },
+    {
+        nama: "POIPET19",
+        betClose: "19:30:00",
+        result: "19:45:00",
+        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw",
+        linkAcuan: "https://poipetlottery.com/liveresult",
+        logo: "https://poipetpools.com/assets/img/poipet_logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "20:00:00",
+        result: "20:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "PCSO",
+        betClose: "19:50:00",
+        result: "20:10:00",
+        linkResmi: "https://www.pcso.gov.ph/LiveStreaming.aspx",
+        linkAcuan: "https://www.youtube.com/watch?v=POvsGpYUeHg",
+        logo: "https://pcso.gov.ph/Images/Logos/PCSO_Logo.png"
+    },
+    {
+        nama: "TOTOMALI2030",
+        betClose: "20:15:00",
+        result: "20:30:00",
+        linkResmi: "https://www.youtube.com/@TotoMaliLive",
+        linkAcuan: "https://totomali.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "21:00:00",
+        result: "21:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HUAHIN2100",
+        betClose: "20:30:00",
+        result: "21:00:00",
+        linkResmi: "https://huahinlottery.com/",
+        linkAcuan: "https://www.youtube.com/channel/UCRuZp9SemX0egu2LFGrkEjg",
+        logo: "https://huahinlottery.com/assets/img/logo.png"
+    },
+    {
+        nama: "CHELSEA21",
+        betClose: "21:00:00",
+        result: "21:15:00",
+        linkResmi: "https://chelseapools.co.uk/",
+        linkAcuan: "-",
+        logo: "https://chelseapools.co.uk/assets/img/chelseaPools_logo.png"
+    },
+    {
+        nama: "NEVADA",
+        betClose: "21:15:00",
+        result: "21:30:00",
+        linkResmi: "https://www.nevadalottery.us",
+        linkAcuan: "-",
+        logo: "https://www.nevadalottery.us/images/logo.gif"
+    },
+    {
+        nama: "BRUNEI21",
+        betClose: "21:30:00",
+        result: "21:45:00",
+        linkResmi: "https://bruneipools.com/live-draw.html",
+        linkAcuan: "-",
+        logo: "https://bruneipools.com/assets/img/brunei-logo.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "22:00:00",
+        result: "22:00:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "TOTO MACAU MALAM 2",
+        betClose: "22:00:00",
+        result: "22:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "POIPET22",
+        betClose: "22:30:00",
+        result: "22:45:00",
+        linkResmi: "https://www.youtube.com/channel/UCASg7YGGNAJ9saOZVeqVVuw",
+        linkAcuan: "https://poipetlottery.com/liveresult",
+        logo: "https://poipetpools.com/assets/img/poipet_logo.png"
+    },
+    {
+        nama: "HONGKONG LOTTO",
+        betClose: "22:35:00",
+        result: "23:00:00",
+        linkResmi: "https://kick.com/hongkong-lotto-official",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/a95376101165db91cfcd742f66dd8564/hklott.png"
+    },
+    {
+        nama: "TOTO MACAU MALAM 3",
+        betClose: "22:00:00",
+        result: "22:15:00",
+        linkResmi: "https://kick.com/live-ttm4d",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az2/2024/12/01/20241201/f70c3022131972b7a83d6a690e54284d/toto-macau-logo.png"
+    },
+    {
+        nama: "KING KONG4D MALAM",
+        betClose: "23:30:00",
+        result: "23:45:00",
+        linkResmi: "https://kick.com/king-kong-pools",
+        linkAcuan: "-",
+        logo: "https://cdn.areabermain.club/assets/cdn/az9/2024/11/26/20241126/d1f18e378e4a422b41ffe8d03065ce7d/logo-7.png"
+    },
+    {
+        nama: "TOTOMALI2330",
+        betClose: "23:15:00",
+        result: "23:30:00",
+        linkResmi: "https://www.youtube.com/@TotoMaliLive",
+        linkAcuan: "https://totomali.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    },
+    {
+        nama: "HOKIDRAW",
+        betClose: "23:15:00",
+        result: "23:30:00",
+        linkResmi: "https://dlive.tv/u/HOKIDRAW",
+        linkAcuan: "https://hokidraw.com/live-draw.html",
+        logo: "https://cdn-icons-png.flaticon.com/512/3069/3069188.png"
+    }
 ];
 
 let tickerData = [];
@@ -1388,14 +1388,14 @@ function savePredictionResultToStorage(results) {
 }
 
 function generateRandomPrediction(pasaran) {
-    const randomDigits = (n) => Array.from({length: n}, () => Math.floor(Math.random() * 10)).join('');
-    const randomSet = (n, count) => Array.from({length: count}, () => randomDigits(n)).join(' / ');
-    
+    const randomDigits = (n) => Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join('');
+    const randomSet = (n, count) => Array.from({ length: count }, () => randomDigits(n)).join(' / ');
+
     return {
         pasaran: pasaran,
         tanggal: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-        bbfs: Array.from({length: 7}, () => Math.floor(Math.random() * 10)).join(''),
-        angkaIkut: Array.from({length: 5}, () => Math.floor(Math.random() * 10)).join(''),
+        bbfs: Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)).join(''),
+        angkaIkut: Array.from({ length: 5 }, () => Math.floor(Math.random() * 10)).join(''),
         d4: randomSet(4, 5),
         d3: randomSet(3, 4),
         d2: randomSet(2, 10),
@@ -1441,7 +1441,7 @@ function renderPredictionSection() {
         const logo = marketLogos[pasaran] || 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png';
         const pred = predictionResults[pasaran];
         const isGenerated = !!pred;
-        
+
         html += `
             <div class="prediction-card ${isGenerated ? 'generated' : ''}" id="pred-card-${idx}">
                 <div class="prediction-card-header">
@@ -1522,8 +1522,8 @@ function generatePredictionFromSeed(pasaran, seed) {
     const digits = seed.split('');
     const getRandDigit = () => digits[Math.floor(Math.random() * digits.length)];
     const getRandSet = (len, count) => {
-        return Array.from({length: count}, () => {
-            return Array.from({length: len}, () => getRandDigit()).join('');
+        return Array.from({ length: count }, () => {
+            return Array.from({ length: len }, () => getRandDigit()).join('');
         }).join(' / ');
     };
 
@@ -1531,7 +1531,7 @@ function generatePredictionFromSeed(pasaran, seed) {
         pasaran: pasaran,
         tanggal: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
         bbfs: seed,
-        angkaIkut: Array.from({length: Math.min(5, digits.length + 2)}, () => getRandDigit()).join(''),
+        angkaIkut: Array.from({ length: Math.min(5, digits.length + 2) }, () => getRandDigit()).join(''),
         d4: getRandSet(4, 5),
         d3: getRandSet(3, 4),
         d2: getRandSet(2, 10),
@@ -1546,18 +1546,18 @@ function generatePredictionFromSeed(pasaran, seed) {
 function saveManualPrediction(event, pasaran, index) {
     event.preventDefault();
     const seed = document.getElementById('manual_seed').value.trim();
-    
+
     if (!seed || !/^\d+$/.test(seed)) {
         showToast('Masukkan angka yang valid!', 'error');
         return;
     }
 
     const data = generatePredictionFromSeed(pasaran, seed);
-    
+
     const results = getPredictionResultsFromStorage();
     results[pasaran] = data;
     savePredictionResultToStorage(results);
-    
+
     closeManualInputModal();
     renderPredictionSection();
     showToast(`Prediksi ${pasaran} berhasil di-generate dari angka ${seed}!`, 'success');
@@ -1567,9 +1567,9 @@ function viewDetailedPrediction(pasaran) {
     const results = getPredictionResultsFromStorage();
     const data = results[pasaran];
     if (!data) return;
-    
+
     const logo = marketLogos[pasaran] || 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png';
-    
+
     const modal = document.createElement('div');
     modal.className = 'modal-overlay prediction-detail-overlay';
     modal.id = 'predictionDetailModal';
@@ -1712,6 +1712,70 @@ window.copyDetailedPrediction = copyDetailedPrediction;
 window.closePredictionDetail = closePredictionDetail;
 let lotteryRefreshInterval = null;
 let sportsbookRefreshInterval = null;
+let gamesData = [];
+
+async function fetchDaftarGames() {
+    if (!useGoogleSheets || !scriptUrl) {
+        showToast('Mode Offline: Tidak dapat mengambil data games.', 'warning');
+        return;
+    }
+
+    try {
+        const result = await fetchFromGoogleSheets('getDaftarGames');
+        if (result && Array.isArray(result)) {
+            gamesData = result;
+            console.log('Games Data Loaded:', gamesData.length);
+        } else if (result && result.error) {
+            showToast(result.error, 'error');
+        }
+    } catch (error) {
+        console.error('Fetch Games Error:', error);
+    }
+}
+
+function filterGamesMassal() {
+    const textArea = document.getElementById('gameSearchTextArea');
+    const resultsContainer = document.getElementById('gameSearchResults');
+    const resultsBody = document.getElementById('gameResultsBody');
+    
+    if (!textArea || !resultsContainer || !resultsBody) return;
+
+    const input = textArea.value.trim();
+    if (!input) {
+        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">Data games akan muncul di sini...</td></tr>`;
+        return;
+    }
+
+    const searchTerms = input.split('\n').map(t => t.trim().toLowerCase()).filter(t => t);
+    const results = [];
+
+    searchTerms.forEach(term => {
+        const found = gamesData.filter(game => 
+            game.nama.toLowerCase().includes(term) || 
+            term.includes(game.nama.toLowerCase())
+        );
+        if (found.length > 0) {
+            results.push(...found);
+        }
+    });
+
+    // Remove duplicates
+    const uniqueResults = results.filter((v, i, a) => a.findIndex(t => (t.nama === v.nama && t.provider === v.provider)) === i);
+
+    if (uniqueResults.length > 0) {
+        resultsBody.innerHTML = uniqueResults.map(game => `
+            <tr>
+                <td><span class="status-badge safe" style="font-size: 10px;">${game.kategori}</span></td>
+                <td style="color: var(--accent); font-weight: bold;">${game.provider}</td>
+                <td style="color: #fff;">${game.nama}</td>
+            </tr>
+        `).join('');
+    } else {
+        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">Tidak ada data yang cocok ditemukan.</td></tr>`;
+    }
+}
+
+window.filterGamesMassal = filterGamesMassal;
 
 function switchSection(sectionId) {
     localStorage.setItem('activeSection', sectionId);
@@ -1766,14 +1830,14 @@ function switchSection(sectionId) {
     } else if (sectionId === 'backupKesalahan') {
         if (headerTitle) headerTitle.textContent = 'BACKUP KESALAHAN LC';
         if (btnAddTop) btnAddTop.style.display = 'none';
-        
+
         // Default date to today if empty
         const dateInput = document.getElementById('backupKesalahanDateInput');
         if (dateInput && !dateInput.value) {
             const today = new Date().toISOString().split('T')[0];
             dateInput.value = today;
         }
-        
+
         renderBackupKesalahanTable();
     } else if (sectionId === 'izinKeluar') {
         if (headerTitle) headerTitle.textContent = 'Data Izin Keluar';
@@ -1787,6 +1851,10 @@ function switchSection(sectionId) {
         if (headerTitle) headerTitle.textContent = 'Prediksi Togel';
         if (btnAddTop) btnAddTop.style.display = 'none';
         renderPredictionSection();
+    } else if (sectionId === 'daftarGames') {
+        if (headerTitle) headerTitle.textContent = 'DAFTAR GAMES WDBOS';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        fetchDaftarGames();
     } else if (sectionId === 'slot') {
         if (headerTitle) headerTitle.textContent = 'Games Slot';
         if (btnAddTop) btnAddTop.style.display = 'none';
@@ -1846,7 +1914,7 @@ function switchSection(sectionId) {
     } else if (sectionId === 'sportsbook') {
         if (headerTitle) headerTitle.textContent = 'SPORTSBOOK RESULTS';
         if (btnAddTop) btnAddTop.style.display = 'none';
-        
+
         // Inisialisasi Filter Tanggal
         const dateSelect = document.getElementById('sbDateSelect');
         if (dateSelect && dateSelect.options.length === 0) {
@@ -1866,7 +1934,7 @@ function switchSection(sectionId) {
         }
 
         // Global function untuk tombol Yesterday/Today
-        window.setSbDateOffset = function(offset) {
+        window.setSbDateOffset = function (offset) {
             if (dateSelect) {
                 dateSelect.selectedIndex = offset;
                 renderSportsbookTable(true);
@@ -1883,7 +1951,7 @@ function switchSection(sectionId) {
             dateSelect.dataset.listener = 'true';
             dateSelect.addEventListener('change', () => renderSportsbookTable(true));
         }
-        
+
         renderSportsbookTable();
         // Aktifkan Auto Refresh (Setiap 60 Detik)
         sportsbookRefreshInterval = setInterval(renderSportsbookTable, 60000);
@@ -1930,7 +1998,7 @@ function renderTogelList() {
     let filteredData = tickerData;
 
     if (searchQuery) {
-        filteredData = filteredData.filter(pasaran => 
+        filteredData = filteredData.filter(pasaran =>
             pasaran.nama.toLowerCase().includes(searchQuery)
         );
     }
@@ -1946,7 +2014,7 @@ function renderTogelList() {
         const status = getPasaranStatus(pasaran);
         const statusClass = `status-${status}`;
         const statusLabel = status === 'open' ? 'OPEN' : status === 'bet_close' ? 'BET CLOSE' : 'RESULT';
-        
+
         return `
         <div class="togel-card ${statusClass}">
             <div class="togel-card-header">
@@ -1987,7 +2055,7 @@ let editingTogelIndex = null;
 function openTogelSettings(index) {
     editingTogelIndex = index;
     const pasaran = tickerData[index];
-    
+
     const overlay = document.getElementById('togelSettingsOverlay');
     const title = document.getElementById('togelSettingsTitle');
     const nameInput = document.getElementById('togelPasaranName');
@@ -2014,7 +2082,7 @@ function closeTogelSettings() {
 
 function saveTogelSettings(event) {
     if (event) event.preventDefault();
-    
+
     if (editingTogelIndex === null) return;
 
     const betClose = document.getElementById('togelBetClose').value;
@@ -2141,7 +2209,7 @@ async function loadLotteryData() {
     try {
         console.log('🔄 Memulai Sinkronisasi Realtime WDBOS...');
         const data = await fetchFromGoogleSheets('scrapeWdbos');
-        
+
         if (data && Array.isArray(data)) {
             lotteryData = data;
             renderLotteryResults();
@@ -2185,17 +2253,17 @@ function renderLotteryResults() {
     container.innerHTML = lotteryData.map((lot, index) => {
         if (!lot || !lot.market) return '';
         const normalizedMarket = lot.market.toUpperCase().replace(/\s+/g, ' ').trim();
-        
+
         // Helper untuk memuat gambar (Standardisasi ke Server Aset Resmi & Bypass Hotlink)
         const getProxiedUrl = (path) => {
             if (!path) return '';
-            
+
             let cleanPath = path;
             // Jika path adalah URL absolut ke mirror lain, arahkan ke domain aset pusat agar stabil
             if (path.includes('/assets/LOTTERY-Web/')) {
                 cleanPath = '/assets/LOTTERY-Web/' + path.split('/assets/LOTTERY-Web/')[1];
             }
-            
+
             // Perbaikan path: Pola WDBOS seringkali membutuhkan sub-folder /bg/ atau /icon/
             if (cleanPath.endsWith('/bg.png') && !cleanPath.includes('/bg/bg.png')) {
                 cleanPath = cleanPath.replace('/bg.png', '/bg/bg.png');
@@ -2206,16 +2274,16 @@ function renderLotteryResults() {
 
             // Gunakan domain aset resmi yang terverifikasi (png-res.png999.com)
             const baseUrl = 'https://png-res.png999.com';
-            const fullUrl = cleanPath.startsWith('http') ? 
-                            cleanPath.replace(/https?:\/\/[^\/]+/, baseUrl) : 
-                            baseUrl + (cleanPath.startsWith('/') ? '' : '/') + cleanPath;
-            
+            const fullUrl = cleanPath.startsWith('http') ?
+                cleanPath.replace(/https?:\/\/[^\/]+/, baseUrl) :
+                baseUrl + (cleanPath.startsWith('/') ? '' : '/') + cleanPath;
+
             // Gunakan Weserv Proxy untuk memotong proteksi blokir gambar (Hotlink)
             return `https://images.weserv.nl/?url=${encodeURIComponent(fullUrl)}`;
         };
 
         const logo = getProxiedUrl(lot.image) || 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png';
-        
+
         // Prediksi banner dari logo (Pola WDBOS: icon/icon.png -> bg/bg.png)
         let bannerPath = lot.banner;
         if (!bannerPath && lot.image && lot.image.includes('icon/icon.png')) {
@@ -2223,12 +2291,12 @@ function renderLotteryResults() {
         }
 
         const fallbackBanner = '/assets/images/lottery/bg-default.jpg';
-        const banner = bannerPath ? getProxiedUrl(bannerPath) : getProxiedUrl(fallbackBanner);        
-        
+        const banner = bannerPath ? getProxiedUrl(bannerPath) : getProxiedUrl(fallbackBanner);
+
         const resultValue = lot.result || '----';
         const isLong = resultValue.length > 10;
         const colorClass = borderColors[index % borderColors.length];
-        
+
         const isLive = (lot.countdown && lot.countdown.includes('00:00:00')) || normalizedMarket.includes('LIVE');
         const showStream = normalizedMarket.includes('CAMBODIA') || normalizedMarket.includes('SYDNEY') || normalizedMarket.includes('HONGKONG');
 
@@ -2268,7 +2336,7 @@ let currentSlotCategory = 'Semua';
 
 function filterSlotCategory(category) {
     currentSlotCategory = category;
-    
+
     // Update button styles
     const buttons = document.querySelectorAll('.btn-category');
     buttons.forEach(btn => {
@@ -2278,7 +2346,7 @@ function filterSlotCategory(category) {
             btn.classList.remove('active');
         }
     });
-    
+
     renderSlotGames();
 }
 
@@ -2291,7 +2359,7 @@ function renderSlotGames() {
 
     let filteredData = SLOT_GAMES_DATA.filter(game => {
         const matchesSearch = game.nama.toLowerCase().includes(searchQuery) ||
-                            game.provider.toLowerCase().includes(searchQuery);
+            game.provider.toLowerCase().includes(searchQuery);
         const matchesCategory = currentSlotCategory === 'Semua' || game.tanggal === currentSlotCategory;
         return matchesSearch && matchesCategory;
     });
@@ -2330,18 +2398,18 @@ function openGuideModal(title) {
     const modalTitle = document.getElementById('guideModalTitle');
     const modalImage = document.getElementById('guideModalImage');
     const loader = document.getElementById('guideImageLoader');
-    
+
     if (overlay && modalTitle && modalImage) {
         modalTitle.textContent = title;
-        
+
         if (loader) loader.style.display = 'flex';
         modalImage.style.display = 'none';
-        
+
         modalImage.onload = () => {
             if (loader) loader.style.display = 'none';
             modalImage.style.display = 'block';
         };
-        
+
         modalImage.src = guideImages[title] || '';
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -2378,13 +2446,13 @@ function openSlotGame(nama, url) {
     const frame = document.getElementById('slotPlayerFrame');
     const title = document.getElementById('slotPlayerTitle');
     const desc = document.getElementById('slotPlayerDesc');
-    
+
     if (frame && title && desc) {
         title.textContent = nama;
         desc.textContent = `Memuat game ${nama}...`;
         frame.src = url;
         switchSection('slotPlayer');
-        
+
         frame.onload = () => {
             desc.textContent = "Selamat bermain!";
         };
@@ -2407,15 +2475,15 @@ function calculatePrize(type) {
     const bayarEl = document.getElementById(`bayar${type}`);
     const menangEl = document.getElementById(`menang${type}`);
     const totalEl = document.getElementById(`total${type}`);
-    
+
     if (!input || !bayarEl || !menangEl) return;
-    
+
     const bet = parseFloat(input.value) || 0;
     let diskon = 0;
     let hadiah = 0;
     let kei = 0;
-    
-    switch(type) {
+
+    switch (type) {
         case '5D': diskon = 0.38; hadiah = 50000; break;
         case '4D': diskon = 0.20; hadiah = 7000; break;
         case '3D': diskon = 0.20; hadiah = 750; break;
@@ -2442,7 +2510,7 @@ function calculatePrize(type) {
         case 'Prize3_2': diskon = 0; hadiah = 110; break;
         case 'Prize3_2': diskon = 0; hadiah = 110; break;
         case 'Prize3_3': diskon = 0; hadiah = 8; break;
-        
+
         // LAINNYA
         case 'ColokBebas': diskon = 0.06; hadiah = 1.5; break;
         case 'ColokBebas2D2': diskon = 0.10; hadiah = 7; break;
@@ -2462,10 +2530,10 @@ function calculatePrize(type) {
         case 'KembangKempis': diskon = 0.02; kei = -0.03; hadiah = 1; break;
         case 'Kombinasi': diskon = 0.08; hadiah = 2.6; break;
     }
-    
+
     const bayar = bet * (1 - kei) * (1 - diskon);
     const menang = bet * hadiah;
-    
+
     bayarEl.textContent = Math.round(bayar).toLocaleString('en-US');
     menangEl.textContent = Math.round(menang).toLocaleString('en-US');
 
@@ -2479,7 +2547,7 @@ function resetPrize(type) {
     const bayarEl = document.getElementById(`bayar${type}`);
     const menangEl = document.getElementById(`menang${type}`);
     const totalEl = document.getElementById(`total${type}`);
-    
+
     if (input) input.value = 1000;
     if (bayarEl) bayarEl.textContent = '0';
     if (menangEl) menangEl.textContent = '0';
@@ -2492,7 +2560,7 @@ window.resetPrize = resetPrize;
 function switchPrizeCategory(category) {
     const containers = document.querySelectorAll('.prize-container');
     const buttons = document.querySelectorAll('.btn-category');
-    
+
     // Debug logging
     const log = (msg) => {
         const debug = document.getElementById('debugLog');
@@ -2505,18 +2573,18 @@ function switchPrizeCategory(category) {
 
     containers.forEach(c => c.style.display = 'none');
     buttons.forEach(b => b.classList.remove('active'));
-    
+
     const targetId = `prizeContainer${category.charAt(0).toUpperCase() + category.slice(1)}`;
     const targetContainer = document.getElementById(targetId);
     const targetButton = document.getElementById(`btnCat${category}`);
-    
+
     if (targetContainer) {
         targetContainer.style.display = 'block';
         log(`Container ${targetId} shown.`);
     } else {
         log(`ERROR: Container ${targetId} NOT FOUND.`);
     }
-    
+
     if (targetButton) targetButton.classList.add('active');
 }
 
@@ -2609,7 +2677,7 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
         }
     } catch (error) {
         console.error('Fetch Error:', error);
-        
+
         // Fallback to JSONP for GET requests if fetch fails (Common for GAS CORS issues)
         if (method === 'GET') {
             return new Promise((resolve) => {
@@ -2625,13 +2693,13 @@ async function fetchFromGoogleSheets(action, data = {}, method = 'GET') {
                 const separator = scriptUrl.includes('?') ? '&' : '?';
                 const params = new URLSearchParams({ ...data, action, callback: callbackName }).toString();
                 script.src = `${scriptUrl}${separator}${params}`;
-                script.onerror = () => { 
-                    resolve({ 
-                        error: 'Koneksi Gagal (JSONP). Pastikan Script di-Deploy sebagai "Web App" dengan akses "Anyone".' 
-                    }); 
+                script.onerror = () => {
+                    resolve({
+                        error: 'Koneksi Gagal (JSONP). Pastikan Script di-Deploy sebagai "Web App" dengan akses "Anyone".'
+                    });
                 };
                 document.body.appendChild(script);
-                
+
                 // Timeout for JSONP
                 setTimeout(() => {
                     if (window[callbackName]) {
@@ -2672,7 +2740,7 @@ async function testGASConnection() {
     const statusText = document.getElementById('connStatusText');
     const statusDot = document.getElementById('connStatusDot');
     const log = document.getElementById('debugLog');
-    
+
     if (statusText) statusText.textContent = 'Testing...';
     if (statusDot) statusDot.className = 'status-dot warning';
     if (log) log.innerHTML = `[${new Date().toLocaleTimeString()}] Memulai tes koneksi...\n` + log.innerHTML;
@@ -2682,11 +2750,11 @@ async function testGASConnection() {
         if (result && result.status === 'success') {
             showToast('Koneksi Backend Berhasil!', 'success');
             updateConnectionStatus(true);
-            
+
             if (log) {
                 log.innerHTML = `[${new Date().toLocaleTimeString()}] TERHUBUNG: ${result.spreadsheet}\n` +
-                              `[${new Date().toLocaleTimeString()}] ID: ${result.id}\n` +
-                              `-------------------\n` + log.innerHTML;
+                    `[${new Date().toLocaleTimeString()}] ID: ${result.id}\n` +
+                    `-------------------\n` + log.innerHTML;
             }
         } else {
             const errMsg = result && result.error ? result.error : 'Respon Server Tidak Valid';
@@ -2703,7 +2771,7 @@ async function testGASConnection() {
 }
 
 // Helper to open script in new tab for direct testing
-window.openScriptDiagnostic = function() {
+window.openScriptDiagnostic = function () {
     if (scriptUrl) {
         window.open(scriptUrl, '_blank');
         showToast('Membuka URL Script... Jika muncul error Google, periksa izin Deploy.', 'info');
@@ -2715,7 +2783,7 @@ window.openScriptDiagnostic = function() {
 function updateConnectionStatus(isOk, errorMsg = '') {
     const statusText = document.getElementById('connStatusText');
     const statusDot = document.getElementById('connStatusDot');
-    
+
     if (isOk) {
         if (statusText) statusText.textContent = 'Online';
         if (statusDot) statusDot.className = 'status-dot active';
@@ -2743,7 +2811,7 @@ async function preloadDashboardData(force = false) {
             renderBackupKesalahanTable(),
             renderIzinKeluarTable()
         ]);
-        
+
         if (force) showToast('Dashboard Berhasil Diperbarui!', 'success');
     } catch (e) {
         console.error('Preload Error:', e);
@@ -2859,7 +2927,7 @@ function closeModal() {
     if (overlay) overlay.classList.remove('active');
 }
 
-window.expandNote = function(noteId) {
+window.expandNote = function (noteId) {
     const note = notes.find(n => n.id === noteId);
     if (!note) return;
 
@@ -2872,7 +2940,7 @@ window.expandNote = function(noteId) {
     if (title) title.textContent = note.judul || 'Tanpa Judul';
     if (content) content.textContent = note.isi || '';
     if (time) time.textContent = formatDate(note.createdAt || note.updatedAt);
-    
+
     if (copyBtn) {
         copyBtn.onclick = () => {
             navigator.clipboard.writeText(note.isi || '').then(() => {
@@ -2884,7 +2952,7 @@ window.expandNote = function(noteId) {
     if (overlay) overlay.classList.add('active');
 };
 
-window.closeViewNote = function() {
+window.closeViewNote = function () {
     const overlay = document.getElementById('viewNoteOverlay');
     if (overlay) overlay.classList.remove('active');
 }
@@ -3265,27 +3333,27 @@ function toggleSidebar() {
 function init() {
     console.log('Initializing SB Dashboard...');
     loadNotes();
-    
+
     // Apply background mode
     const isBgDisabled = localStorage.getItem('disable_bg') === 'true';
     if (isBgDisabled) {
         document.body.classList.add('no-bg-mode');
     }
-    
+
     loadBackground(); // Load persisted background
-    
+
     // FORCE UPDATE: Migrate old unauthorized URL to new authorized one
     const OLD_SCRIPT_URL_1 = 'https://script.google.com/macros/s/AKfycbyRTnpTClBx8tjngwk6FoB0SKT0dSGev7NS1tInV_9CYIf_UrHGA6QrSP4xG6nVPcSoaw/exec';
     const OLD_SCRIPT_URL_2 = 'https://script.google.com/macros/s/AKfycbwUCs3WKo-O2KspiExnWx5kQIBXhDD9CiqT8_1r93QFTIE963YTMJ3gnfQWAcutnTRQZA/exec';
     const OLD_SCRIPT_URL_3 = 'https://script.google.com/macros/s/AKfycbxvMsS40m0T8-GLkFE3Cw76cpkOJv_O_XhTOLLWn3Z1qRdzUrpw9T8XmD_e_JnHOy60/exec';
     const CURRENT_URL = 'https://script.google.com/macros/s/AKfycbw2pGpYeusit_AWc_bzNhNUmWjJ1dZSl_M8TZOLhrrGaG6SvBGTQaTLpmYt81X6zCAS/exec';
-    
+
     let storedUrl = localStorage.getItem(SCRIPT_URL_KEY);
     if (!storedUrl || storedUrl === OLD_SCRIPT_URL_1 || storedUrl === OLD_SCRIPT_URL_2 || storedUrl === OLD_SCRIPT_URL_3) {
         localStorage.setItem(SCRIPT_URL_KEY, CURRENT_URL);
         storedUrl = CURRENT_URL;
     }
-    
+
     if (storedUrl) scriptUrl = storedUrl;
     useGoogleSheets = !!scriptUrl;
 
@@ -3368,7 +3436,7 @@ window.exportToCSV = exportToCSV;
 window.testGASConnection = testGASConnection;
 window.preloadDashboardData = preloadDashboardData;
 
-window.toggleBgMode = function(enabled) {
+window.toggleBgMode = function (enabled) {
     if (enabled) {
         document.body.classList.add('no-bg-mode');
         localStorage.setItem('disable_bg', 'true');
@@ -3378,11 +3446,11 @@ window.toggleBgMode = function(enabled) {
     }
 };
 
-window.toggleMistakeLedger = function() {
+window.toggleMistakeLedger = function () {
     const cards = document.getElementById('mistakeDetailedCards');
     const btn = document.getElementById('btnToggleMistakeLedger');
     if (!cards || !btn) return;
-    
+
     if (cards.style.display === 'none') {
         cards.style.display = 'grid';
         btn.textContent = 'SEMBUNYIKAN DETAIL';
@@ -3394,7 +3462,7 @@ window.toggleMistakeLedger = function() {
     }
 };
 
-window.toggleMistakeDetails = function(id, btn) {
+window.toggleMistakeDetails = function (id, btn) {
     const el = document.getElementById(id);
     if (!el) return;
     if (el.style.display === 'none') {
@@ -3406,7 +3474,7 @@ window.toggleMistakeDetails = function(id, btn) {
     }
 };
 
-window.handleBackgroundUpload = async function(input) {
+window.handleBackgroundUpload = async function (input) {
     if (!input.files || !input.files[0]) return;
     if (!useGoogleSheets || !scriptUrl) {
         showToast('Aktifkan script URL terlebih dahulu', 'error');
@@ -3414,13 +3482,13 @@ window.handleBackgroundUpload = async function(input) {
     }
 
     const file = input.files[0];
-    
+
     showToast('Mengompres Gambar...', 'loading', 0);
-    
+
     try {
         const compressedBase64 = await compressImage(file, 1200, 0.7); // Resize to max 1200px, 70% quality
         showToast('Mengupload Baground...', 'loading', 0);
-        
+
         const uploadRes = await fetchFromGoogleSheets('uploadImage', {
             base64: compressedBase64.split(',')[1],
             filename: 'bg_' + Date.now() + '.jpg',
@@ -3436,7 +3504,7 @@ window.handleBackgroundUpload = async function(input) {
                     finalUrl = `https://lh3.googleusercontent.com/u/0/d/${fileIdMatch[1]}`;
                 }
             }
-            
+
             console.log("Upload success, updating background URL:", finalUrl);
             await window.updateDashboardBackground(finalUrl);
             showToast('Background berhasil diperbarui!', 'success');
@@ -3444,7 +3512,7 @@ window.handleBackgroundUpload = async function(input) {
             console.error("Upload failed:", uploadRes);
             const errorMsg = uploadRes?.error || 'Gagal upload gambar (Server Error)';
             showToast(errorMsg, 'error');
-            
+
             if (errorMsg.toLowerCase().includes('permission') || errorMsg.toLowerCase().includes('drive')) {
                 const btn = document.getElementById('fixPermissionBtn');
                 if (btn) btn.style.display = 'block';
@@ -3485,24 +3553,24 @@ async function compressImage(file, maxWidth, quality) {
     });
 }
 
-window.updateDashboardBackground = async function(url) {
+window.updateDashboardBackground = async function (url) {
     const previewEl = document.getElementById('bgPreview');
-    
+
     // 1. Update UI Immediately with FORCE
     if (url) {
         let finalUrl = url;
         // Ensure direct image link
         if (finalUrl.includes('drive.google.com/uc')) {
-             const id = new URL(finalUrl).searchParams.get('id');
-             finalUrl = `https://lh3.googleusercontent.com/u/0/d/${id}`;
+            const id = new URL(finalUrl).searchParams.get('id');
+            finalUrl = `https://lh3.googleusercontent.com/u/0/d/${id}`;
         }
 
         const bgValue = `linear-gradient(rgba(0, 15, 15, 0.7), rgba(0, 15, 15, 0.7)), url('${finalUrl}'), radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.05) 0%, transparent 40%)`;
-        
+
         document.body.style.setProperty('background-image', bgValue, 'important');
         document.body.style.setProperty('background-size', 'cover, cover, auto, auto', 'important');
         document.body.style.setProperty('background-attachment', 'fixed', 'important');
-        
+
         if (previewEl) {
             previewEl.style.display = 'flex';
             previewEl.style.backgroundImage = `url('${finalUrl}')`;
@@ -3511,7 +3579,7 @@ window.updateDashboardBackground = async function(url) {
         document.body.style.backgroundImage = '';
         if (previewEl) previewEl.style.display = 'none';
     }
-    
+
     // 2. Persist to Cloud
     if (useGoogleSheets && scriptUrl) {
         try {
@@ -3550,13 +3618,13 @@ function extractWdData(silent = false) {
     const rawText = input.value;
 
     let wdData = [];
-    
+
     const lines = rawText.trim().split(/\r?\n/);
     let currentBlock = [];
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        if (/^\d+\s+\S+/.test(line.trim()) && lines[i+1] && lines[i+1].includes("Withdraw")) {
+        if (/^\d+\s+\S+/.test(line.trim()) && lines[i + 1] && lines[i + 1].includes("Withdraw")) {
             if (currentBlock.length > 0) {
                 processBlock(currentBlock, wdData);
             }
@@ -3569,7 +3637,7 @@ function extractWdData(silent = false) {
     if (currentBlock.length > 0) {
         processBlock(currentBlock, wdData);
     }
-    
+
     function processBlock(linesBlock, wdDataArray) {
         if (linesBlock.length < 2) return;
 
@@ -3590,7 +3658,7 @@ function extractWdData(silent = false) {
 
         const wdMatch = fullBlockStr.match(/Withdraw\s+[\d\-]+\s+[\d:]+\s+([\d,]+)/i);
         if (wdMatch) amount = wdMatch[1];
-        
+
         const toMatch = fullBlockStr.match(/To\s*:\s*([^,]+),\s*(\d+),\s*(.*?)(?=\s*-?\s*Auto|$|\n)/i);
         if (toMatch) {
             bank = toMatch[1].trim();
@@ -3599,11 +3667,11 @@ function extractWdData(silent = false) {
         } else {
             const fallbackAcc = fullBlockStr.match(/\b(\d{10,16})\b/);
             if (fallbackAcc) accNum = fallbackAcc[1];
-            
+
             const fallbackAmt = fullBlockStr.match(/Withdraw.*?([\d,]{4,})/i) || fullBlockStr.match(/([\d\.,]{4,})/);
             if (fallbackAmt) amount = fallbackAmt[1];
         }
-        
+
         if (bank !== "BANK" || accNum !== "0" || amount !== "0") {
             wdDataArray.push({ bank, accNum, username, fullName, amount });
         }
@@ -3652,7 +3720,7 @@ function renderWdResults() {
 function resetWdData() {
     const input = document.getElementById('wdInput');
     if (input) input.value = '';
-    
+
     extractedWdData = [];
     renderWdResults();
     showToast('Data cleared', 'info');
@@ -3678,7 +3746,7 @@ function downloadWdCSV() {
     const blob = new Blob([header + csvRows], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `WD_EXPORT_${new Date().toISOString().slice(0,10)}.csv`;
+    link.download = `WD_EXPORT_${new Date().toISOString().slice(0, 10)}.csv`;
     link.click();
     showToast('CSV file downloaded', 'success');
 }
@@ -3704,35 +3772,35 @@ function extractDepoMybca(silent = false) {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        
+
         // Check for Tab format: Desc [TAB] IDR Amount [TAB] IDR Balance
         if (line.includes('\t')) {
             const parts = line.split('\t');
             if (parts.length >= 2) {
                 let descRaw = parts[0];
                 let amountRaw = parts[1];
-                
-                let type = descRaw.includes(' CR ') || descRaw.includes('CR -') ? "MASUK" : 
-                           (descRaw.includes(' DB ') || descRaw.includes('DB -') ? "KELUAR" : "MASUK");
-                
+
+                let type = descRaw.includes(' CR ') || descRaw.includes('CR -') ? "MASUK" :
+                    (descRaw.includes(' DB ') || descRaw.includes('DB -') ? "KELUAR" : "MASUK");
+
                 // Clean amount: "IDR 2,000,000.00" -> "2,000,000.00"
                 let amount = amountRaw.replace(/IDR\s*/i, '').trim();
-                
+
                 // Clean description
                 let cleanDesc = descRaw;
-                
+
                 // 1. Remove prefixes
                 cleanDesc = cleanDesc.replace(/^(?:BI-FAST|TRSF E-BANKING|TRSF)\s+(?:CR|DB)\s+-\s+/i, '');
-                
+
                 // 2. Remove "TRANSFER DR 002 " or "TRANSFER KE 123 "
                 cleanDesc = cleanDesc.replace(/^TRANSFER\s+(?:DR|KE)\s+(?:\d{3}\s+)?/i, '');
-                
+
                 // 3. Remove complex reference codes like "1104/FTSCY/WS95031 400000.00 "
                 cleanDesc = cleanDesc.replace(/\d{4}\/[A-Z0-9-]+\/[A-Z0-9-]+\s+\d+\.\d{2}\s*/i, '');
-                
+
                 // 4. Remove date/serial codes like "04/11 ZN8U1 "
                 cleanDesc = cleanDesc.replace(/\d{2}\/\d{2}\s+[A-Z0-9]{5}\s*/i, '');
-                
+
                 // 5. Extract name from TRFDN format
                 if (cleanDesc.includes('TRFDN-')) {
                     const trfdn = cleanDesc.match(/TRFDN-(.*?)(?:\s+ESPAY|\s+DEBIT|\s*$)/i);
@@ -3745,29 +3813,29 @@ function extractDepoMybca(silent = false) {
 
                 if (amount && /^[\d,]+\.\d{2}$/.test(amount)) {
                     bcaData.push({ type, desc: cleanDesc, amount });
-                    continue; 
+                    continue;
                 }
             }
         }
-        
+
         // Fallback for multi-line block format (same as KlikBCA)
         if (line === "DB" || line === "CR") {
-            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i-1])) {
+            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i - 1])) {
                 let type = line === "CR" ? "MASUK" : "KELUAR";
-                let amount = lines[i-1];
+                let amount = lines[i - 1];
                 let descLine = "";
-                
+
                 if (i >= 2) {
-                    descLine = lines[i-2];
+                    descLine = lines[i - 2];
                     if ((descLine === "0000" || /^\d+$/.test(descLine)) && i >= 3) {
-                        descLine = lines[i-3];
+                        descLine = lines[i - 3];
                     }
                 }
-                
+
                 let cleanDesc = descLine;
                 const trfMatch = descLine.match(/(?:TRANSFER KE|TRANSFER DR|TRSF E-BANKING DB|TRSF E-BANKING CR)\s+(?:\d+\s+)?(.*)/i);
                 if (trfMatch) cleanDesc = trfMatch[1];
-                
+
                 cleanDesc = cleanDesc.replace(/TANGGAL\s*:\s*\d{2}\/\d{2}\s*/i, '');
                 cleanDesc = cleanDesc.replace(/\b(?:MyBCA|BCA)\b/ig, '').trim();
                 if (!cleanDesc) cleanDesc = "TANPA KETERANGAN";
@@ -3862,9 +3930,9 @@ function extractWdPowerData(silent = false) {
     lines.forEach(line => {
         if (!line.trim()) return;
         const match = line.match(/^(.+?)\s+(\d{10,16})\s+(.+?)\s+([\d,\.]+)\s+\S+\s+(.+)$/);
-        
+
         let bank = "BANK", accNum = "0", username = "USER", fullName = "NAMA", amount = "0";
-        
+
         if (match) {
             username = match[1].trim();
             accNum = match[2].trim();
@@ -3882,8 +3950,8 @@ function extractWdPowerData(silent = false) {
                 bank = parts[5].trim().toUpperCase();
             }
         }
-        
-        if(accNum !== "0") wdData.push({ bank, accNum, username, fullName, amount });
+
+        if (accNum !== "0") wdData.push({ bank, accNum, username, fullName, amount });
     });
 
     if (wdData.length > 0) {
@@ -3929,7 +3997,7 @@ function renderWdPowerResults() {
 function resetWdPowerData() {
     const input = document.getElementById('wdPowerInput');
     if (input) input.value = '';
-    
+
     extractedWdPowerData = [];
     renderWdPowerResults();
     showToast('Data cleared', 'info');
@@ -3969,19 +4037,19 @@ function extractDepoBca(silent = false) {
     for (let i = 0; i < lines.length; i++) {
         if (lines[i] === "DB" || lines[i] === "CR") {
             // Check if prior line is an exact amount e.g. "40,000,000.00"
-            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i-1])) {
+            if (i >= 1 && /^[\d,]+\.\d{2}$/.test(lines[i - 1])) {
                 let type = lines[i] === "CR" ? "MASUK" : "KELUAR";
-                let amount = lines[i-1];
+                let amount = lines[i - 1];
                 let descLine = "";
-                
+
                 // Description should be before the amount (or before the 0000 reference)
                 if (i >= 2) {
-                    descLine = lines[i-2];
+                    descLine = lines[i - 2];
                     if ((descLine === "0000" || /^\d+$/.test(descLine)) && i >= 3) {
-                        descLine = lines[i-3];
+                        descLine = lines[i - 3];
                     }
                 }
-                
+
                 // Cleanup description
                 let cleanDesc = descLine;
                 const trfMatch = descLine.match(/(?:TRANSFER KE|TRANSFER DR|TRSF E-BANKING DB|TRSF E-BANKING CR)\s+(?:\d+\s+)?(.*)/i);
@@ -4050,7 +4118,7 @@ function renderDepoBcaResults() {
 function resetDepoBca() {
     const input = document.getElementById('depoBcaInput');
     if (input) input.value = '';
-    
+
     extractedDepoBcaData = [];
     renderDepoBcaResults();
     showToast('Data cleared', 'info');
@@ -4075,30 +4143,30 @@ let currentSlotMult = 100;
 
 function setSlotMult(mult, btn) {
     currentSlotMult = mult;
-    
+
     // Update active UI
     const buttons = document.querySelectorAll('.btn-mult');
     buttons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
+
     updateSlotCalc();
 }
 
 function updateSlotCalc() {
     const betInput = document.getElementById('calcBet');
     if (!betInput) return;
-    
+
     const bet = parseFloat(betInput.value) || 0;
     const cost = bet * currentSlotMult;
-    
+
     // Formatting IDR
     const fmt = (num) => new Intl.NumberFormat('en-US').format(num);
-    
+
     const resBuyCost = document.getElementById('resBuyCost');
     const resWin2x = document.getElementById('resWin2x');
     const resWin5x = document.getElementById('resWin5x');
     const resBreakEven = document.getElementById('resBreakEven');
-    
+
     if (resBuyCost) resBuyCost.textContent = fmt(cost);
     if (resWin2x) resWin2x.textContent = fmt(cost * 2);
     if (resWin5x) resWin5x.textContent = fmt(cost * 5);
@@ -4114,13 +4182,13 @@ function rekapSpinLog(silent = false) {
 
     const lines = input.value.split(/\r?\n/).map(l => l.trim());
     let total = 0;
-    
+
     for (let i = 0; i < lines.length; i++) {
         // Find "Free Spin" line
         if (lines[i].toLowerCase().includes('free spin:')) {
             // Check the next line for IDR
-            if (i + 1 < lines.length && lines[i+1].toUpperCase().startsWith('IDR')) {
-                const valStr = lines[i+1].replace(/IDR\s*/i, '').replace(/\./g, '').replace(/,/g, '.');
+            if (i + 1 < lines.length && lines[i + 1].toUpperCase().startsWith('IDR')) {
+                const valStr = lines[i + 1].replace(/IDR\s*/i, '').replace(/\./g, '').replace(/,/g, '.');
                 const val = parseFloat(valStr) || 0;
                 total += val;
             }
@@ -4130,7 +4198,7 @@ function rekapSpinLog(silent = false) {
     // Multiply by 1000 and format
     const finalTotal = total * 1000;
     const fmt = new Intl.NumberFormat('en-US').format(finalTotal);
-    
+
     const resultEl = document.getElementById('spinTotalResult');
     if (resultEl) {
         resultEl.textContent = fmt;
@@ -4142,7 +4210,7 @@ function updateFinalClaim() {
     const winInput = document.getElementById('manualWinInput');
     const awardInput = document.getElementById('manualAwardInput');
     const alreadyClaimedInput = document.getElementById('alreadyClaimedInput');
-    
+
     const displayManualWin = document.getElementById('totalManualWin');
     const displayManualAward = document.getElementById('totalManualAward');
     const displayNetWin = document.getElementById('netWinResult');
@@ -4169,7 +4237,7 @@ function updateFinalClaim() {
     const netWin = totalWin - totalAward;
     const initialMaxLimit = 400000;
     const remainingQuota = initialMaxLimit - totalAlreadyClaimed;
-    
+
     // Formatting IDR
     const fmt = (num) => new Intl.NumberFormat('en-US').format(num);
 
@@ -4177,7 +4245,7 @@ function updateFinalClaim() {
     if (displayManualWin) displayManualWin.textContent = fmt(totalWin);
     if (displayManualAward) displayManualAward.textContent = fmt(totalAward);
     displayNetWin.textContent = fmt(netWin);
-    
+
     // Explicit Remaining Quota (This shows the 125,600 result you expect)
     if (displayQuota) displayQuota.textContent = fmt(Math.max(0, remainingQuota));
 
@@ -4196,14 +4264,14 @@ window.rekapSpinLog = rekapSpinLog;
 window.updateFinalClaim = updateFinalClaim;
 window.setSlotMult = setSlotMult;
 window.updateSlotCalc = updateSlotCalc;
-window.clearTextarea = function(id) {
+window.clearTextarea = function (id) {
     const el = document.getElementById(id);
-    if(el) {
+    if (el) {
         el.value = '';
         updateFinalClaim();
-        if(id === 'spinLogInput') {
-             const resultEl = document.getElementById('spinTotalResult');
-             if (resultEl) resultEl.textContent = '0';
+        if (id === 'spinLogInput') {
+            const resultEl = document.getElementById('spinTotalResult');
+            if (resultEl) resultEl.textContent = '0';
         }
     }
 };
@@ -4224,10 +4292,10 @@ async function renderGallery() {
 
     if (useGoogleSheets && scriptUrl) {
         try {
-            const result = await fetchFromGoogleSheets('listFiles', { 
-            folderId: driveFolderId,
-            type: 'gallery' 
-        });
+            const result = await fetchFromGoogleSheets('listFiles', {
+                folderId: driveFolderId,
+                type: 'gallery'
+            });
             if (result && Array.isArray(result)) {
                 if (result.length === 0) {
                     grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Gallery kosong.</p>';
@@ -4236,7 +4304,7 @@ async function renderGallery() {
                 grid.innerHTML = result.map((item, index) => {
                     const thumbUrl = `https://drive.google.com/thumbnail?id=${item.id}&sz=w800`;
                     const fullUrl = `https://drive.google.com/uc?id=${item.id}`;
-                    
+
                     return `
                         <div class="gallery-item" ondblclick="window.openGalleryLightbox('${fullUrl}', '${item.id}', 'drive')">
                             <img src="${thumbUrl}" alt="${item.name}">
@@ -4262,13 +4330,13 @@ async function renderGallery() {
     } else {
         // Fallback to old local/hardcoded logic if no script
         grid.innerHTML = galleryData.map((item, index) => {
-            const thumbUrl = item.type === 'drive' 
+            const thumbUrl = item.type === 'drive'
                 ? `https://drive.google.com/thumbnail?id=${item.id}&sz=w800`
                 : item.url;
             const fullUrl = item.type === 'drive'
                 ? `https://drive.google.com/uc?id=${item.id}`
                 : item.url;
-            
+
             return `
                 <div class="gallery-item" ondblclick="window.openGalleryLightbox('${fullUrl}', '${item.id}', '${item.type}')">
                     <img src="${thumbUrl}" alt="Gallery Image">
@@ -4286,7 +4354,7 @@ async function renderGallery() {
     }
 }
 
-window.deleteGalleryImageFromDrive = async function(fileId) {
+window.deleteGalleryImageFromDrive = async function (fileId) {
     if (confirm('Yakin ingin menghapus foto ini dari Drive?')) {
         try {
             const result = await fetchFromGoogleSheets('deleteFile', { fileId: fileId }, 'POST');
@@ -4302,12 +4370,12 @@ window.deleteGalleryImageFromDrive = async function(fileId) {
     }
 };
 
-window.handleGalleryUpload = async function(input) {
+window.handleGalleryUpload = async function (input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
-        
+
         showToast('Mengompres Foto...', 'loading', 0);
-        
+
         try {
             const compressedBase64 = await compressImage(file, 1600, 0.8);
             const base64Data = compressedBase64.split(',')[1];
@@ -4317,49 +4385,49 @@ window.handleGalleryUpload = async function(input) {
             if (useGoogleSheets && scriptUrl) {
                 showToast('Menghubungkan ke Drive...', 'loading', 0);
                 try {
-                    const result = await fetchFromGoogleSheets('uploadImage', { 
-                        base64: base64Data, 
-                        filename: filename, 
-                        folderId: folderId 
+                    const result = await fetchFromGoogleSheets('uploadImage', {
+                        base64: base64Data,
+                        filename: filename,
+                        folderId: folderId
                     }, 'POST');
 
-                if (result && result.id) {
+                    if (result && result.id) {
+                        galleryData.unshift({
+                            id: result.id,
+                            type: 'drive'
+                        });
+                        saveGalleryData();
+                        renderGallery();
+                        showToast('⚡ SYSTEM: IMAGE SECURELY UPLOADED TO NEURAL CLOUD', 'success');
+                    } else {
+                        const errorMsg = result?.error || 'Server menolak koneksi Drive';
+                        throw new Error(errorMsg);
+                    }
+                } catch (error) {
+                    console.error('Upload Error:', error);
+                    const isAuthError = error.message.toLowerCase().includes('permission') ||
+                        error.message.toLowerCase().includes('drive error') ||
+                        error.message.toLowerCase().includes('izin');
+
+                    let errMsg = 'DRIVE ERROR: ' + error.message.toUpperCase();
+
+                    showToast(errMsg, 'error', 7000);
+
+                    if (isAuthError) {
+                        const btn = document.getElementById('fixPermissionBtn');
+                        if (btn) btn.style.display = 'block';
+                    }
+
+                    // Fallback to local storage
+                    console.warn('Falling back to local storage due to Drive error');
                     galleryData.unshift({
-                        id: result.id,
-                        type: 'drive'
+                        url: compressedBase64,
+                        type: 'local',
+                        id: Date.now().toString()
                     });
                     saveGalleryData();
                     renderGallery();
-                    showToast('⚡ SYSTEM: IMAGE SECURELY UPLOADED TO NEURAL CLOUD', 'success');
-                } else {
-                    const errorMsg = result?.error || 'Server menolak koneksi Drive';
-                    throw new Error(errorMsg);
                 }
-            } catch (error) {
-                console.error('Upload Error:', error);
-                const isAuthError = error.message.toLowerCase().includes('permission') || 
-                                   error.message.toLowerCase().includes('drive error') ||
-                                   error.message.toLowerCase().includes('izin');
-
-                let errMsg = 'DRIVE ERROR: ' + error.message.toUpperCase();
-                
-                showToast(errMsg, 'error', 7000);
-                
-                if (isAuthError) {
-                    const btn = document.getElementById('fixPermissionBtn');
-                    if (btn) btn.style.display = 'block';
-                }
-
-                // Fallback to local storage
-                console.warn('Falling back to local storage due to Drive error');
-                galleryData.unshift({
-                    url: compressedBase64,
-                    type: 'local',
-                    id: Date.now().toString()
-                });
-                saveGalleryData();
-                renderGallery();
-            }
             } else {
                 // No Script URL, save locally
                 galleryData.unshift({
@@ -4377,7 +4445,7 @@ window.handleGalleryUpload = async function(input) {
     }
 };
 
-window.deleteGalleryImage = function(index) {
+window.deleteGalleryImage = function (index) {
     if (confirm('Hapus foto ini dari gallery?')) {
         galleryData.splice(index, 1);
         saveGalleryData();
@@ -4386,30 +4454,30 @@ window.deleteGalleryImage = function(index) {
     }
 };
 
-window.openGalleryLightbox = function(url, id, type) {
+window.openGalleryLightbox = function (url, id, type) {
     const lightbox = document.getElementById('galleryLightbox');
     const img = document.getElementById('lightboxImage');
     const dlBtn = document.getElementById('lightboxDownload');
-    
+
     if (lightbox && img) {
         // Use high-resolution thumbnail for Drive images to avoid broken links/virus scan blocks
-        const viewUrl = type === 'drive' 
-            ? `https://drive.google.com/thumbnail?id=${id}&sz=w1600` 
+        const viewUrl = type === 'drive'
+            ? `https://drive.google.com/thumbnail?id=${id}&sz=w1600`
             : url;
-            
+
         img.src = viewUrl;
         lightbox.classList.add('active');
-        
+
         dlBtn.onclick = () => window.downloadGalleryImage(url, type);
     }
 };
 
-window.closeGalleryLightbox = function() {
+window.closeGalleryLightbox = function () {
     const lightbox = document.getElementById('galleryLightbox');
     if (lightbox) lightbox.classList.remove('active');
 };
 
-window.downloadGalleryImage = function(url, type) {
+window.downloadGalleryImage = function (url, type) {
     if (type === 'drive') {
         const id = url.split('id=')[1];
         window.open(`https://drive.google.com/uc?export=download&id=${id}`, '_blank');
@@ -4431,10 +4499,10 @@ async function renderExtensions() {
 
     if (useGoogleSheets && scriptUrl) {
         try {
-            const result = await fetchFromGoogleSheets('listFiles', { 
-            folderId: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
-            type: 'extensions'
-        });
+            const result = await fetchFromGoogleSheets('listFiles', {
+                folderId: '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV',
+                type: 'extensions'
+            });
             if (result && Array.isArray(result)) {
                 if (result.length === 0) {
                     grid.innerHTML = '<p style="color: #fff; grid-column: 1/-1; text-align: center;">Folder kosong.</p>';
@@ -4472,23 +4540,23 @@ async function renderExtensions() {
     }
 }
 
-window.handleExtensionUpload = async function(input) {
+window.handleExtensionUpload = async function (input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
         const reader = new FileReader();
-        
+
         showToast('Mengunggah ke Cloud...', 'loading', 5000);
-        
-        reader.onload = async function(e) {
+
+        reader.onload = async function (e) {
             const base64Data = e.target.result.split(',')[1];
             const folderId = '1QaWxbEajWCL2BBTAQLiFLERCpUEg7TTV'; // Folder ID Extensions
 
             if (useGoogleSheets && scriptUrl) {
                 try {
-                    const result = await fetchFromGoogleSheets('uploadImage', { 
-                        base64: base64Data, 
-                        filename: file.name, 
-                        folderId: folderId 
+                    const result = await fetchFromGoogleSheets('uploadImage', {
+                        base64: base64Data,
+                        filename: file.name,
+                        folderId: folderId
                     }, 'POST');
 
                     if (result && result.id) {
@@ -4510,11 +4578,11 @@ window.handleExtensionUpload = async function(input) {
     }
 };
 
-window.downloadExtension = function(fileId) {
+window.downloadExtension = function (fileId) {
     window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, '_blank');
 };
 
-window.deleteExtension = async function(fileId) {
+window.deleteExtension = async function (fileId) {
     if (confirm('Yakin ingin menghapus file ini dari Drive?')) {
         if (useGoogleSheets && scriptUrl) {
             try {
@@ -4544,7 +4612,7 @@ let parlayLegs = [
     { id: Date.now() + 2, title: '', odds: 1.75, status: 'win' }
 ];
 
-window.addParlayLeg = function() {
+window.addParlayLeg = function () {
     parlayLegs.push({
         id: Date.now(),
         title: '',
@@ -4555,7 +4623,7 @@ window.addParlayLeg = function() {
     updateParlayResult();
 };
 
-window.removeParlayLeg = function(id) {
+window.removeParlayLeg = function (id) {
     if (parlayLegs.length <= 1) {
         showToast('Minimal harus ada 1 match!', 'warning');
         return;
@@ -4565,7 +4633,7 @@ window.removeParlayLeg = function(id) {
     updateParlayResult();
 };
 
-window.setLegStatus = function(id, status) {
+window.setLegStatus = function (id, status) {
     const leg = parlayLegs.find(l => l.id === id);
     if (leg) {
         leg.status = status;
@@ -4574,7 +4642,7 @@ window.setLegStatus = function(id, status) {
     }
 };
 
-window.updateLegOdds = function(id, val) {
+window.updateLegOdds = function (id, val) {
     const leg = parlayLegs.find(l => l.id === id);
     if (leg) {
         leg.odds = parseFloat(val) || 0;
@@ -4582,15 +4650,15 @@ window.updateLegOdds = function(id, val) {
     }
 };
 
-window.updateLegTitle = function(id, val) {
+window.updateLegTitle = function (id, val) {
     const leg = parlayLegs.find(l => l.id === id);
     if (leg) leg.title = val;
 };
 
-window.renderParlayLegs = function() {
+window.renderParlayLegs = function () {
     const container = document.getElementById('parlayLegsContainer');
     if (!container) return;
-    
+
     let headerHtml = `
         <div class="parlay-legs-header">
             <div class="parlay-header-label" style="text-align:center;">#</div>
@@ -4641,24 +4709,24 @@ window.renderParlayLegs = function() {
     `}).join('');
 };
 
-window.updateParlayResult = function() {
+window.updateParlayResult = function () {
     const stakeInput = document.getElementById('parlayStakeInput');
     const totalOddsEl = document.getElementById('parlayTotalOdds');
     const payoutEl = document.getElementById('parlayPayout');
     const profitEl = document.getElementById('parlayNetProfit');
-    
+
     if (!stakeInput) return;
-    
+
     let stakeInputVal = stakeInput.value.replace(/,/g, '');
     let stake = parseFloat(stakeInputVal) || 0;
     let totalMultiplier = 1;
     let parlayLost = false;
-    
+
     parlayLegs.forEach(leg => {
         if (parlayLost) return;
-        
+
         const odds = leg.odds;
-        switch(leg.status) {
+        switch (leg.status) {
             case 'win':
                 totalMultiplier *= odds;
                 break;
@@ -4677,12 +4745,12 @@ window.updateParlayResult = function() {
                 break;
         }
     });
-    
+
     const payout = stake * totalMultiplier;
     const netProfit = payout - stake;
-    
+
     const fmt = (num) => new Intl.NumberFormat('id-ID').format(Math.floor(num));
-    
+
     if (totalOddsEl) totalOddsEl.textContent = totalMultiplier.toFixed(3);
     if (payoutEl) payoutEl.textContent = fmt(payout);
     if (profitEl) {
@@ -4691,7 +4759,7 @@ window.updateParlayResult = function() {
     }
 };
 
-window.resetParlay = function() {
+window.resetParlay = function () {
     parlayLegs = [
         { id: Date.now(), title: '', odds: 1.80, status: 'win' },
         { id: Date.now() + 1, title: '', odds: 1.80, status: 'win' },
@@ -4714,7 +4782,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // CEK DATA REKENING LOGIC
 // ==========================================
-window.processCekRekening = async function() {
+window.processCekRekening = async function () {
     const input = document.getElementById('rekeningRawInput');
     if (!input || !input.value.trim()) {
         showToast('Teks kosong! Paste data rekening terlebih dahulu.', 'warning');
@@ -4741,10 +4809,10 @@ window.processCekRekening = async function() {
 
     try {
         showToast(`Memeriksa ${accountsToCheck.length} data ke server...`, 'loading', 0);
-        
+
         // Action name for GAS: checkAccountsBatch
-        const response = await fetchFromGoogleSheets('checkAccountsBatch', { 
-            accounts: accountsToCheck.map(a => a.number) 
+        const response = await fetchFromGoogleSheets('checkAccountsBatch', {
+            accounts: accountsToCheck.map(a => a.number)
         }, 'POST');
 
         if (response && response.results) {
@@ -4784,16 +4852,16 @@ function parseRekeningRaw(line) {
     });
 
     if (maxDigits < 5) return null;
-    
+
     // Extract Bank: usually the first word
     const parts = cleanLine.split(/\s+/);
     let bank = parts[0].toUpperCase();
-    
+
     // If the first word is the number itself, default bank to 'BANK'
     if (bank === bestMatchRaw || bank === number) {
         bank = "BANK";
     }
-    
+
     // Extract Name: remove bank and the raw number segment from the line
     let name = cleanLine;
     // Remove the bank part if it's not the number
@@ -4804,10 +4872,10 @@ function parseRekeningRaw(line) {
         // If the first word was the number, remove it
         name = name.replace(parts[0], '');
     }
-    
+
     // Remove the raw number segment (with its delimiters)
     name = name.replace(bestMatchRaw, '');
-    
+
     name = name.trim().replace(/^[\s\-\:\.\/]+|[\s\-\:\.\/]+$/g, ''); // Clean leading/trailing symbols
     if (!name) name = 'PELANGGAN';
 
@@ -4821,7 +4889,7 @@ function renderCekRekeningResults(originalAccounts, results) {
     let safeCount = 0;
     let dupCount = 0;
 
-    body.innerHTML = ''; 
+    body.innerHTML = '';
 
     // Urutkan: Duplikat (ketemu di sheet) diletakkan paling atas
     const sortedAccounts = [...originalAccounts].sort((a, b) => {
@@ -4834,13 +4902,13 @@ function renderCekRekeningResults(originalAccounts, results) {
         const check = results ? results.find(r => r.accountNumber.toString() === acc.number.toString()) : null;
         const isFound = check && check.found;
         const details = isFound ? check.details : null;
-        
+
         if (isFound) dupCount++;
         else safeCount++;
 
         const tr = document.createElement('tr');
         tr.className = isFound ? 'row-duplicate' : 'row-safe';
-        
+
         // Pilih data: Jika ketemu di sheet, pakai data sheet. Jika tidak, pakai data input.
         const resStatus = isFound ? `❗ ${details.status} (${details.sheet})` : 'x TIDAK ADA';
         const resBank = isFound ? details.bank : acc.bank;
@@ -4882,7 +4950,7 @@ function renderCekRekeningResults(originalAccounts, results) {
     }
 }
 
-window.copyAllCekRekening = function() {
+window.copyAllCekRekening = function () {
     const table = document.getElementById('cekResultsTable');
     if (!table) return;
 
@@ -4895,11 +4963,11 @@ window.copyAllCekRekening = function() {
             let status = cols[0].innerText.trim();
             // Bersihkan info di dalam kurung (nama sheet)
             status = status.replace(/\s*\(.*?\)/g, '');
-            
+
             const bank = cols[1].innerText.trim();
             const name = cols[2].innerText.trim();
             const number = cols[3].innerText.trim();
-            
+
             // Format: STATUS | BANK NAMA NOMOR
             text.push(`${status} | ${bank}  ${name}  ${number}`);
         }
@@ -4934,25 +5002,25 @@ async function renderInventarisTable() {
     const body = document.getElementById('inventarisBody');
     const searchInput = document.getElementById('inventarisSearchInput');
     if (!body) return;
-    
+
     const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
     const searchLines = query.split(/\n+/).map(s => s.trim()).filter(s => s !== '');
 
     body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Memuat data...</td></tr>';
-    
+
     try {
         const result = await fetchFromGoogleSheets('getInventaris');
         if (result && Array.isArray(result)) {
             // Filter: Abaikan baris kosong atau baris "Coming Soon"
             const validData = result.filter(row => row[1] && row[1].toString().trim() !== "" && row[1].toString().toLowerCase() !== "coming soon");
-            
+
             // Filter berdasarkan pencarian
             let filteredResults = validData;
             if (searchLines.length > 0) {
                 filteredResults = validData.filter(row => {
                     return searchLines.some(line => {
                         const isNumeric = /^\d+$/.test(line);
-                        
+
                         if (isNumeric) {
                             // Jika input adalah ANGKA MURNI, harus cocok PERSIS dengan kolom NO (index 0)
                             // Ini agar saat cari "5", tidak muncul "15", "25", atau data lain yang mengandung angka 5
@@ -4996,30 +5064,30 @@ async function renderKesalahanTable() {
     const searchInput = document.getElementById('kesalahanSearchInput');
     const summaryFrame = document.getElementById('mistakeSummaryFrame');
     const summaryList = document.getElementById('mistakeStaffList');
-    
+
     if (!body) return;
-    
+
     const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
     body.innerHTML = '<tr><td colspan="10" style="text-align:center;">Memuat data...</td></tr>';
-    
+
     try {
         const result = await fetchFromGoogleSheets('getKesalahan');
         if (result && Array.isArray(result)) {
             // Berdasarkan Sheet Kesalahan: index 0=NO, index 1=NAMA STAFF, index 2=NO PASPOR, index 3=JABATAN, 
             // index 4=WD, 5=DEPO, 6=SALAH PROSES, 7=SALAH SCATTER, 8=TELAT <, 9=TELAT >, 10=TOTAL
-            
+
             // Skip baris kosong, baris "Coming Soon", dan baris HEADER ASLI dari sheet
             let filtered = result.filter(row => {
                 const name = row[1] ? row[1].toString().trim().toLowerCase() : "";
                 const passport = row[2] ? row[2].toString().trim().toLowerCase() : "";
-                
+
                 // Jangan tampilkan jika: kosong, kata "coming soon", atau jika ini adalah Header (teks NAMA STAFF / NO PASPOR)
-                return name !== "" && 
-                       name !== "coming soon" && 
-                       name !== "nama staff" && 
-                       passport !== "no paspor";
+                return name !== "" &&
+                    name !== "coming soon" &&
+                    name !== "nama staff" &&
+                    passport !== "no paspor";
             });
-            
+
             if (query) {
                 filtered = filtered.filter(row => row[1].toString().toLowerCase().includes(query));
             }
@@ -5036,7 +5104,7 @@ async function renderKesalahanTable() {
             if (ledgerArea && ledgerList) {
                 if (berulah.length > 0) {
                     ledgerArea.style.display = 'block';
-                    
+
                     // Apply saved visibility state
                     const isVisible = localStorage.getItem('mistake_ledger_visible') !== 'false';
                     const btn = document.getElementById('btnToggleMistakeLedger');
@@ -5132,12 +5200,12 @@ async function renderBackupKesalahanTable() {
     const body = document.getElementById('backupKesalahanBody');
     const searchInput = document.getElementById('backupKesalahanSearchInput');
     const dateInput = document.getElementById('backupKesalahanDateInput');
-    
+
     if (!body) return;
-    
+
     const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
     const selectedDateRaw = dateInput ? dateInput.value : '';
-    
+
     // Convert YYYY-MM-DD to "14 Apr 2026"
     const formatDateForSheet = (dateStr) => {
         if (!dateStr) return '';
@@ -5145,11 +5213,11 @@ async function renderBackupKesalahanTable() {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
     };
-    
+
     const filterDate = formatDateForSheet(selectedDateRaw);
-    
+
     body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memuat data backup...</td></tr>';
-    
+
     try {
         const result = await fetchFromGoogleSheets('getBackupKesalahan', { date: filterDate });
         if (result && Array.isArray(result)) {
@@ -5158,7 +5226,7 @@ async function renderBackupKesalahanTable() {
                 const name = row[1] ? row[1].toString().trim().toLowerCase() : "";
                 return name !== "" && name !== "nama staff";
             });
-            
+
             if (query) {
                 filtered = filtered.filter(row => row[1].toString().toLowerCase().includes(query));
             }
@@ -5190,11 +5258,11 @@ async function renderBackupKesalahanTable() {
                         </div>
                     `;
                 }).join('');
-                
+
                 const total = parseInt(row[5] || '0');
                 let izinQuota = "4";
                 let quotaStyle = "color: #ffaa00; font-weight: 700;";
-                
+
                 if (total === 1) {
                     izinQuota = "4";
                     quotaStyle = "color: #ffaa00; font-weight: 700;";
@@ -5242,7 +5310,7 @@ async function renderBackupKesalahanTable() {
     }
 }
 
-window.toggleBackupDetails = function(event, idx) {
+window.toggleBackupDetails = function (event, idx) {
     const el = document.getElementById(`backupDetails_${idx}`);
     const btn = event.target;
     if (el.style.display === 'none') {
@@ -5258,7 +5326,7 @@ window.toggleBackupDetails = function(event, idx) {
 
 window.renderBackupKesalahanTable = renderBackupKesalahanTable;
 
-window.filterIzinKeluar = function() {
+window.filterIzinKeluar = function () {
     renderIzinKeluarTable();
 };
 
@@ -5268,14 +5336,14 @@ async function renderIzinKeluarTable() {
     const selectedDate = dateInput ? dateInput.value : '';
 
     if (!body) return;
-    
+
     if (!selectedDate) {
         body.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 60px; color: rgba(0,255,170,0.4);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="margin-bottom: 20px; display: block; margin: 0 auto;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><p style="font-family: \'Share Tech Mono\';">Silakan pilih tanggal untuk melihat data absen izin keluar.</p></td></tr>';
         return;
     }
 
     body.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;">Memuat data izin...</td></tr>';
-    
+
     try {
         const result = await fetchFromGoogleSheets('getIzinKeluar');
         if (result && Array.isArray(result)) {
@@ -5286,8 +5354,8 @@ async function renderIzinKeluarTable() {
                 const filterDate = new Date(selectedDate);
                 // Bandingkan YYYY-MM-DD
                 return rowDate.getFullYear() === filterDate.getFullYear() &&
-                       rowDate.getMonth() === filterDate.getMonth() &&
-                       rowDate.getDate() === filterDate.getDate();
+                    rowDate.getMonth() === filterDate.getMonth() &&
+                    rowDate.getDate() === filterDate.getDate();
             });
 
             if (filtered.length === 0) {
@@ -5311,7 +5379,7 @@ async function renderIzinKeluarTable() {
 }
 
 // --- BAGI NOMINAL WD ---
-window.formatRupiahInput = function(input) {
+window.formatRupiahInput = function (input) {
     let value = input.value.replace(/[^0-9]/g, '');
     if (value) {
         input.value = new Intl.NumberFormat('id-ID', {
@@ -5321,7 +5389,7 @@ window.formatRupiahInput = function(input) {
     }
 };
 
-window.calculateBagiWd = function() {
+window.calculateBagiWd = function () {
     const totalRaw = document.getElementById('bagiWdTotal').value;
     const maxRaw = document.getElementById('bagiWdMax').value;
     const resultArea = document.getElementById('bagiWdResultArea');
@@ -5362,7 +5430,7 @@ window.calculateBagiWd = function() {
         html += `
             <div class="split-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0,255,170,0.05); margin-bottom: 8px; border-left: 3px solid var(--primary); border-radius: 4px; animation: slideInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s; opacity: 0;">
                 <div style="font-family: Arial, sans-serif; color: #fff;">
-                    <span style="color: var(--text-muted); font-size: 10px; margin-right: 10px;">#${index+1}</span>
+                    <span style="color: var(--text-muted); font-size: 10px; margin-right: 10px;">#${index + 1}</span>
                     Rp ${formatted}
                 </div>
                 <button class="btn-mini-action" onclick="window.copyText('${amt}')" title="Salin">
@@ -5380,17 +5448,17 @@ window.calculateBagiWd = function() {
     checkTotalEl.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(total);
 };
 
-window.copyAllBagiWd = function() {
+window.copyAllBagiWd = function () {
     const totalRaw = document.getElementById('bagiWdTotal').value;
     const maxRaw = document.getElementById('bagiWdMax').value;
-    
+
     if (!totalRaw || !maxRaw) return;
-    
+
     const total = parseInt(totalRaw.replace(/[^0-9]/g, ''));
     const maxNominal = parseInt(maxRaw.replace(/[^0-9]/g, ''));
-    
+
     if (isNaN(total) || isNaN(maxNominal) || maxNominal <= 0) return;
-    
+
     let remainder = total;
     let textRows = [];
     let loopCount = 0;
@@ -5404,11 +5472,11 @@ window.copyAllBagiWd = function() {
         }
         loopCount++;
     }
-    
+
     window.copyText(textRows.join('\n'));
 };
 
-window.copyText = function(text) {
+window.copyText = function (text) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
         if (typeof showToast === 'function') showToast("Berhasil disalin!", "success");
@@ -5421,7 +5489,7 @@ window.copyText = function(text) {
 let currentCalDate = new Date();
 let selectedCalDate = null;
 
-window.toggleCustomCalendar = function(e) {
+window.toggleCustomCalendar = function (e) {
     e.stopPropagation();
     const cal = document.getElementById('customCalendar');
     if (cal.style.display === 'none') {
@@ -5432,53 +5500,53 @@ window.toggleCustomCalendar = function(e) {
     }
 };
 
-window.renderCalendar = function() {
+window.renderCalendar = function () {
     const monthYearEl = document.getElementById('calendarMonthYear');
     const gridEl = document.getElementById('calendarGrid');
-    
+
     const year = currentCalDate.getFullYear();
     const month = currentCalDate.getMonth();
-    
+
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    
+
     const monthNames = ["JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"];
     monthYearEl.textContent = `${monthNames[month]} ${year}`;
-    
+
     let html = '';
-    
+
     // Empty slots for previous month
     for (let i = 0; i < firstDay; i++) {
         html += '<div class="calendar-day empty"></div>';
     }
-    
+
     const today = new Date();
-    
+
     for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         let classes = 'calendar-day';
-        
+
         if (selectedCalDate === dateStr) classes += ' selected';
         if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) classes += ' today';
-        
+
         html += `<div class="${classes}" onclick="window.selectCalendarDay('${dateStr}')">${day}</div>`;
     }
-    
+
     gridEl.innerHTML = html;
 };
 
-window.changeCalendarMonth = function(offset) {
+window.changeCalendarMonth = function (offset) {
     currentCalDate.setMonth(currentCalDate.getMonth() + offset);
     window.renderCalendar();
 };
 
-window.selectCalendarDay = function(dateStr) {
+window.selectCalendarDay = function (dateStr) {
     selectedCalDate = dateStr;
     window.renderCalendar();
     window.submitCalendar();
 };
 
-window.setCalendarToday = function() {
+window.setCalendarToday = function () {
     const today = new Date();
     const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     selectedCalDate = dateStr;
@@ -5487,7 +5555,7 @@ window.setCalendarToday = function() {
     window.submitCalendar();
 };
 
-window.clearCalendar = function() {
+window.clearCalendar = function () {
     selectedCalDate = null;
     document.getElementById('izinKeluarDate').value = '';
     document.getElementById('izinKeluarDateDisplay').value = '';
@@ -5497,14 +5565,14 @@ window.clearCalendar = function() {
     }
 };
 
-window.submitCalendar = function() {
+window.submitCalendar = function () {
     if (selectedCalDate) {
         document.getElementById('izinKeluarDate').value = selectedCalDate;
         // Format display
         const d = new Date(selectedCalDate);
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('izinKeluarDateDisplay').value = d.toLocaleDateString('id-ID', options);
-        
+
         // Auto trigger filter
         if (typeof window.filterIzinKeluar === 'function') {
             window.filterIzinKeluar();
@@ -5514,7 +5582,7 @@ window.submitCalendar = function() {
 };
 
 // Close calendar when clicking outside
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const cal = document.getElementById('customCalendar');
     if (cal && cal.style.display === 'block') {
         if (!cal.contains(e.target) && e.target.id !== 'izinKeluarDateDisplay') {
@@ -5527,7 +5595,7 @@ async function renderSportsbookTable(isManual = false) {
     const resultsContainer = document.getElementById('sportsbookResultsContainer');
     const loader = document.getElementById('sportsbookLoader');
     if (!resultsContainer) return;
-    
+
     const searchInput = document.getElementById('sbSearchInput');
     const dateVal = document.getElementById('sbDateSelect')?.value || '';
     const sortVal = document.getElementById('sbSortSelect')?.value || '0';
@@ -5545,13 +5613,13 @@ async function renderSportsbookTable(isManual = false) {
     }, 15000);
 
     try {
-        const result = await fetchFromGoogleSheets('getSportsbookResults', { 
-            date: dateVal, 
+        const result = await fetchFromGoogleSheets('getSportsbookResults', {
+            date: dateVal,
             sport: 'S,S,p1,g1',
             league: '-1',
             sort: sortVal
         });
-        
+
         clearTimeout(emergencyTimer);
         loader.style.display = 'none';
 
@@ -5578,7 +5646,7 @@ async function renderSportsbookTable(isManual = false) {
         } else if (result && result.html) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(result.html, 'text/html');
-            
+
             // Sync All Dropdowns (Sport, Date, League, Sort) agar ID rahasia ikut terbawa
             const syncDropdown = (remoteId, localId) => {
                 const remote = doc.getElementById(remoteId);
@@ -5587,9 +5655,9 @@ async function renderSportsbookTable(isManual = false) {
                     const currentVal = local.value;
                     // Simpan teks yang sedang terpilih untuk pencocokan fallback
                     const currentText = local.options[local.selectedIndex]?.text;
-                    
+
                     local.innerHTML = remote.innerHTML;
-                    
+
                     // Coba kembalikan pilihan sebelumnya (berdasarkan Value atau Teks)
                     let found = false;
                     for (let i = 0; i < local.options.length; i++) {
@@ -5604,10 +5672,10 @@ async function renderSportsbookTable(isManual = false) {
 
             syncDropdown('lstDates', 'sbDateSelect');
             // syncDropdown('lstSortBy', 'sbSortSelect');
-            
+
             // Mencari tabel hasil dengan beberapa kemungkinan ID
             let table = doc.getElementById('dgResult') || doc.querySelector('table[id*="Result"]') || doc.querySelector('table.cyber-table');
-            
+
             // Jika tidak ketemu ID, cari tabel pertama yang punya baris data
             if (!table) {
                 const tables = doc.getElementsByTagName('table');
@@ -5622,7 +5690,7 @@ async function renderSportsbookTable(isManual = false) {
             if (table) {
                 // Sembunyikan gambar yang rusak/tidak perlu
                 table.querySelectorAll('img').forEach(img => img.style.display = 'none');
-                
+
                 table.className = 'cyber-table-luxury';
                 table.style.width = '100%';
                 table.style.borderCollapse = 'separate';
@@ -5630,7 +5698,7 @@ async function renderSportsbookTable(isManual = false) {
                 table.removeAttribute('border');
                 table.removeAttribute('cellspacing');
                 table.removeAttribute('cellpadding');
-                
+
                 table.querySelectorAll('tr').forEach((row, idx) => {
                     const isLeagueRow = row.cells.length === 1;
                     if (isLeagueRow) {
@@ -5673,7 +5741,7 @@ async function renderSportsbookTable(isManual = false) {
                             cell.style.borderBottom = '2px solid #0ff';
                             cell.style.fontWeight = 'bold';
                             cell.style.textTransform = 'uppercase';
-                            
+
                             // Warna berbeda untuk tiap header
                             const text = cell.innerText.trim().toUpperCase();
                             if (text.includes('DATE')) cell.style.color = '#00f2ff'; // Cyan
@@ -5682,7 +5750,7 @@ async function renderSportsbookTable(isManual = false) {
                             else if (text.includes('AWAY')) cell.style.color = '#ff55aa'; // Neon Pink
                             else if (text.includes('H/T')) cell.style.color = '#cc88ff'; // Purple
                         }
-                        
+
                         // Highlight skor
                         if (!isHeader && cell.textContent.includes('-') && cell.textContent.length < 10) {
                             cell.style.color = '#0ff';
@@ -5710,7 +5778,7 @@ async function renderSportsbookTable(isManual = false) {
                         }
                     };
                     searchInput.addEventListener('input', runFilter);
-                    runFilter(); 
+                    runFilter();
                 }
             } else {
                 showSportsbookFallback(resultsContainer, targetUrl, "Data tabel tidak ditemukan dalam respon HTML.");
@@ -5725,7 +5793,7 @@ async function renderSportsbookTable(isManual = false) {
     }
 }
 
-window.clearSbSearch = function() {
+window.clearSbSearch = function () {
     const searchInput = document.getElementById('sbSearchInput');
     if (searchInput) {
         searchInput.value = '';
@@ -5749,7 +5817,7 @@ function showSportsbookFallback(container, url, message) {
         </div>`;
 }
 
-window.formatRupiahInput = function(element) {
+window.formatRupiahInput = function (element) {
     let value = element.value.replace(/[^0-9]/g, '');
     if (value === "") {
         element.value = "";
@@ -5758,23 +5826,23 @@ window.formatRupiahInput = function(element) {
     element.value = new Intl.NumberFormat('id-ID').format(parseInt(value));
 };
 
-window.formatRupiah = function(number) {
+window.formatRupiah = function (number) {
     return new Intl.NumberFormat('id-ID').format(number);
 };
 
-window.copyContohResult = function(btn) {
+window.copyContohResult = function (btn) {
     const text = document.getElementById('contohResultText').innerText;
     if (!text) return;
-    
+
     navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btn.innerHTML;
         const originalShadow = btn.style.boxShadow;
-        
+
         btn.innerHTML = '<i class="fas fa-check"></i> DISALIN!';
         btn.style.background = 'linear-gradient(135deg, rgba(0, 255, 170, 0.4), rgba(0, 255, 170, 0.2))';
         btn.style.boxShadow = '0 0 25px rgba(0, 255, 170, 0.6)';
         btn.style.borderColor = 'var(--primary)';
-        
+
         setTimeout(() => {
             btn.innerHTML = originalHtml;
             btn.style.background = 'linear-gradient(135deg, rgba(0, 255, 170, 0.2), rgba(0, 255, 170, 0.05))';
@@ -6036,7 +6104,7 @@ const CONTOH_RULES = {
     }
 };
 
-window.updateContohPrizeTable = function() {
+window.updateContohPrizeTable = function () {
     const pasaran = document.getElementById('contohPasaranFilter').value;
     const jenis = document.getElementById('contohJenisFilter').value;
     const bonus = document.getElementById('contohBonusFilter').value;
@@ -6051,7 +6119,7 @@ window.updateContohPrizeTable = function() {
     // Toggle Groups
     const groupTaruhan = document.getElementById('groupJenisTaruhan');
     const groupBonus = document.getElementById('groupJenisBonus');
-    
+
     if (pasaran === 'bonus') {
         if (groupBonus) groupBonus.style.display = 'block';
         if (groupTaruhan) groupTaruhan.style.display = 'none';

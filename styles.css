@@ -608,6 +608,75 @@ body.no-bg-mode .sidebar {
     opacity: 0.7;
 }
 
+/* --- LOBBY STYLES --- */
+.lobby-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.lobby-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(0, 255, 170, 0.15);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.lobby-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, var(--glow-soft), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lobby-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 40px rgba(0, 255, 170, 0.2);
+    background: rgba(0, 255, 170, 0.05);
+}
+
+.lobby-card:hover::before {
+    opacity: 1;
+}
+
+.lobby-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.lobby-card:hover .lobby-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.lobby-card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.lobby-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
 /* --- TOGEL STYLES --- */
 .togel-container {
     display: grid;

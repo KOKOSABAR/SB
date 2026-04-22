@@ -54,6 +54,7 @@ function handleAction(params) {
       case 'deleteFile': result = deleteFile(params.fileId); break;
       case 'getBackground': result = getBackground(); break;
       case 'updateBackground': result = updateBackground(params.url); break;
+      case 'getDaftarGames': result = getDaftarGames(); break;
       case 'testConnection': 
         const ssTest = getSS();
         result = { 
@@ -239,3 +240,16 @@ function listFiles(fid) { try { const folder = DriveApp.getFolderById(fid || CON
 function deleteFile(id) { try { DriveApp.getFileById(id).setTrashed(true); return { success: true }; } catch (e) { return { error: e.message }; } }
 function updateBackground(u) { const ss = getSS(); let s = getSheetRobust("SB_SETTINGS") || ss.insertSheet("SB_SETTINGS"); if (s.getLastRow() === 0) s.appendRow(["KEY", "VALUE"]); const d = s.getDataRange().getValues(); let f = false; for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") { s.getRange(i + 1, 2).setValue(u); f = true; break; } } if (!f) s.appendRow(["BACKGROUND_URL", u]); return { success: true }; }
 function getBackground() { const s = getSheetRobust("SB_SETTINGS"); if (!s) return { url: "" }; const d = s.getDataRange().getValues(); for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") return { url: d[i][1] }; } return { url: "" }; }
+
+function getDaftarGames() {
+  const s = getSheetRobust("DAFTAR GAMES WDBOS");
+  if (!s) return { error: "Sheet 'DAFTAR GAMES WDBOS' tidak ditemukan" };
+  const h = findHeaderRow(s, "NAMA GAMES");
+  const data = s.getDataRange().getValues();
+  if (data.length <= h) return [];
+  return data.slice(h).map(r => ({
+    kategori: r[0],
+    provider: r[1],
+    nama: r[2]
+  })).filter(r => r.nama);
+}
