@@ -901,20 +901,22 @@
                     <div class="section-header">
                         <h2 class="section-title">DAFTAR GAMES WDBOS</h2>
                         <p class="section-desc">Tempel nama games untuk memfilter data kategori, provider, dan gambar.</p>
-                    </div>
-
-                    <!-- Provider Stats Dashboard (Jejeran Kartu) -->
-                    <div id="providerStatsContainer" style="
-                        display: flex;
-                        gap: 12px;
-                        overflow-x: auto;
-                        padding: 10px 5px 20px 5px;
-                        margin-bottom: 5px;
-                        scrollbar-width: thin;
-                        scrollbar-color: var(--primary) transparent;
-                        -webkit-overflow-scrolling: touch;
-                    ">
-                        <!-- Kartu Provider akan muncul di sini secara dinamis -->
+                        
+                        <!-- Provider Stats Dashboard (Restore Missing Container) -->
+                        <div id="providerStatsContainer" style="
+                            margin: 20px 0;
+                            padding: 10px 5px;
+                            display: flex;
+                            gap: 15px;
+                            overflow-x: auto;
+                            scrollbar-width: none; /* Firefox */
+                            -ms-overflow-style: none; /* IE/Edge */
+                            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+                            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+                        ">
+                            <!-- Cards will be injected here by app.js -->
+                            <div style="color: var(--text-muted); font-size: 12px; padding: 20px;">Memuat ringkasan provider...</div>
+                        </div>
                     </div>
 
                     <div class="search-massal-area calc-card luxury-card" style="padding: 20px 25px; margin-bottom: 30px;">
