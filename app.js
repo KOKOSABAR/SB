@@ -1781,39 +1781,81 @@ async function fetchDaftarGames(query = "") {
                              onclick="document.getElementById('gameSearchTextArea').value='${prov}'; window.filterGamesMassal();"
                              style="
                                 flex: 0 0 auto;
-                                padding: 8px 15px;
-                                background: rgba(0, 20, 15, 0.85);
-                                border-left: 3px solid var(--primary);
-                                border-radius: 12px;
+                                padding: 12px 18px;
+                                background: linear-gradient(135deg, rgba(0, 40, 30, 0.7), rgba(0, 15, 10, 0.9));
+                                border: 1px solid rgba(0, 255, 170, 0.2);
+                                border-left: 4px solid var(--primary);
+                                border-radius: 14px;
                                 cursor: pointer;
-                                min-width: 190px;
+                                min-width: 210px;
                                 display: flex;
                                 align-items: center;
-                                gap: 12px;
-                                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                                border: 1px solid rgba(0, 255, 170, 0.15);
-                                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+                                gap: 15px;
+                                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                                backdrop-filter: blur(10px);
+                                box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,255,170,0.05);
                                 position: relative;
+                                overflow: hidden;
                             "
-                            onmouseover="this.style.background='rgba(0, 40, 30, 0.95)'; this.style.transform='translateY(-3px)'; this.style.borderColor='var(--primary)';"
-                            onmouseout="this.style.background='rgba(0, 20, 15, 0.85)'; this.style.transform='translateY(0)'; this.style.borderColor='rgba(0, 255, 170, 0.15)';"
+                            onmouseover="this.style.transform='translateY(-5px) scale(1.02)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 15px 30px rgba(0,255,170,0.15)';"
+                            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(0, 255, 170, 0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';"
                         >
-                            <!-- Logo Section (No White Box, Max Size) -->
-                            <div style="width: 55px; height: 55px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                ${logoUrl ? `<img src="${logoUrl}" alt="${prov}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));">` : `<div style="color: var(--primary); font-weight: bold; font-size: 14px;">${prov.substring(0,2)}</div>`}
+                            <!-- Light Sweep Effect -->
+                            <div style="position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent); transform: skewX(-25deg); animation: sweep 3s infinite;"></div>
+
+                            <!-- Logo Section -->
+                            <div style="width: 55px; height: 55px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
+                                ${logoUrl ? `<img src="${logoUrl}" alt="${prov}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0,255,170,0.4));">` : `<div style="color: var(--primary); font-weight: bold; font-size: 16px; text-shadow: 0 0 10px var(--primary);">${prov.substring(0,2)}</div>`}
                             </div>
 
                             <!-- Info Section -->
-                            <div style="overflow: hidden; flex-grow: 1;">
-                                <div style="font-size: 11px; color: var(--accent); font-weight: 900; letter-spacing: 0.5px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 10px rgba(0,255,170,0.3);">${prov.toUpperCase()}</div>
-                                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
-                                    <span style="font-size: 8px; color: var(--text-muted); text-transform: uppercase; font-weight: bold;">${kat}</span>
-                                    <span style="font-size: 15px; color: #fff; font-weight: 900; font-family: 'Arial Black'; text-shadow: 0 0 10px var(--primary);">${counts[key]}</span>
+                            <div style="overflow: hidden; flex-grow: 1; position: relative; z-index: 2;">
+                                <div style="font-size: 12px; color: var(--accent); font-weight: 900; letter-spacing: 1px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 10px rgba(0,255,170,0.4);">${prov.toUpperCase()}</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">${kat}</span>
+                                    <span style="font-size: 18px; color: #fff; font-weight: 900; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 15px var(--primary);">${counts[key]}</span>
                                 </div>
                             </div>
                         </div>
                     `;
                 }).join('');
+
+                // Style for Light Sweep Animation if not exists
+                if (!document.getElementById('sweep-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'sweep-style';
+                    style.innerHTML = `
+                        @keyframes sweep {
+                            0% { left: -100%; }
+                            50% { left: 150%; }
+                            100% { left: 150%; }
+                        }
+                        .luxury-game-frame {
+                            position: relative;
+                            padding: 8px;
+                            background: rgba(0,0,0,0.3);
+                            border-radius: 15px;
+                            border: 1px solid rgba(0,255,170,0.2);
+                            transition: all 0.3s ease;
+                            overflow: hidden;
+                        }
+                        .luxury-game-frame:hover {
+                            border-color: var(--primary);
+                            box-shadow: 0 0 20px rgba(0,255,170,0.3);
+                            transform: scale(1.05);
+                        }
+                        .cyber-border-acc {
+                            position: absolute;
+                            width: 15px;
+                            height: 15px;
+                            border: 3px solid var(--primary);
+                            z-index: 5;
+                        }
+                        .cyber-border-acc.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 12px 0 0 0; }
+                        .cyber-border-acc.br { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 12px 0; }
+                    `;
+                    document.head.appendChild(style);
+                }
 
                 // FITUR AUTO-SCROLL OTOMATIS
                 if (window.gameStatsInterval) clearInterval(window.gameStatsInterval);
@@ -1875,53 +1917,43 @@ function renderGameSearchResults(data, query) {
             const showImage = query && query.trim().length > 0;
             
             return `
-                <!-- Baris Info Teks -->
-                <tr class="game-info-row" style="background: rgba(0, 255, 170, 0.05);">
-                    <td style="text-align: center; vertical-align: middle; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px;">
-                        <span class="status-badge safe" style="font-size: 11px; padding: 5px 15px;">${game.kategori || '-'}</span>
+                <!-- Luxury Text Row -->
+                <tr class="game-info-row" style="background: linear-gradient(90deg, rgba(0, 255, 170, 0.08) 0%, transparent 50%, rgba(0, 255, 170, 0.08) 100%);">
+                    <td style="text-align: center; vertical-align: middle; border-bottom: none; padding: 20px 10px;">
+                        <span style="background: rgba(0, 255, 170, 0.15); color: var(--primary); padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 900; border: 1px solid var(--primary); text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 0 10px rgba(0,255,170,0.2);">${game.kategori || '-'}</span>
                     </td>
-                    <td style="color: var(--accent); font-weight: bold; text-align: center; vertical-align: middle; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px; font-size: 14px;">
-                        ${game.provider || '-'}
+                    <td style="color: var(--accent); font-weight: 900; text-align: center; vertical-align: middle; border-bottom: none; padding: 20px 10px; font-size: 14px; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,255,170,0.3);">
+                        ${(game.provider || '-').toUpperCase()}
                     </td>
-                    <td style="color: #fff; text-align: center; vertical-align: middle; font-weight: 800; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px; font-size: 16px; letter-spacing: 1px;">
+                    <td style="color: #fff; text-align: center; vertical-align: middle; font-weight: 900; border-bottom: none; padding: 20px 10px; font-size: 18px; letter-spacing: 1.5px; text-shadow: 0 0 15px rgba(255,255,255,0.3);">
                         ${game.nama || '-'}
                     </td>
                 </tr>
                 ${showImage ? `
-                <!-- Baris Gambar (Dengan Cyber Frame Keren) -->
+                <!-- Ultra-Luxury Image Row -->
                 <tr class="game-image-row">
-                    <td colspan="3" style="padding: 10px 20px 40px 20px; text-align: center; border-top: none;">
-                        <div class="cyber-image-frame" style="
+                    <td colspan="3" style="padding: 0 20px 50px 20px; text-align: center; border-top: none; position: relative;">
+                        <div class="luxury-game-frame" style="
+                            display: inline-block;
+                            width: 240px;
+                            height: 240px;
                             position: relative;
-                            width: 200px;
-                            height: 200px;
-                            margin: 0 auto;
-                            padding: 8px;
-                            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-                            border-radius: 20px;
-                            box-shadow: 0 0 30px rgba(0, 255, 170, 0.4);
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
                         ">
-                            <!-- Corner Accents -->
-                            <div style="position: absolute; top: -2px; left: -2px; width: 20px; height: 20px; border-top: 3px solid #fff; border-left: 3px solid #fff; border-radius: 18px 0 0 0; z-index: 2;"></div>
-                            <div style="position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px; border-bottom: 3px solid #fff; border-right: 3px solid #fff; border-radius: 0 0 18px 0; z-index: 2;"></div>
+                            <!-- Cyber Corners -->
+                            <div class="cyber-border-acc tl"></div>
+                            <div class="cyber-border-acc br"></div>
                             
+                            <!-- Light Sweep Animation -->
+                            <div style="position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent); transform: skewX(-25deg); animation: sweep 4s infinite; z-index: 3; pointer-events: none;"></div>
+
                             <!-- Inner Container -->
-                            <div style="
-                                width: 100%;
-                                height: 100%;
-                                background: #000;
-                                border-radius: 15px;
-                                overflow: hidden;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                position: relative;
-                            ">
+                            <div style="width: 100%; height: 100%; background: #000; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
                                 ${game.gambar ? `
                                     <img src="${game.gambar}" alt="${game.nama}" style="width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1;" onerror="this.parentElement.innerHTML='<div style=\'color:var(--primary); font-size:10px;\'>IMAGE ERROR</div>'">
-                                    <!-- Scanline effect overlay -->
-                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 2; opacity: 0.3;"></div>
-                                ` : `<div style='color:rgba(0, 255, 170, 0.2); font-size:10px;'>NO DATA</div>`}
+                                    <!-- Scanline & Vignette effect overlay -->
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%), linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 100%, 100% 4px; pointer-events: none; z-index: 2; opacity: 0.5;"></div>
+                                ` : `<div style='color:rgba(0, 255, 170, 0.2); font-size:10px; font-weight: 900; letter-spacing: 2px;'>NO IMAGE DATA</div>`}
                             </div>
                         </div>
                     </td>
