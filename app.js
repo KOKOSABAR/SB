@@ -1714,65 +1714,77 @@ let lotteryRefreshInterval = null;
 let sportsbookRefreshInterval = null;
 let gamesData = [];
 
-async function fetchDaftarGames() {
+let gamesSearchTimeout = null;
+
+async function fetchDaftarGames(query = "") {
     if (!useGoogleSheets || !scriptUrl) {
         showToast('Mode Offline: Tidak dapat mengambil data games.', 'warning');
         return;
     }
 
+    const resultsBody = document.getElementById('gameResultsBody');
+    if (resultsBody) {
+        if (!query && gamesData.length === 0) {
+            resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--accent); padding: 40px;"><div class="cyber-spinner"></div> Sedang mengunduh data games...</td></tr>`;
+        } else if (query) {
+            resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--accent); padding: 40px;"><div class="cyber-spinner"></div> Mencari "${query.split('\n')[0]}..."</td></tr>`;
+        }
+    }
+
     try {
-        const result = await fetchFromGoogleSheets('getDaftarGames');
+        const result = await fetchFromGoogleSheets('getDaftarGames', { query: query });
+        
         if (result && Array.isArray(result)) {
-            gamesData = result;
-            console.log('Games Data Loaded:', gamesData.length);
+            if (!query) {
+                gamesData = result;
+            }
+            renderGameSearchResults(result, query);
         } else if (result && result.error) {
             showToast(result.error, 'error');
+            if (resultsBody) resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ff0033; padding: 40px;">Error: ${result.error}</td></tr>`;
         }
     } catch (error) {
         console.error('Fetch Games Error:', error);
+        if (resultsBody) resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ff0033; padding: 40px;">Gagal menghubungi server.</td></tr>`;
+    }
+}
+
+function renderGameSearchResults(data, query) {
+    const resultsBody = document.getElementById('gameResultsBody');
+    if (!resultsBody) return;
+
+    if (data.length > 0) {
+        resultsBody.innerHTML = data.map(game => `
+            <tr>
+                <td><span class="status-badge safe" style="font-size: 10px;">${game.kategori || '-'}</span></td>
+                <td style="color: var(--accent); font-weight: bold;">${game.provider || '-'}</td>
+                <td style="color: #fff;">${game.nama || '-'}</td>
+            </tr>
+        `).join('');
+    } else {
+        const msg = query ? `Tidak ada data yang cocok untuk "${query.split('\n')[0]}..."` : "Daftar games kosong.";
+        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">${msg}</td></tr>`;
     }
 }
 
 function filterGamesMassal() {
     const textArea = document.getElementById('gameSearchTextArea');
-    const resultsContainer = document.getElementById('gameSearchResults');
-    const resultsBody = document.getElementById('gameResultsBody');
-    
-    if (!textArea || !resultsContainer || !resultsBody) return;
+    if (!textArea) return;
 
     const input = textArea.value.trim();
+    
+    // Clear display if input is empty
     if (!input) {
-        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">Data games akan muncul di sini...</td></tr>`;
+        renderGameSearchResults(gamesData.slice(0, 50), "");
         return;
     }
 
-    const searchTerms = input.split('\n').map(t => t.trim().toLowerCase()).filter(t => t);
-    const results = [];
-
-    searchTerms.forEach(term => {
-        const found = gamesData.filter(game => 
-            game.nama.toLowerCase().includes(term) || 
-            term.includes(game.nama.toLowerCase())
-        );
-        if (found.length > 0) {
-            results.push(...found);
-        }
-    });
-
-    // Remove duplicates
-    const uniqueResults = results.filter((v, i, a) => a.findIndex(t => (t.nama === v.nama && t.provider === v.provider)) === i);
-
-    if (uniqueResults.length > 0) {
-        resultsBody.innerHTML = uniqueResults.map(game => `
-            <tr>
-                <td><span class="status-badge safe" style="font-size: 10px;">${game.kategori}</span></td>
-                <td style="color: var(--accent); font-weight: bold;">${game.provider}</td>
-                <td style="color: #fff;">${game.nama}</td>
-            </tr>
-        `).join('');
-    } else {
-        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">Tidak ada data yang cocok ditemukan.</td></tr>`;
-    }
+    // Debounce server call
+    if (gamesSearchTimeout) clearTimeout(gamesSearchTimeout);
+    
+    gamesSearchTimeout = setTimeout(() => {
+        fetchDaftarGames(input);
+    }, 300); // 300ms debounce
 }
 
 window.filterGamesMassal = filterGamesMassal;
