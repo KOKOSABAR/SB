@@ -1724,7 +1724,8 @@ async function fetchDaftarGames(query = "") {
 
     const resultsBody = document.getElementById('gameResultsBody');
     if (resultsBody) {
-        if (!query && gamesData.length === 0) {
+        // Jika sedang loading awal
+        if (!query && (!gamesData || gamesData.length === 0)) {
             resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--accent); padding: 40px;"><div class="cyber-spinner"></div> Sedang mengunduh data games...</td></tr>`;
         } else if (query) {
             resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--accent); padding: 40px;"><div class="cyber-spinner"></div> Mencari "${query.split('\n')[0]}..."</td></tr>`;
@@ -1734,11 +1735,112 @@ async function fetchDaftarGames(query = "") {
     try {
         const result = await fetchFromGoogleSheets('getDaftarGames', { query: query });
         
-        if (result && Array.isArray(result)) {
-            if (!query) {
-                gamesData = result;
+        if (result && result.results) {
+            // Update total database count
+            const totalCountEl = document.getElementById('totalDatabaseGamesCount');
+            if (totalCountEl) totalCountEl.innerText = (result.totalDatabase || 0).toLocaleString();
+
+            // RENDER PROVIDER STATS DASHBOARD (Upgrade Luxury with Logos)
+            const statsContainer = document.getElementById('providerStatsContainer');
+            if (statsContainer && result.providerCounts) {
+                const logoMap = {
+                    'PRAGMATIC PLAY SLOT': 'https://png-res.png999.com/assets/assetsss/pp_1688803178500.png',
+                    'PRAGMATIC PLAY': 'https://png-res.png999.com/assets/assetsss/pp_1688803178500.png',
+                    'PG SOFT': 'https://png-res.png999.com/assets/assetsss/PG%E8%80%81%E8%99%8E%E6%9C%BA_1688608109535.png',
+                    'PNG': 'https://png-res.png999.com/assets/assetsss/PNG%E8%80%81%E8%99%8E%E6%9C%BA_1688608088990.png',
+                    'NOLIMIT CITY': 'https://png-res.png999.com/assets/assetsss/nlc_1698198978241.png',
+                    'JILI': 'https://png-res.png999.com/assets/assetsss/JILIslot_1703669266729.png',
+                    'ASK ME': 'https://png-res.png999.com/assets/assetsss/askSlot_1724397426461.png',
+                    'GG SOFT': 'https://png-res.png999.com/assets/assetsss/GGSoftLogo.png',
+                    'HABANERO': 'https://png-res.png999.com/assets/assetsss/Habanero_1716515512165.png',
+                    '5G GAMES': 'https://png-res.png999.com/assets/assetsss/5g_1724397962984.png',
+                    'FAT PANDA': 'https://png-res.png999.com/assets/assetsss/FatPanda.png',
+                    'SPADE GAMING': 'https://png-res.png999.com/assets/assetsss/sgSlot.png',
+                    'PLAYTECH': 'https://png-res.png999.com/assets/assetsss/playtechSlot_1774248425.png',
+                    'WOW GAMING': 'https://png-res.png999.com/assets/assetsss/Wowlogo.png',
+                    'HACKSAW': 'https://png-res.png999.com/assets/assetsss/IMone_1729750439291.png',
+                    'PLAYSTAR': 'https://png-res.png999.com/assets/assetsss/PlaystarLogo.png',
+                    'RED TIGER': 'https://png-res.png999.com/assets/assetsss/rt_1698199018942.png',
+                    'NETENT': 'https://png-res.png999.com/assets/assetsss/ne_1698198940960.png',
+                    'BIG TIME GAMING': 'https://png-res.png999.com/assets/assetsss/btg_1698198686519.png',
+                    'JOKER': 'https://png-res.png999.com/assets/assetsss/jokerslot_1688608280834.png',
+                    'WMC': 'https://png-res.png999.com/assets/assetsss/wmc_1688608265184.png',
+                    'MICROGAMING': 'https://png-res.png999.com/assets/assetsss/microSlot.png'
+                };
+
+                const counts = result.providerCounts;
+                const sortedProviders = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+                
+                statsContainer.innerHTML = sortedProviders.map(key => {
+                    const [prov, kat] = key.split('|');
+                    const normalizedProv = prov.toUpperCase().trim();
+                    const logoUrl = logoMap[normalizedProv] || '';
+
+                    return `
+                        <div class="provider-stat-card" 
+                             onclick="document.getElementById('gameSearchTextArea').value='${prov}'; window.filterGamesMassal();"
+                             style="
+                                flex: 0 0 auto;
+                                padding: 8px 15px;
+                                background: rgba(0, 20, 15, 0.85);
+                                border-left: 3px solid var(--primary);
+                                border-radius: 12px;
+                                cursor: pointer;
+                                min-width: 190px;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                                border: 1px solid rgba(0, 255, 170, 0.15);
+                                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+                                position: relative;
+                            "
+                            onmouseover="this.style.background='rgba(0, 40, 30, 0.95)'; this.style.transform='translateY(-3px)'; this.style.borderColor='var(--primary)';"
+                            onmouseout="this.style.background='rgba(0, 20, 15, 0.85)'; this.style.transform='translateY(0)'; this.style.borderColor='rgba(0, 255, 170, 0.15)';"
+                        >
+                            <!-- Logo Section (No White Box, Max Size) -->
+                            <div style="width: 55px; height: 55px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                ${logoUrl ? `<img src="${logoUrl}" alt="${prov}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));">` : `<div style="color: var(--primary); font-weight: bold; font-size: 14px;">${prov.substring(0,2)}</div>`}
+                            </div>
+
+                            <!-- Info Section -->
+                            <div style="overflow: hidden; flex-grow: 1;">
+                                <div style="font-size: 11px; color: var(--accent); font-weight: 900; letter-spacing: 0.5px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 10px rgba(0,255,170,0.3);">${prov.toUpperCase()}</div>
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                                    <span style="font-size: 8px; color: var(--text-muted); text-transform: uppercase; font-weight: bold;">${kat}</span>
+                                    <span style="font-size: 15px; color: #fff; font-weight: 900; font-family: 'Arial Black'; text-shadow: 0 0 10px var(--primary);">${counts[key]}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // FITUR AUTO-SCROLL OTOMATIS
+                if (window.gameStatsInterval) clearInterval(window.gameStatsInterval);
+                
+                let scrollAmount = 0;
+                const step = 1; // Kecepatan geser (pixel)
+                let isPaused = false;
+
+                statsContainer.onmouseenter = () => isPaused = true;
+                statsContainer.onmouseleave = () => isPaused = false;
+
+                window.gameStatsInterval = setInterval(() => {
+                    if (isPaused) return;
+                    
+                    statsContainer.scrollLeft += step;
+                    
+                    // Reset ke awal jika sudah mentok
+                    if (statsContainer.scrollLeft >= (statsContainer.scrollWidth - statsContainer.clientWidth)) {
+                        statsContainer.scrollLeft = 0;
+                    }
+                }, 30); // 30ms untuk pergerakan yang halus
             }
-            renderGameSearchResults(result, query);
+
+            if (!query) {
+                gamesData = result.results;
+            }
+            renderGameSearchResults(result.results, query);
         } else if (result && result.error) {
             showToast(result.error, 'error');
             if (resultsBody) resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ff0033; padding: 40px;">Error: ${result.error}</td></tr>`;
@@ -1746,6 +1848,8 @@ async function fetchDaftarGames(query = "") {
     } catch (error) {
         console.error('Fetch Games Error:', error);
         if (resultsBody) resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ff0033; padding: 40px;">Gagal menghubungi server.</td></tr>`;
+        const totalCountEl = document.getElementById('totalDatabaseGamesCount');
+        if (totalCountEl) totalCountEl.innerText = 'OFFLINE';
     }
 }
 
@@ -1753,14 +1857,79 @@ function renderGameSearchResults(data, query) {
     const resultsBody = document.getElementById('gameResultsBody');
     if (!resultsBody) return;
 
+    // Jika tidak ada query (pencarian kosong), jangan tampilkan daftar game
+    if (!query || query.trim() === "") {
+        resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 60px; font-style: italic; opacity: 0.6;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: 15px; opacity: 0.5;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <br>Silakan masukkan nama games pada kolom di atas untuk melihat hasil.
+        </td></tr>`;
+        return;
+    }
+
     if (data.length > 0) {
-        resultsBody.innerHTML = data.map(game => `
-            <tr>
-                <td><span class="status-badge safe" style="font-size: 10px;">${game.kategori || '-'}</span></td>
-                <td style="color: var(--accent); font-weight: bold;">${game.provider || '-'}</td>
-                <td style="color: #fff;">${game.nama || '-'}</td>
-            </tr>
-        `).join('');
+        resultsBody.innerHTML = data.map(game => {
+            // Tentukan apakah harus menampilkan gambar (Hanya jika ada query pencarian)
+            const showImage = query && query.trim().length > 0;
+            
+            return `
+                <!-- Baris Info Teks -->
+                <tr class="game-info-row" style="background: rgba(0, 255, 170, 0.05);">
+                    <td style="text-align: center; vertical-align: middle; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px;">
+                        <span class="status-badge safe" style="font-size: 11px; padding: 5px 15px;">${game.kategori || '-'}</span>
+                    </td>
+                    <td style="color: var(--accent); font-weight: bold; text-align: center; vertical-align: middle; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px; font-size: 14px;">
+                        ${game.provider || '-'}
+                    </td>
+                    <td style="color: #fff; text-align: center; vertical-align: middle; font-weight: 800; border-bottom: ${showImage ? 'none' : '1px solid rgba(0,255,170,0.1)'}; padding: 15px 10px; font-size: 16px; letter-spacing: 1px;">
+                        ${game.nama || '-'}
+                    </td>
+                </tr>
+                ${showImage ? `
+                <!-- Baris Gambar (Dengan Cyber Frame Keren) -->
+                <tr class="game-image-row">
+                    <td colspan="3" style="padding: 10px 20px 40px 20px; text-align: center; border-top: none;">
+                        <div class="cyber-image-frame" style="
+                            position: relative;
+                            width: 200px;
+                            height: 200px;
+                            margin: 0 auto;
+                            padding: 8px;
+                            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+                            border-radius: 20px;
+                            box-shadow: 0 0 30px rgba(0, 255, 170, 0.4);
+                        ">
+                            <!-- Corner Accents -->
+                            <div style="position: absolute; top: -2px; left: -2px; width: 20px; height: 20px; border-top: 3px solid #fff; border-left: 3px solid #fff; border-radius: 18px 0 0 0; z-index: 2;"></div>
+                            <div style="position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px; border-bottom: 3px solid #fff; border-right: 3px solid #fff; border-radius: 0 0 18px 0; z-index: 2;"></div>
+                            
+                            <!-- Inner Container -->
+                            <div style="
+                                width: 100%;
+                                height: 100%;
+                                background: #000;
+                                border-radius: 15px;
+                                overflow: hidden;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                position: relative;
+                            ">
+                                ${game.gambar ? `
+                                    <img src="${game.gambar}" alt="${game.nama}" style="width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1;" onerror="this.parentElement.innerHTML='<div style=\'color:var(--primary); font-size:10px;\'>IMAGE ERROR</div>'">
+                                    <!-- Scanline effect overlay -->
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 2; opacity: 0.3;"></div>
+                                ` : `<div style='color:rgba(0, 255, 170, 0.2); font-size:10px;'>NO DATA</div>`}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 20px;"><td colspan="3" style="border:none; background:transparent;"></td></tr>
+                ` : ''}
+            `;
+        }).join('');
     } else {
         const msg = query ? `Tidak ada data yang cocok untuk "${query.split('\n')[0]}..."` : "Daftar games kosong.";
         resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">${msg}</td></tr>`;
@@ -1804,6 +1973,10 @@ function switchSection(sectionId) {
     if (sportsbookRefreshInterval) {
         clearInterval(sportsbookRefreshInterval);
         sportsbookRefreshInterval = null;
+    }
+    if (window.gameStatsInterval) {
+        clearInterval(window.gameStatsInterval);
+        window.gameStatsInterval = null;
     }
 
     sections.forEach(section => {

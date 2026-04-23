@@ -164,63 +164,83 @@ function getDaftarGames(params) {
   
   // Get header row data to find column indices
   const headerData = s.getRange(h, 1, 1, lastCol).getValues()[0];
-  const colIdx = { kategori: -1, provider: -1, nama: -1 };
+  const colIdx = { kategori: -1, provider: -1, nama: -1, gambar: -1 };
   
   for (let i = 0; i < headerData.length; i++) {
     const val = headerData[i] ? headerData[i].toString().toUpperCase().trim() : "";
     if (val.includes("KATEGORI")) colIdx.kategori = i;
     else if (val.includes("PROVIDER")) colIdx.provider = i;
     else if (val.includes("NAMA GAMES") || val.includes("GAME NAME") || val === "GAMES" || val === "GAME") colIdx.nama = i;
+    else if (val.includes("LINK GAMBAR") || val.includes("IMAGE LINK") || val.includes("GAMBAR")) colIdx.gambar = i;
   }
   
   if (colIdx.nama === -1) {
     for (let i = 0; i < headerData.length; i++) {
-      if (headerData[i].toString().toUpperCase().includes("GAMES")) { colIdx.nama = i; break; }
+      const hVal = headerData[i].toString().toUpperCase();
+      if (hVal.includes("GAMES") || hVal.includes("NAMA")) { colIdx.nama = i; break; }
     }
   }
   
   if (colIdx.nama === -1) colIdx.nama = 2; 
   if (colIdx.provider === -1) colIdx.provider = 1;
   if (colIdx.kategori === -1) colIdx.kategori = 0;
-
-  // Optimized Fetch
-  const data = s.getRange(h + 1, 1, lastRow - h, Math.max(colIdx.nama, colIdx.provider, colIdx.kategori) + 1).getValues();
-  
-  if (queries.length === 0) {
-    return data.slice(0, 100).map(r => ({
-      kategori: r[colIdx.kategori] || "",
-      provider: r[colIdx.provider] || "",
-      nama: r[colIdx.nama] || ""
-    })).filter(r => r.nama);
+  // If gambar still not found, try to find by common names
+  if (colIdx.gambar === -1) {
+    for (let i = 0; i < headerData.length; i++) {
+      const hVal = headerData[i].toString().toUpperCase();
+      if (hVal.includes("IMG") || hVal.includes("URL") || hVal.includes("PHOTO")) { colIdx.gambar = i; break; }
+    }
   }
 
-  const filtered = [];
-  const normalizedQueries = queries.map(q => q.replace(/[^a-z0-9]/g, ''));
+  Logger.log("Column Indices: " + JSON.stringify(colIdx));
+
+  // Optimized Fetch - get all needed columns
+  const maxIdx = Math.max(colIdx.nama, colIdx.provider, colIdx.kategori, colIdx.gambar);
+  const data = s.getRange(h + 1, 1, lastRow - h, maxIdx + 1).getValues();
   
+  const allCounts = {}; 
+  const filtered = [];
+  const q = queryStr; // Menggunakan variabel queryStr yang sudah didefinisikan di baris 162
+
   for (let i = 0; i < data.length; i++) {
     const r = data[i];
     if (!r[colIdx.nama]) continue;
     
-    const gName = r[colIdx.nama].toString().toLowerCase();
-    const gNameClean = gName.replace(/[^a-z0-9]/g, '');
+    const kat = (r[colIdx.kategori] || "").toString().trim();
+    const prov = (r[colIdx.provider] || "").toString().trim();
+    const nama = (r[colIdx.nama] || "").toString().trim();
     
-    // Fuzzy matching logic
-    const matched = queries.some((q, idx) => {
-      const qClean = normalizedQueries[idx];
-      return gName.includes(q) || q.includes(gName) || gNameClean.includes(qClean) || qClean.includes(gNameClean);
-    });
-
-    if (matched) {
-      filtered.push({
-        kategori: r[colIdx.kategori] || "",
-        provider: r[colIdx.provider] || "",
-        nama: r[colIdx.nama] || ""
-      });
-      if (filtered.length >= 200) break;
+    // Hitung total database per provider+kategori
+    if (prov || kat) {
+      const key = prov + "|" + kat;
+      allCounts[key] = (allCounts[key] || 0) + 1;
+    }
+    
+    // Filter hasil pencarian
+    if (!q || nama.toLowerCase().includes(q)) {
+      if (filtered.length < 100) {
+        filtered.push({
+          kategori: kat,
+          provider: prov,
+          nama: nama,
+          gambar: colIdx.gambar !== -1 ? r[colIdx.gambar] || "" : "",
+          countKey: prov + "|" + kat
+        });
+      }
     }
   }
 
-  return filtered;
+  // Masukkan total count ke hasil filter
+  filtered.forEach(item => {
+    item.totalGames = allCounts[item.countKey] || 0;
+    delete item.countKey;
+  });
+
+  return {
+    results: filtered,
+    totalDatabase: data.length,
+    providerCounts: allCounts
+  };
 }
 
 function getSportsbookResults(params) {

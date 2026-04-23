@@ -900,7 +900,21 @@
                 <div id="sectionDaftarGames" class="app-section" style="display: none;">
                     <div class="section-header">
                         <h2 class="section-title">DAFTAR GAMES WDBOS</h2>
-                        <p class="section-desc">Tempel nama games untuk memfilter data kategori dan provider.</p>
+                        <p class="section-desc">Tempel nama games untuk memfilter data kategori, provider, dan gambar.</p>
+                    </div>
+
+                    <!-- Provider Stats Dashboard (Jejeran Kartu) -->
+                    <div id="providerStatsContainer" style="
+                        display: flex;
+                        gap: 12px;
+                        overflow-x: auto;
+                        padding: 10px 5px 20px 5px;
+                        margin-bottom: 5px;
+                        scrollbar-width: thin;
+                        scrollbar-color: var(--primary) transparent;
+                        -webkit-overflow-scrolling: touch;
+                    ">
+                        <!-- Kartu Provider akan muncul di sini secara dinamis -->
                     </div>
 
                     <div class="search-massal-area calc-card luxury-card" style="padding: 20px 25px; margin-bottom: 30px;">
@@ -948,13 +962,13 @@
                             <table class="cyber-table">
                                 <thead>
                                     <tr>
-                                        <th style="font-size: 10px;">KATEGORI GAMES</th>
-                                        <th style="font-size: 10px;">PROVIDER</th>
-                                        <th style="font-size: 10px;">NAMA GAMES</th>
+                                        <th style="font-size: 10px; text-align: center; border-radius: 8px 0 0 0;">KATEGORI GAMES</th>
+                                        <th style="font-size: 10px; text-align: center;">PROVIDER</th>
+                                        <th style="font-size: 10px; text-align: center; border-radius: 0 8px 0 0;">NAMA GAMES</th>
                                     </tr>
                                 </thead>
                                 <tbody id="gameResultsBody">
-                                    <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 40px;">Data games akan muncul di sini...</td></tr>
+                                    <tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">Data games akan muncul di sini...</td></tr>
                                 </tbody>
                             </table>
                         </div>
