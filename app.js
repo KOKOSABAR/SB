@@ -1,3 +1,45 @@
+/* --- AUDIO CONTROL SYSTEM --- */
+let isMusicPlaying = false;
+window.toggleAudio = function() {
+    const bgm = document.getElementById('bgm');
+    const label = document.getElementById('audioLabel');
+    const bars = document.querySelectorAll('#vis-bars div');
+    
+    if (isMusicPlaying) {
+        bgm.pause();
+        label.innerText = 'MUSIC OFF';
+        bars.forEach(b => b.style.animationPlayState = 'paused');
+        isMusicPlaying = false;
+    } else {
+        bgm.play().catch(e => console.log("User interaction needed for audio"));
+        label.innerText = 'MUSIC ON';
+        bars.forEach(b => b.style.animationPlayState = 'running');
+        isMusicPlaying = true;
+    }
+    window.playSFX('click');
+};
+
+window.playSFX = function(type) {
+    const sfx = document.getElementById(`sfx-${type}`);
+    if (sfx) {
+        sfx.currentTime = 0;
+        sfx.play().catch(e => {});
+    }
+};
+
+// Global Event Listeners for Audio Interaction
+document.addEventListener('mouseover', (e) => {
+    if (e.target.closest('.nav-item, .cyber-btn-luxury, .provider-stat-card, .sidebar-toggle-close, .logo-section')) {
+        window.playSFX('hover');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.nav-item, .cyber-btn-luxury, .sidebar-toggle-close, .logo-section')) {
+        window.playSFX('click');
+    }
+});
+
 const STORAGE_KEY = 'pk_online_notes';
 let notes = [];
 let editingId = null;
@@ -1883,6 +1925,11 @@ async function fetchDaftarGames(query = "") {
                 gamesData = result.results;
             }
             renderGameSearchResults(result.results, query);
+            
+            // Play Search Success SFX
+            if (result.results && result.results.length > 0) {
+                window.playSFX('search');
+            }
         } else if (result && result.error) {
             showToast(result.error, 'error');
             if (resultsBody) resultsBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ff0033; padding: 40px;">Error: ${result.error}</td></tr>`;
@@ -1991,6 +2038,8 @@ function filterGamesMassal() {
 window.filterGamesMassal = filterGamesMassal;
 
 function switchSection(sectionId) {
+    // Play Click SFX
+    window.playSFX('click');
     localStorage.setItem('activeSection', sectionId);
     const sections = document.querySelectorAll('.app-section');
     const navItems = document.querySelectorAll('.nav-item');
