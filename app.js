@@ -4469,6 +4469,7 @@ function rekapSpinLog(silent = false) {
     if (resultEl) {
         resultEl.textContent = fmt;
         if (!silent) showToast('Total kemenangan berhasil dihitung!', 'success');
+        updateFinalClaim();
     }
 }
 
@@ -4476,53 +4477,58 @@ function updateFinalClaim() {
     const winInput = document.getElementById('manualWinInput');
     const awardInput = document.getElementById('manualAwardInput');
     const alreadyClaimedInput = document.getElementById('alreadyClaimedInput');
+    const autoTotalEl = document.getElementById('spinTotalResult');
 
     const displayManualWin = document.getElementById('totalManualWin');
     const displayManualAward = document.getElementById('totalManualAward');
     const displayNetWin = document.getElementById('netWinResult');
     const displayQuota = document.getElementById('remainingQuotaResult');
     const warningEl = document.getElementById('claimLimitWarning');
-    const autoTotalEl = document.getElementById('spinTotalResult');
 
-    if (!winInput || !awardInput || !alreadyClaimedInput || !displayNetWin) return;
-
-    // Helper to sum numbers from multi-line text
     const sumFromText = (text) => {
         if (!text) return 0;
         const lines = text.split(/[\n\r\s\t]+/).filter(l => l.trim() !== '');
         return lines.reduce((acc, curr) => {
-            const val = parseFloat(curr.replace(/\./g, '').replace(/,/g, ''));
-            return acc + (isNaN(val) ? 0 : val);
+            let clean = curr.replace(/,/g, '');
+            let val = parseFloat(clean);
+            if (isNaN(val)) return acc;
+            return acc + Math.floor(val);
         }, 0);
     };
 
-    let totalWin = sumFromText(winInput.value);
-    let totalAward = sumFromText(awardInput.value);
-    let totalAlreadyClaimed = sumFromText(alreadyClaimedInput.value);
-
-    const netWin = totalWin - totalAward;
-    const initialMaxLimit = 400000;
-    const remainingQuota = initialMaxLimit - totalAlreadyClaimed;
-
-    // Formatting IDR
     const fmt = (num) => new Intl.NumberFormat('en-US').format(num);
 
-    // Update UI
-    if (displayManualWin) displayManualWin.textContent = fmt(totalWin);
-    if (displayManualAward) displayManualAward.textContent = fmt(totalAward);
-    displayNetWin.textContent = fmt(netWin);
+    // --- 1. CALCULATOR AWARD LOGIC (INDEPENDENT) ---
+    if (winInput && awardInput && displayNetWin) {
+        const autoTotalVal = autoTotalEl ? autoTotalEl.textContent.replace(/,/g, '') : "0";
+        const autoWin = parseFloat(autoTotalVal) || 0;
+        const manualWin = sumFromText(winInput.value);
+        const totalWin = manualWin + autoWin;
+        const totalAward = sumFromText(awardInput.value);
+        const netWin = totalWin - totalAward;
 
-    // Explicit Remaining Quota (This shows the 125,600 result you expect)
-    if (displayQuota) displayQuota.textContent = fmt(Math.max(0, remainingQuota));
+        if (displayManualWin) displayManualWin.textContent = fmt(totalWin);
+        if (displayManualAward) displayManualAward.textContent = fmt(totalAward);
+        displayNetWin.textContent = fmt(netWin);
+    }
 
-    // Warning visibility (show if Net Win exceeds quota OR quota is already negative)
-    if ((netWin > 0 && netWin > remainingQuota) || remainingQuota <= 0) {
-        if (warningEl.style.display === 'none') {
-            showToast('⚠️ Limit klaim harian terlampaui!', 'warning');
+    // --- 2. MAX CLAIM STATUS LOGIC (INDEPENDENT) ---
+    if (alreadyClaimedInput && displayQuota) {
+        const totalAlreadyClaimed = sumFromText(alreadyClaimedInput.value);
+        const initialMaxLimit = 400000;
+        const remainingQuota = initialMaxLimit - totalAlreadyClaimed;
+
+        displayQuota.textContent = fmt(Math.max(0, remainingQuota));
+
+        if (remainingQuota < 0) {
+            displayQuota.style.color = '#ff4d4d';
+            displayQuota.style.textShadow = '0 0 10px rgba(255, 77, 77, 0.5)';
+            if (warningEl) warningEl.style.display = 'block';
+        } else {
+            displayQuota.style.color = 'var(--gold-primary)';
+            displayQuota.style.textShadow = 'none';
+            if (warningEl) warningEl.style.display = 'none';
         }
-        warningEl.style.display = 'block';
-    } else {
-        warningEl.style.display = 'none';
     }
 }
 
@@ -4534,13 +4540,74 @@ window.clearTextarea = function (id) {
     const el = document.getElementById(id);
     if (el) {
         el.value = '';
-        updateFinalClaim();
         if (id === 'spinLogInput') {
             const resultEl = document.getElementById('spinTotalResult');
             if (resultEl) resultEl.textContent = '0';
         }
+        updateFinalClaim();
     }
 };
+
+// --- PASTE & FORMAT HANDLER FOR TEXTAREAS ---
+function initNumberHandlers() {
+    const ids = ['manualWinInput', 'manualAwardInput', 'alreadyClaimedInput', 'spinLogInput'];
+    
+    const formatValue = (el) => {
+        // Skip spinLogInput for live formatting as it contains complex text
+        if (el.id === 'spinLogInput') return;
+        
+        const cursorP = el.selectionStart;
+        const oldLen = el.value.length;
+        
+        // Remove non-digits
+        const raw = el.value.replace(/[^\d]/g, '');
+        if (!raw) return;
+        
+        const formatted = new Intl.NumberFormat('en-US').format(raw);
+        el.value = formatted;
+        
+        // Adjust cursor
+        const newLen = formatted.length;
+        const pos = cursorP + (newLen - oldLen);
+        el.setSelectionRange(pos, pos);
+    };
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        // Paste Handler
+        el.addEventListener('paste', function(e) {
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const pastedData = clipboardData.getData('Text');
+            
+            // Remove .00 from numbers
+            const cleanedData = pastedData.replace(/(\d+)\.00(?!\d)/g, '$1');
+            
+            if (cleanedData !== pastedData) {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                const value = this.value;
+                this.value = value.substring(0, start) + cleanedData + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + cleanedData.length;
+                this.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // Live Formatting Handler (except for spin log)
+        if (id !== 'spinLogInput') {
+            el.addEventListener('input', function() {
+                formatValue(this);
+            });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initNumberHandlers);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initNumberHandlers();
+}
 
 // --- GALLERY MANAGEMENT FUNCTIONS ---
 function loadGalleryData() {
