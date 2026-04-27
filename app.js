@@ -1,24 +1,4 @@
 /* --- AUDIO CONTROL SYSTEM --- */
-let isMusicPlaying = false;
-window.toggleAudio = function() {
-    const bgm = document.getElementById('bgm');
-    const label = document.getElementById('audioLabel');
-    const bars = document.querySelectorAll('#vis-bars div');
-    
-    if (isMusicPlaying) {
-        bgm.pause();
-        label.innerText = 'MUSIC OFF';
-        bars.forEach(b => b.style.animationPlayState = 'paused');
-        isMusicPlaying = false;
-    } else {
-        bgm.play().catch(e => console.log("User interaction needed for audio"));
-        label.innerText = 'MUSIC ON';
-        bars.forEach(b => b.style.animationPlayState = 'running');
-        isMusicPlaying = true;
-    }
-    window.playSFX('click');
-};
-
 window.playSFX = function(type) {
     const sfx = document.getElementById(`sfx-${type}`);
     if (sfx) {
@@ -2221,6 +2201,40 @@ function switchSection(sectionId) {
         renderSportsbookTable();
         // Aktifkan Auto Refresh (Setiap 60 Detik)
         sportsbookRefreshInterval = setInterval(renderSportsbookTable, 60000);
+    } else if (sectionId === 'pendingan') {
+        if (headerTitle) headerTitle.textContent = 'PENDINGAN DASHBOARD';
+        if (btnAddTop) btnAddTop.style.display = 'none';
+        if (window.updatePendinganIframe) {
+            window.updatePendinganIframe();
+        }
+        
+        // Buat layar full screen khusus pendingan
+        const container = document.querySelector('.container');
+        const mainContent = document.querySelector('.main-content');
+        if (container) {
+            container.dataset.originalMaxWidth = container.style.maxWidth;
+            container.style.maxWidth = '100%';
+        }
+        if (mainContent) {
+            mainContent.dataset.originalPadding = mainContent.style.padding;
+            mainContent.style.padding = '0';
+        }
+    }
+
+    // Restore full screen modifications for other sections
+    if (sectionId !== 'pendingan') {
+        const container = document.querySelector('.container');
+        const mainContent = document.querySelector('.main-content');
+        if (container && container.dataset.originalMaxWidth !== undefined) {
+            container.style.maxWidth = container.dataset.originalMaxWidth;
+        } else if (container) {
+            container.style.maxWidth = '';
+        }
+        if (mainContent && mainContent.dataset.originalPadding !== undefined) {
+            mainContent.style.padding = mainContent.dataset.originalPadding;
+        } else if (mainContent) {
+            mainContent.style.padding = '';
+        }
     }
 
 
@@ -6571,8 +6585,54 @@ window.updateContohPrizeTable = function () {
 };
 
 // Inisialisasi saat load
+// Inisialisasi saat load
 if (document.readyState === 'complete') {
     window.updateContohPrizeTable();
 } else {
     window.addEventListener('load', window.updateContohPrizeTable);
 }
+
+/* --- PENDINGAN COMMAND CENTER SYSTEM --- */
+window.updatePendinganIframe = function(force = false) {
+    const linkInput = document.getElementById('pendinganSheetLink');
+    const iframe = document.getElementById('pendinganIframe');
+    
+    if (linkInput && iframe) {
+        let url = linkInput.value.trim();
+        if (url) {
+            // Kita gunakan rm=minimal agar UI atas bersih
+            if (url.includes('/edit') && !url.includes('rm=minimal')) {
+                try {
+                    const urlObj = new URL(url);
+                    urlObj.searchParams.set('rm', 'minimal');
+                    url = urlObj.toString();
+                } catch(e) {
+                    // Fallback
+                    const hashParts = url.split('#');
+                    let base = hashParts[0];
+                    const hash = hashParts.length > 1 ? '#' + hashParts[1] : '';
+                    if (base.includes('?')) {
+                        base = base + '&rm=minimal';
+                    } else {
+                        base = base + '?rm=minimal';
+                    }
+                    url = base + hash;
+                }
+            }
+            
+            // Hindari reload berulang kali jika user hanya pindah tab (src sudah diset dan URL sama)
+            // Hanya ganti src jika saat ini iframe kosong atau tombol LOAD ditekan (force = true)
+            const currentSrc = iframe.getAttribute('src');
+            if (force || !currentSrc || currentSrc === '') {
+                iframe.src = url;
+                if (typeof showToast === 'function') {
+                    showToast('Memuat Spreadsheet...', 'success');
+                }
+            }
+        } else {
+            if (typeof showToast === 'function') {
+                showToast('Link tidak valid', 'error');
+            }
+        }
+    }
+};

@@ -63,6 +63,7 @@ function handleAction(params) {
       case 'getBackground': result = getBackground(); break;
       case 'updateBackground': result = updateBackground(params.url); break;
       case 'getDaftarGames': result = getDaftarGames(params); break;
+      case 'getPendinganData': result = getPendinganData(params); break;
       case 'testConnection': 
         const ssTest = getSS();
         result = { 
@@ -304,3 +305,31 @@ function listFiles(fid) { try { const folder = DriveApp.getFolderById(fid || CON
 function deleteFile(id) { try { DriveApp.getFileById(id).setTrashed(true); return { success: true }; } catch (e) { return { error: e.message }; } }
 function updateBackground(u) { const ss = getSS(); let s = getSheetRobust("SB_SETTINGS") || ss.insertSheet("SB_SETTINGS"); if (s.getLastRow() === 0) s.appendRow(["KEY", "VALUE"]); const d = s.getDataRange().getValues(); let f = false; for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") { s.getRange(i + 1, 2).setValue(u); f = true; break; } } if (!f) s.appendRow(["BACKGROUND_URL", u]); return { success: true }; }
 function getBackground() { const s = getSheetRobust("SB_SETTINGS"); if (!s) return { url: "" }; const d = s.getDataRange().getValues(); for (let i = 0; i < d.length; i++) { if (d[i][0] === "BACKGROUND_URL") return { url: d[i][1] }; } return { url: "" }; }
+
+// --- PENDINGAN DATA FETCHING ---
+function getPendinganData(params) {
+  try {
+    const ssId = '1Oo3eeOSThbcEzUk62F14RHx1WBMrRHyoosLvf0u895Y';
+    const ss = SpreadsheetApp.openById(ssId);
+    if (!ss) return { error: "Spreadsheet tidak bisa diakses. Cek izin akses." };
+    
+    const sheets = ss.getSheets();
+    const sheetNames = sheets.map(s => s.getName());
+    
+    const targetSheetName = (params && params.sheetName) ? params.sheetName : sheetNames[0];
+    const sheet = ss.getSheetByName(targetSheetName);
+    
+    if (!sheet) return { error: "Sheet " + targetSheetName + " tidak ditemukan." };
+    
+    const dataRange = sheet.getDataRange();
+    const values = dataRange.getDisplayValues(); 
+    
+    return {
+      sheetNames: sheetNames,
+      currentSheet: targetSheetName,
+      data: values
+    };
+  } catch (e) {
+    return { error: "Error reading Pendingan: " + e.message };
+  }
+}

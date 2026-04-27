@@ -93,6 +93,74 @@
             box-shadow: 0 0 15px rgba(255, 62, 62, 0.4);
         }
 
+        /* Pendingan Tab Styles */
+        .pendingan-tab {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 6px;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Arial', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+        }
+        .pendingan-tab i {
+            width: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .pendingan-tab:hover {
+            background: rgba(0,255,170,0.05);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        .pendingan-tab.active {
+            background: linear-gradient(90deg, rgba(0,255,170,0.15), transparent);
+            color: var(--primary);
+            border: 1px solid rgba(0,255,170,0.3);
+            box-shadow: 0 0 15px rgba(0,255,170,0.1);
+        }
+
+        /* Bilah Rumus Block */
+        .bilah-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .bilah-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            color: var(--primary);
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+        }
+        .bilah-item {
+            text-align: center;
+            flex: 1;
+        }
+        .bilah-label {
+            font-size: 8px;
+            opacity: 0.5;
+            margin-bottom: 3px;
+        }
+        .bilah-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 800;
+        }
+
         /* Stats Luxury */
         .checking-stats {
             display: grid;
@@ -310,9 +378,6 @@
 
 <body>
     <!-- Audio Elements -->
-    <audio id="bgm" loop preload="auto">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
-    </audio>
     <audio id="sfx-hover" preload="auto">
         <source src="https://www.soundjay.com/buttons/sounds/button-27.mp3" type="audio/mpeg">
     </audio>
@@ -323,31 +388,6 @@
         <source src="https://www.soundjay.com/communication/sounds/digital-camera-shutter-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Floating Audio Control (Visualizer) -->
-    <div id="audioToggle" onclick="window.toggleAudio()" style="
-        position: fixed;
-        top: 25px;
-        right: 25px;
-        z-index: 10000;
-        background: rgba(0, 255, 170, 0.05);
-        border: 1px solid rgba(0, 255, 170, 0.3);
-        padding: 8px 15px;
-        border-radius: 50px;
-        backdrop-filter: blur(10px);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 0 20px rgba(0,255,170,0.1);
-        transition: all 0.3s ease;
-    " onmouseover="this.style.background='rgba(0,255,170,0.15)'; this.style.transform='scale(1.05)';" onmouseout="this.style.background='rgba(0,255,170,0.05)'; this.style.transform='scale(1)';" >
-        <div id="vis-bars" style="display: flex; gap: 2px; align-items: flex-end; height: 12px;">
-            <div style="width: 2px; height: 4px; background: var(--primary); animation: barPulse 0.5s infinite 0.1s; animation-play-state: paused;"></div>
-            <div style="width: 2px; height: 8px; background: var(--primary); animation: barPulse 0.4s infinite 0.3s; animation-play-state: paused;"></div>
-            <div style="width: 2px; height: 6px; background: var(--primary); animation: barPulse 0.6s infinite 0.2s; animation-play-state: paused;"></div>
-        </div>
-        <span id="audioLabel" style="font-size: 9px; color: var(--primary); font-weight: 900; letter-spacing: 2px; font-family: 'Orbitron', sans-serif;">MUSIC OFF</span>
-    </div>
     <div class="app-wrapper">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -530,6 +570,15 @@
                                 <path d="M6 18h.01M10 18h.01M14 18h.01M18 18h.01" />
                             </svg>
                             DAFTAR GAMES WDBOS
+                        </a>
+                        <a href="#" class="nav-item" onclick="window.switchSection('pendingan')">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <line x1="3" y1="9" x2="21" y2="9" />
+                                <line x1="9" y1="21" x2="9" y2="9" />
+                            </svg>
+                            PENDINGAN
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('slot')">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -943,6 +992,188 @@
                     <div id="predictionContainer">
                     </div>
                 </div>
+                 <div id="sectionPendingan" class="app-section" style="display: none;">
+                    <div class="section-header" style="display: none;">
+                        <h2 class="section-title">PENDINGAN COMMAND CENTER</h2>
+                        <p class="section-desc">Pusat Rekonsiliasi Data Pusat & E-Wallet (Bilah Rumus Realtime).</p>
+                    </div>
+                    
+                    <div class="luxury-card main-panel" style="padding: 0; border: none; border-radius: 0; height: calc(100vh - 110px); width: 100%; background: #000; display: flex; flex-direction: column; position: relative;">
+                        
+                        <!-- Premium Cyber Control Bar -->
+                        <div style="display: flex; gap: 20px; align-items: center; background: linear-gradient(90deg, rgba(0,20,30,0.95), rgba(0,10,15,0.95)); padding: 15px 30px; border-bottom: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(0,255,170,0.1); position: relative; z-index: 2;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 2s infinite;"></div>
+                                <span style="color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 3px; font-weight: 800;">DATA STREAM</span>
+                                <button onclick="togglePendinganLink()" style="background: none; border: none; color: var(--primary); cursor: pointer; opacity: 0.6; font-size: 10px; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                                    <i id="linkToggleIcon" class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            
+                            <div id="pendinganLinkContainer" style="flex: 1; position: relative; display: none;">
+                                <div style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--primary); opacity: 0.7;"><i class="fas fa-satellite-dish"></i></div>
+                                <input type="text" id="pendinganSheetLink" class="cyber-input" style="width: 100%; height: 40px; background: rgba(0,0,0,0.6); border: 1px solid rgba(0,255,170,0.3); border-radius: 4px; padding: 0 15px 0 45px; color: #fff; font-family: monospace; font-size: 11px; letter-spacing: 1px; transition: all 0.3s ease;" 
+                                    placeholder="INSERT SECURE DATA LINK..." 
+                                    onfocus="this.style.boxShadow='0 0 15px rgba(0,255,170,0.2)'" onblur="this.style.boxShadow='none'"
+                                    value="https://docs.google.com/spreadsheets/d/1Oo3eeOSThbcEzUk62F14RHx1WBMrRHyoosLvf0u895Y/edit?gid=0#gid=0">
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 4px; border: 1px solid rgba(0,255,170,0.2);">
+                                <i class="fas fa-search-minus" style="color: var(--primary); font-size: 10px;"></i>
+                                <input type="range" id="pendinganZoom" min="0.1" max="1.5" step="0.05" value="0.5" style="width: 80px; accent-color: var(--primary);" oninput="window.updatePendinganZoom(this.value)">
+                                <span id="zoomValueText" style="color: #fff; font-size: 10px; font-family: monospace; min-width: 35px; text-align: right;">50%</span>
+                            </div>
+                            
+                            <button onclick="window.updatePendinganIframe(true)" class="cyber-btn-luxury" style="padding: 0 30px; height: 40px; font-size: 11px; background: rgba(0,255,170,0.1); border: 1px solid var(--primary); box-shadow: 0 0 15px rgba(0,255,170,0.2);">
+                                <i class="fas fa-bolt" style="margin-right: 8px;"></i> INITIALIZE
+                            </button>
+                        </div>
+
+                        <!-- Custom Cyber Top Tab Bar -->
+                        <div id="pendinganCustomTabs" style="display: flex; gap: 10px; overflow-x: auto; padding: 10px 15px; background: rgba(0,0,0,0.6); border-top: 1px solid rgba(0,255,170,0.1); border-bottom: 2px solid var(--primary); scrollbar-width: none;">
+                            <style>
+                                #pendinganCustomTabs::-webkit-scrollbar { display: none; }
+                                .cyber-tab-btn {
+                                    white-space: nowrap;
+                                    padding: 8px 16px;
+                                    background: rgba(0,255,170,0.05);
+                                    border: 1px solid rgba(0,255,170,0.2);
+                                    border-radius: 4px;
+                                    color: #888;
+                                    font-family: 'Inter', sans-serif;
+                                    font-size: 11px;
+                                    font-weight: 600;
+                                    letter-spacing: 1px;
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+                                    text-transform: uppercase;
+                                }
+                                .cyber-tab-btn:hover {
+                                    background: rgba(0,255,170,0.1);
+                                    color: #fff;
+                                    border-color: rgba(0,255,170,0.5);
+                                }
+                                .cyber-tab-btn.active {
+                                    background: rgba(0,255,170,0.2);
+                                    color: var(--primary);
+                                    border-color: var(--primary);
+                                    box-shadow: 0 0 10px rgba(0,255,170,0.3);
+                                }
+                            </style>
+                            <!-- Tab List with Auto-Fetched GIDs -->
+                            <button class="cyber-tab-btn active" onclick="switchPendinganTab(this, '0')">PENDINGAN ALL</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '843294821')">TOTAL COIN</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '571737105')">MANUAL DEPOSIT</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '1679151748')">SHORTCUT SELISIH FREE & BUY SPIN</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '813063569')">KALKULATOR GAMES SPACEMAN</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '463362947')">SALDO BANK DAN E-WALLET</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '1584381892')">CROSSCHECK TOTAL APPROVED PWR</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '792914123')">APPROVED DOC E-WALLET</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '248156300')">PENDINGAN PUSAT DAN E-WALLET</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '830020403')">TUKAS PUSAT</button>
+                            <button class="cyber-tab-btn" onclick="switchPendinganTab(this, '1848312385')">SALDO KAS 1 BANK DEPO / WD / PENDINGAN</button>
+                        </div>
+
+
+                        <!-- Iframe Container with Premium Overlay and Crop -->
+                        <div style="flex: 1; width: 100%; background: #fff; position: relative; overflow: hidden;">
+                            <div class="cyber-scanline" style="pointer-events: none; opacity: 0.3; z-index: 10;"></div>
+                            <div style="position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); z-index: 5;"></div>
+                            
+                            <!-- Iframe dengan CSS Crop Trick (Menyembunyikan Formula Bar, Header, DAN Bottom Tabs) -->
+                            <iframe id="pendinganIframe" src="" style="
+                                position: absolute;
+                                width: calc(133.33% + 106px); 
+                                height: calc(133.33% + 95px); 
+                                top: -37.5px; 
+                                left: -34.5px; 
+                                margin: 0;
+                                transform: scale(0.75);
+                                transform-origin: top left;
+                                border: none; 
+                                display: block; 
+                                filter: contrast(1.05) saturate(1.1);
+                                background: #fff;
+                            "></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    window.togglePendinganLink = function() {
+                        const container = document.getElementById('pendinganLinkContainer');
+                        const icon = document.getElementById('linkToggleIcon');
+                        if (container.style.display === 'none') {
+                            container.style.display = 'block';
+                            icon.className = 'fas fa-eye';
+                            window.playSFX('click');
+                        } else {
+                            container.style.display = 'none';
+                            icon.className = 'fas fa-eye-slash';
+                            window.playSFX('click');
+                        }
+                    };
+
+                    window.updatePendinganZoom = function(val) {
+                        document.getElementById('zoomValueText').innerText = Math.round(val * 100) + '%';
+                        const iframe = document.getElementById('pendinganIframe');
+                        const scale = parseFloat(val);
+                        const invScale = 100 / scale;
+                        
+                        // Base crop values for 1.0 scale
+                        const baseCropLeft = 40;
+                        const baseCropRight = 25; 
+                        const baseCropTop = 70;
+                        const baseCropBottom = 80; 
+                        
+                        const leftPos = baseCropLeft * scale;
+                        const topPos = baseCropTop * scale;
+                        
+                        iframe.style.width = `calc(${invScale}% + ${baseCropLeft + baseCropRight}px)`;
+                        iframe.style.height = `calc(${invScale}% + ${baseCropTop + baseCropBottom}px)`;
+                        iframe.style.top = `-${topPos}px`;
+                        iframe.style.left = `-${leftPos}px`;
+                        iframe.style.margin = '0';
+                        iframe.style.transform = `scale(${scale})`;
+                    };
+
+                    window.switchPendinganTab = function(btnElement, gid) {
+                        if (gid === 'INSERT_GID_HERE') {
+                            alert('Mohon masukkan nilai GID untuk sheet ini di dalam kode index.html (cari: INSERT_GID_HERE)');
+                            return;
+                        }
+
+                        // Update active state
+                        const tabs = document.querySelectorAll('.cyber-tab-btn');
+                        tabs.forEach(tab => tab.classList.remove('active'));
+                        btnElement.classList.add('active');
+
+                        // Get current URL and replace GID
+                        const iframe = document.getElementById('pendinganIframe');
+                        const inputUrl = document.getElementById('pendinganSheetLink').value;
+                        
+                        // Use iframe.src if it's already loaded (to preserve rm=minimal), otherwise use inputUrl
+                        let baseUrl = iframe.src && iframe.src.includes('docs.google.com') ? iframe.src : inputUrl;
+                        
+                        if (baseUrl) {
+                            try {
+                                const urlObj = new URL(baseUrl);
+                                // Google Sheets prioritizes query parameter 'gid', so we MUST update or remove it!
+                                if (urlObj.searchParams.has('gid')) {
+                                    urlObj.searchParams.set('gid', gid);
+                                }
+                                // Ensure rm=minimal is kept if it's not already there
+                                if (!urlObj.searchParams.has('rm')) {
+                                    urlObj.searchParams.set('rm', 'minimal');
+                                }
+                                urlObj.hash = `#gid=${gid}`;
+                                iframe.src = urlObj.toString();
+                            } catch(e) {
+                                console.error('Invalid URL', e);
+                            }
+                        }
+                    };
+                </script>
 
                 <div id="sectionDaftarGames" class="app-section" style="display: none;">
                     <div class="section-header">
