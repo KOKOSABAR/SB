@@ -1,0 +1,255 @@
+
+/* KALKULATOR PARLAY STYLES - FINAL ANTI-OVERLAP */
+#sectionParlayCalc {
+    padding: 30px 40px;
+}
+
+.calc-grid-parlay {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.parlay-main {
+    min-width: 0; /* Prevents grid blowout */
+}
+
+.parlay-legs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Header & Row with Fixed Pillar widths to prevent overlapping */
+.parlay-legs-header, .parlay-leg-row {
+    display: grid;
+    grid-template-columns: 50px 1.5fr 1fr 450px 50px;
+    align-items: center;
+    gap: 15px;
+}
+
+.parlay-legs-header {
+    padding: 0 25px 15px 25px;
+    border-bottom: 1px solid rgba(0, 255, 242, 0.1);
+}
+
+.parlay-header-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.5;
+}
+
+.parlay-leg-row {
+    padding: 15px 25px;
+    background: rgba(10, 25, 35, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 242, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.parlay-leg-row:hover {
+    border-color: var(--primary);
+    background: rgba(15, 35, 50, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Inputs - Strictly sized */
+.parlay-leg-row .wd-input {
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+}
+
+/* Odds input specifically */
+.parlay-leg-row input[type=\"number\"] {
+     color: #00ffaa !important;
+     font-weight: bold !important;
+     font-family: Arial, sans-serif !important;
+     font-size: 15px !important;
+}
+
+/* Status Group - Wide enough to never overlap */
+.leg-status-group {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+.btn-status {
+    padding: 10px 2px;
+    font-size: 9px;
+    font-weight: 800;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.btn-status.active { color: #000; font-weight: 900; }
+.btn-status.win.active { background: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
+.btn-status.win-half.active { background: #00ccff; box-shadow: 0 0 15px rgba(0, 204, 255, 0.5); }
+.btn-status.draw.active { background: #e0e6ed; }
+.btn-status.lose-half.active { background: #ff9900; box-shadow: 0 0 15px rgba(255, 153, 0, 0.5); }
+.btn-status.lose.active { background: #ff3e3e; box-shadow: 0 0 15px rgba(255, 62, 62, 0.5); }
+
+/* Results */
+.parlay-result-box {
+    margin-top: 25px;
+    padding: 25px;
+    background: rgba(0, 255, 242, 0.02);
+    border: 1px solid rgba(0, 255, 242, 0.2);
+    border-radius: 12px;
+}
+
+.parlay-res-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.parlay-res-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1.5px;
+}
+
+.parlay-res-val {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.parlay-res-val.success { color: #00ff88; }
+.parlay-res-val.error { color: #ff3e3e; }
+.parlay-res-val.highlight-cyan { color: #00d4ff; }
+.parlay-res-val.highlight-gold { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+
+.premium-gold-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%) !important;
+    border: 1px solid var(--gold-primary) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.parlay-res-item.main-res {
+    margin-bottom: 20px;
+}
+
+.parlay-res-item.main-res .parlay-res-label {
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--gold-primary);
+    text-transform: uppercase;
+}
+
+.parlay-res-item.main-res .parlay-res-val {
+    font-size: 32px;
+}
+
+.btn-remove-leg {
+    background: rgba(255, 62, 62, 0.1);
+    border: 1px solid rgba(255, 62, 62, 0.2);
+    color: #ff3e3e;
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-remove-leg:hover {
+    background: #ff3e3e; color: #fff;
+}
+
+@media (max-width: 1400px) {
+    .parlay-legs-header, .parlay-leg-row {
+        grid-template-columns: 40px 1fr 110px 380px 40px;
+        gap: 15px;
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .calc-grid-parlay {
+        grid-template-columns: 1fr;
+    }
+    .parlay-legs-header { display: none; }
+    .parlay-leg-row {
+        grid-template-columns: 40px 1fr 1fr 40px;
+        grid-template-areas: 
+            "num name name del"
+            "none odds status status";
+    }
+}
+
+/* FOOTER INFO STYLES */
+.parlay-footer-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.parlay-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.info-title {
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 10px;
+    letter-spacing: 1.5px;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-list li {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.info-list li span {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.formula-box {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #ffd700;
+    text-align: center;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.info-list.small li {
+    font-size: 9px;
+    font-style: italic;
+}

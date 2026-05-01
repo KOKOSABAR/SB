@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+scratch/
+test_*.js
+test_*.txt
+dom_dump.txt
+scraped.json
+lottery_data.json
+lottery_data.js
+package-lock.json
+package.json
