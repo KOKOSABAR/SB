@@ -3904,7 +3904,20 @@ function extractWdData(silent = false) {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        if (/^\d+\s+\S+/.test(line.trim()) && lines[i + 1] && lines[i + 1].includes("Withdraw")) {
+        const trimmedLine = line.trim();
+        let isBlockStart = false;
+
+        if (/^\d+\s+\S+/.test(trimmedLine)) {
+            if (lines[i + 1] && /withdraw/i.test(lines[i + 1])) {
+                isBlockStart = true;
+            }
+        } else if (/^\d+$/.test(trimmedLine)) {
+            if (lines[i + 2] && /withdraw/i.test(lines[i + 2])) {
+                isBlockStart = true;
+            }
+        }
+
+        if (isBlockStart) {
             if (currentBlock.length > 0) {
                 processBlock(currentBlock, wdData);
             }
@@ -3932,6 +3945,8 @@ function extractWdData(silent = false) {
             username = firstLineParts[firstLineParts.length - 1];
         } else if (firstLineParts.length === 1 && !/^\d+$/.test(firstLineParts[0])) {
             username = firstLineParts[0];
+        } else if (linesBlock.length > 1 && !/withdraw/i.test(linesBlock[1])) {
+            username = linesBlock[1].trim();
         }
 
         const fullBlockStr = linesBlock.join('\n');
