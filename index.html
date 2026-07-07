@@ -6,17 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SB - Dashboard Note</title>
 
-    <link rel="stylesheet" href="styles.css">
+    <script>
+        (function() {
+            const savedState = localStorage.getItem('sidebar_state');
+            if (savedState === 'collapsed') {
+                document.documentElement.classList.add('sidebar-collapsed');
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="styles.css?v=1.12">
     <link rel="stylesheet" href="parlay.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* --- MAIN CONTENT REFINEMENT --- */
         .main-content {
-            margin-left: var(--sidebar-width);
             padding: 40px 20px;
             /* Lebar ekstra agar tidak dempet */
             min-height: 100vh;
-            width: calc(100% - var(--sidebar-width));
             background: transparent;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -407,6 +414,13 @@
                                     <stop offset="50%" stop-color="#FFFACD" />
                                     <stop offset="100%" stop-color="#B8860B" />
                                 </linearGradient>
+                                <linearGradient id="cyberGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFE082" />
+                                    <stop offset="30%" stop-color="#FFB300" />
+                                    <stop offset="50%" stop-color="#FFFFFF" />
+                                    <stop offset="70%" stop-color="#FFB300" />
+                                    <stop offset="100%" stop-color="#FF8F00" />
+                                </linearGradient>
                                 <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="var(--primary)" />
                                     <stop offset="100%" stop-color="var(--accent)" />
@@ -418,208 +432,126 @@
                                         <feMergeNode in="SourceGraphic" />
                                     </feMerge>
                                 </filter>
+                                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.6" />
+                                    <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+                                </radialGradient>
                             </defs>
 
-                            <!-- Outer Rotating Cyber Ring -->
+                            <!-- Glowing Core Background Pulse -->
+                            <circle cx="50" cy="50" r="30" fill="url(#coreGlow)">
+                                <animate attributeName="r" values="24;36;24" dur="2.5s" repeatCount="indefinite" />
+                                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite" />
+                            </circle>
+
+                            <!-- Outer Rotating HUD Rings (Dashed & Solid Segmented) -->
                             <path d="M50 5 A45 45 0 0 1 95 50 A45 45 0 0 1 50 95 A45 45 0 0 1 5 50 A45 45 0 0 1 5 5"
-                                fill="none" stroke="url(#neonGrad)" stroke-width="2" stroke-dasharray="20 10"
-                                opacity="0.6">
+                                fill="none" stroke="url(#neonGrad)" stroke-width="2" stroke-dasharray="35 15 5 15"
+                                opacity="0.7">
                                 <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50"
-                                    dur="8s" repeatCount="indefinite" />
+                                    dur="10s" repeatCount="indefinite" />
                             </path>
 
                             <!-- Inner Rotating Ring (Opposite Direction) -->
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="url(#goldGrad)" stroke-width="1"
-                                stroke-dasharray="5 15" opacity="0.4">
+                            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#goldGrad)" stroke-width="1.2"
+                                stroke-dasharray="10 20" opacity="0.5">
                                 <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50"
-                                    dur="12s" repeatCount="indefinite" />
+                                    dur="14s" repeatCount="indefinite" />
                             </circle>
 
-                            <!-- Notched Gaming Shield (Double Layer) -->
-                            <path d="M50 12 L88 30 V70 L50 88 L12 70 V30 L50 12Z" fill="rgba(0, 255, 170, 0.05)"
+                            <!-- Notched Cyber Shield Core -->
+                            <path d="M50 12 L88 30 V70 L50 88 L12 70 V30 L50 12Z" fill="rgba(0, 20, 20, 0.6)"
                                 stroke="url(#neonGrad)" stroke-width="2.5" filter="url(#glow)" />
-                            <path d="M50 22 L75 35 V65 L50 78 L25 65 V35 L50 22Z" fill="none" stroke="url(#goldGrad)"
+                            
+                            <!-- Hexagon Core Frame Inside -->
+                            <path d="M50 20 L77 34 V66 L50 80 L23 66 V34 L50 20Z" fill="none" stroke="url(#goldGrad)"
                                 stroke-width="1.5" opacity="0.8" />
 
-                            <!-- Energy Beams -->
-                            <line x1="50" y1="5" x2="50" y2="15" stroke="url(#neonGrad)" stroke-width="2" opacity="0.8">
-                                <animate attributeName="stroke-opacity" values="0.8;0.2;0.8" dur="1s"
-                                    repeatCount="indefinite" />
+                            <!-- HUD Target Indicators / Corner Brackets -->
+                            <line x1="50" y1="5" x2="50" y2="15" stroke="url(#neonGrad)" stroke-width="2.5" opacity="0.9">
+                                <animate attributeName="stroke-opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite" />
                             </line>
-                            <line x1="50" y1="85" x2="50" y2="95" stroke="url(#neonGrad)" stroke-width="2"
-                                opacity="0.8">
-                                <animate attributeName="stroke-opacity" values="0.8;0.2;0.8" dur="1s"
-                                    repeatCount="indefinite" />
+                            <line x1="50" y1="85" x2="50" y2="95" stroke="url(#neonGrad)" stroke-width="2.5" opacity="0.9">
+                                <animate attributeName="stroke-opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite" />
+                            </line>
+                            
+                            <!-- Left & Right Ticks -->
+                            <line x1="5" y1="50" x2="15" y2="50" stroke="url(#neonGrad)" stroke-width="2.5" opacity="0.6">
+                                <animate attributeName="stroke-opacity" values="0.6;0.1;0.6" dur="1.5s" repeatCount="indefinite" />
+                            </line>
+                            <line x1="85" y1="50" x2="95" y2="50" stroke="url(#neonGrad)" stroke-width="2.5" opacity="0.6">
+                                <animate attributeName="stroke-opacity" values="0.6;0.1;0.6" dur="1.5s" repeatCount="indefinite" />
                             </line>
 
-                            <!-- Center "SB" with Energy Pulse -->
-                            <text x="50" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900"
-                                font-size="24" fill="url(#goldGrad)" filter="url(#glow)" style="letter-spacing: 1px;">
+                            <!-- Center "SB" with Energy Pulse (Orbitron Font) -->
+                            <!-- Glow Layer -->
+                            <text x="50" y="58" text-anchor="middle" font-family="'Orbitron', sans-serif" font-weight="900"
+                                font-size="22" fill="#00ffaa" filter="url(#glow)" opacity="0.8" style="letter-spacing: 2px;">
                                 SB
-                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+                                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite" />
+                            </text>
+                            <!-- Metallic Front Layer -->
+                            <text x="50" y="58" text-anchor="middle" font-family="'Orbitron', sans-serif" font-weight="900"
+                                font-size="22" fill="url(#cyberGold)" style="letter-spacing: 2px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.9));">
+                                SB
                             </text>
                         </svg>
 
                     </div>
-                    <button class="sidebar-toggle-close" onclick="window.toggleSidebar()" id="sidebarCloseBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                    </button>
+
                 </div>
 
                 <nav class="sidebar-nav">
                     <div class="nav-group">
                         <span class="nav-label">Main Menu</span>
                         <a href="#" class="nav-item active" onclick="window.switchSection('notes')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7" />
-                                <rect x="14" y="3" width="7" height="7" />
-                                <rect x="14" y="14" width="7" height="7" />
-                                <rect x="3" y="14" width="7" height="7" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">📝</span>
                             NOTE
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('cekRekening')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                                <path d="M12 11l-2 5h4l-2-5z" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🏦</span>
                             CEK DATA REKENING
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('inventaris')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                                <line x1="12" y1="18" x2="12.01" y2="18" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">📲</span>
                             DATA INVENTARIS HP WDBOS
                         </a>
-                        <a href="#" class="nav-item" onclick="window.switchSection('kesalahan')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="12" y1="8" x2="12" y2="12" />
-                                <line x1="12" y1="16" x2="12.01" y2="16" />
-                            </svg>
-                            DATA KESALAHAN
-                        </a>
-                        <a href="#" class="nav-item" onclick="window.switchSection('backupKesalahan')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="7 10 12 15 17 10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                            BACKUP KESALAHAN LC
-                        </a>
-                        <a href="#" class="nav-item" onclick="window.switchSection('izinKeluar')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                                <polyline points="10 17 15 12 10 7" />
-                                <line x1="15" y1="12" x2="3" y2="12" />
-                            </svg>
-                            IZIN KELUAR SISA 2
-                        </a>
+
                         <a href="#" class="nav-item" onclick="window.switchSection('togel')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">📅</span>
                             JADWAL TOGEL
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('prediksi')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                                <line x1="12" y1="22.08" x2="12" y2="12" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🔮</span>
                             PREDIKSI TOGEL
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('sportsbook')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-                                <path d="M4 22h16" />
-                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🏆</span>
                             SPORTSBOOK RESULTS
                         </a>
 
                         <a href="#" class="nav-item" onclick="window.switchSection('daftarGames')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
-                                <path d="M6 6h.01M10 6h.01M14 6h.01M18 6h.01" />
-                                <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01" />
-                                <path d="M6 14h.01M10 14h.01M14 14h.01M18 14h.01" />
-                                <path d="M6 18h.01M10 18h.01M14 18h.01M18 18h.01" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🎮</span>
                             DAFTAR GAMES WDBOS
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('pendingan')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <line x1="3" y1="9" x2="21" y2="9" />
-                                <line x1="9" y1="21" x2="9" y2="9" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">⏳</span>
                             PENDINGAN
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('slot')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                                <path d="M7 21v-4M17 21v-4M2 11h20M8 7V3M16 7V3" />
-                                <circle cx="12" cy="14" r="3" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🎰</span>
                             GAMES SLOT
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('panduan')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">📖</span>
                             PANDUAN BERMAIN TOGEL
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('prizeCalc')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-                                <line x1="8" y1="6" x2="16" y2="6" />
-                                <line x1="16" y1="14" x2="16" y2="14.01" />
-                                <line x1="12" y1="14" x2="12" y2="14.01" />
-                                <line x1="8" y1="14" x2="8" y2="14.01" />
-                                <line x1="16" y1="18" x2="16" y2="18.01" />
-                                <line x1="12" y1="18" x2="12" y2="18.01" />
-                                <line x1="8" y1="18" x2="8" y2="18.01" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🔢</span>
                             PERHITUNGAN HADIAH TOGEL
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('contohPrize')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                <polyline points="14 2 14 8 20 8" />
-                                <line x1="16" y1="13" x2="8" y2="13" />
-                                <line x1="16" y1="17" x2="8" y2="17" />
-                                <polyline points="10 9 9 9 8 9" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">🎁</span>
                             CONTOH PERHITUNGAN HADIAH TOGEL DAN BONUS
                         </a>
 
@@ -628,71 +560,31 @@
                     <div class="nav-group">
                         <span class="nav-label">SHORTCUT</span>
                         <a href="#" class="nav-item" onclick="window.switchSection('wdManual')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.4-1.4.9l-1.4 2.9A2 2 0 0 1 5.4 16H4" />
-                                <path d="M15.5 13H17l2 2" />
-                                <path d="M8 21h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10" />
-                                <path d="M2 9h20" />
-                                <path d="M6 5h12" />
-                                <path d="M9 2h6" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">💸</span>
                             TARIK WD MANUAL
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('wdPower')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚡</span>
                             TARIK WD POWER
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('bagiNominal')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M16 16l3-8 3 8c-.87.06-1.7.21-2.43.44C19.3 16.27 18.27 16 17 16s-2.3.27-2.57.44c-.73-.23-1.56-.38-2.43-.44zM7 8l3 8c-.87.06-1.7.21-2.43.44C7.3 16.27 6.27 16 5 16s-2.3.27-2.57.44c-.73-.23-1.56-.38-2.43-.44L3 8h4zM12 5V2" />
-                                <path
-                                    d="M12 21c-3.11 0-5.91-1.16-8-3.07V7c2.09-1.91 4.89-3.07 8-3.07s5.91 1.16 8 3.07v10.93c-2.09 1.91-4.89 3.07-8 3.07z" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚖️</span>
                             BAGI NOMINAL WD
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('depoKlikBca')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="5" width="20" height="14" rx="2" ry="2" />
-                                <line x1="2" y1="10" x2="22" y2="10" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">💳</span>
                             DEPO KLIK BCA
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('depoMybca')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                                <line x1="12" y1="18" x2="12.01" y2="18" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">📱</span>
                             DEPO MYBCA
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('buySpinCalc')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 2v20h16V2H4z" />
-                                <path d="M8 6h8" />
-                                <path d="M8 10h8" />
-                                <path d="M8 14h4" />
-                                <path d="M14 14h2" />
-                                <path d="M8 18h2" />
-                                <path d="M12 18h4" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">🎰</span>
                             KALKULATOR BUY & FREE SPIN
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('parlayCalc')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-                                <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-                                <line x1="6" y1="6" x2="6" y2="6" />
-                                <line x1="6" y1="18" x2="6" y2="18" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚽</span>
                             KALKULATOR PARLAY
                         </a>
                     </div>
@@ -700,21 +592,11 @@
                     <div class="nav-group">
                         <span class="nav-label">RESOURCES</span>
                         <a href="#" class="nav-item" onclick="window.switchSection('gallery')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <circle cx="8.5" cy="8.5" r="1.5" />
-                                <polyline points="21 15 16 10 5 21" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">🖼️</span>
                             GALERY
                         </a>
                         <a href="#" class="nav-item" onclick="window.switchSection('extensions')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                <path d="M2 17l10 5 10-5" />
-                                <path d="M2 12l10 5 10-5" />
-                            </svg>
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">📚</span>
                             EXTENSIONS
                         </a>
                     </div>
@@ -723,22 +605,9 @@
 
                     <div class="nav-group">
                         <span class="nav-label">Sistem</span>
-                        <a href="#" class="nav-item" id="sidebarExportBtn" onclick="window.exportToCSV()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="7,10 12,15 17,10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                            Export CSV
-                        </a>
+
                         <a href="#" class="nav-item" id="sidebarSettingsBtn" onclick="window.openSettingsModal()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3" />
-                                <path
-                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                            </svg>
+                            <span class="emoji-icon" style="font-size: 16px; margin-right: 8px;">⚙️</span>
                             Pengaturan
                         </a>
                     </div>
@@ -757,37 +626,73 @@
                     <div class="sidebar-info">v1.0</div>
                 </div>
         </aside>
+        <div class="sidebar-overlay" onclick="window.toggleSidebar()"></div>
 
         <div class="main-content">
-            <header class="header">
-                <button class="sidebar-toggle" onclick="window.toggleSidebar()" id="sidebarOpenBtn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12" />
-                        <line x1="3" y1="6" x2="21" y2="6" />
-                        <line x1="3" y1="18" x2="21" y2="18" />
-                    </svg>
-                </button>
-                <div class="header-title">
-                    <span class="subtitle">Dashboard Note</span>
-                    <button onclick="document.getElementById('debugPanel').style.display='block'"
-                        style="background:none; border:none; color:rgba(255,255,255,0.2); font-size:10px; cursor:pointer; margin-left:10px;">[DEBUG]</button>
-                </div>
-                <div class="header-actions">
+            <header class="header" style="flex-direction: column; align-items: stretch; gap: 12px; padding: 12px 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <button class="sidebar-toggle" onclick="window.toggleSidebar()" id="sidebarOpenBtn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="3" y1="12" x2="21" y2="12" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <line x1="3" y1="18" x2="21" y2="18" />
+                            </svg>
+                        </button>
+                        <div class="header-title">
+                            <span class="subtitle">Dashboard Note</span>
+                            <button onclick="document.getElementById('debugPanel').style.display='block'"
+                                style="background:none; border:none; color:rgba(255,255,255,0.2); font-size:10px; cursor:pointer; margin-left:10px;">[DEBUG]</button>
+                        </div>
+                    </div>
                     <div style="display: flex; align-items: center; margin-right: 20px;">
                         <span id="connStatusDot" class="status-dot status-offline"></span>
                         <span id="connStatusText"
                             style="font-size: 10px; color: #fff; font-family: Arial, sans-serif; letter-spacing: 1px;">OFFLINE</span>
                     </div>
-                    <button class="btn-refresh" id="btnRefreshMain" onclick="window.preloadDashboardData(true)">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 4v6h-6" />
-                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                        </svg>
-                        <span>REFRESH DATA</span>
-                    </button>
                 </div>
+                
+                <!-- Horizontal Nav Shortcuts Bar -->
+                <div class="header-shortcuts" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+                    <a href="#" class="nav-item" onclick="window.switchSection('wdManual')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">💸</span>
+                        TARIK WD MANUAL
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('wdPower')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚡</span>
+                        TARIK WD POWER
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('bagiNominal')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚖️</span>
+                        BAGI NOMINAL WD
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('depoKlikBca')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">💳</span>
+                        DEPO KLIK BCA
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('depoMybca')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">📱</span>
+                        DEPO MYBCA
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('buySpinCalc')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">🍒</span>
+                        KALKULATOR BUY & SPIN
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('parlayCalc')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">⚽</span>
+                        KALKULATOR PARLAY
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('gallery')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">🖼️</span>
+                        GALERY
+                    </a>
+                    <a href="#" class="nav-item" onclick="window.switchSection('extensions')">
+                        <span class="emoji-icon" style="font-size: 16px; margin-right: 6px;">📚</span>
+                        EXTENSIONS
+                    </a>
+                </div>
+
             </header>
 
             <div class="container">
@@ -3510,272 +3415,7 @@
                 </div>
             </div>
 
-            <div id="sectionKesalahan" class="app-section" style="display: none;">
-                <div class="section-header">
-                    <h2 class="section-title">DATA KESALAHAN STAFF</h2>
-                    <p class="section-desc">Rekapitulasi performa dan kesalahan operasional tim.</p>
-                </div>
 
-                <!-- FRAME TERPISAH: MISTAKE LEDGER (DAFTAR STAFF BERUNGSI) -->
-                <div id="mistakeLedgerArea" style="display: none; margin-bottom: 40px;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px dashed rgba(255, 77, 77, 0.2); padding-bottom: 10px;">
-                        <div class="luxury-label" style="color: #ff4d4d; margin-bottom: 0;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="3" style="margin-right: 10px; vertical-align: middle;">
-                                <path
-                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                                <line x1="12" y1="9" x2="12" y2="13" />
-                                <line x1="12" y1="17" x2="12" y2="17" />
-                            </svg>
-                            MISTAKE LEDGER / DAFTAR PELANGGARAN AKTIF
-                        </div>
-                        <button onclick="window.toggleMistakeLedger()" class="btn-mini-tag" id="btnToggleMistakeLedger"
-                            style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.3); font-weight: 800; cursor: pointer;">SEMBUNYIKAN
-                            DETAIL</button>
-                    </div>
-                    <div id="mistakeDetailedCards"
-                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                        <!-- Detailed Cards will be injected here -->
-                    </div>
-                </div>
-
-                <div class="calc-card luxury-card main-panel" style="min-height: 500px;">
-                    <div class="cyber-corner tl"></div>
-                    <div class="cyber-corner tr"></div>
-
-                    <style>
-                        @keyframes pulse-red {
-                            0% {
-                                transform: scale(0.95);
-                                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7);
-                            }
-
-                            70% {
-                                transform: scale(1);
-                                box-shadow: 0 0 0 10px rgba(255, 77, 77, 0);
-                            }
-
-                            100% {
-                                transform: scale(0.95);
-                                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
-                            }
-                        }
-
-                        .mistake-badge {
-                            background: rgba(255, 255, 255, 0.03);
-                            border: 1px solid rgba(255, 77, 77, 0.2);
-                            padding: 8px 15px;
-                            border-radius: 4px;
-                            display: flex;
-                            align-items: center;
-                            gap: 10px;
-                            transition: all 0.3s ease;
-                            cursor: default;
-                        }
-
-                        .mistake-badge:hover {
-                            background: rgba(255, 77, 77, 0.1);
-                            border-color: #ff4d4d;
-                            transform: translateY(-2px);
-                        }
-
-                        .mistake-name {
-                            color: #fff;
-                            font-family: 'Arial Black';
-                            font-size: 11px;
-                            font-weight: 700;
-                            letter-spacing: 1px;
-                        }
-
-                        .mistake-count {
-                            background: #ff4d4d;
-                            color: #fff;
-                            padding: 2px 8px;
-                            border-radius: 2px;
-                            font-size: 10px;
-                            font-weight: 900;
-                        }
-                    </style>
-
-                    <div class="search-premium-container"
-                        style="max-width: 350px; margin-bottom: 40px; position: relative;">
-                        <!-- Luxury Background -->
-                        <div
-                            style="position: absolute; inset: -1px; background: linear-gradient(90deg, #ff4d4d, transparent, #ff4d4d); border-radius: 12px; opacity: 0.2; filter: blur(5px);">
-                        </div>
-
-                        <div class="luxury-card"
-                            style="position: relative; padding: 20px; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255, 77, 77, 0.15); border-radius: 8px; overflow: hidden;">
-                            <div class="cyber-scanline"
-                                style="opacity: 0.05; background: linear-gradient(to bottom, transparent, #ff4d4d, transparent); height: 80px;">
-                            </div>
-
-                            <h3
-                                style="font-family: 'Arial Black'; font-size: 11px; color: #ff4d4d; letter-spacing: 2px; margin-bottom: 15px; text-shadow: 0 0 8px rgba(255, 77, 77, 0.4); display: flex; align-items: center; gap: 8px;">
-                                <span
-                                    style="display: inline-block; width: 20px; height: 1px; background: #ff4d4d;"></span>
-                                SEARCH TERMINAL
-                            </h3>
-
-                            <div class="cyber-input-group"
-                                style="position: relative; display: flex; align-items: center;">
-                                <input type="text" id="kesalahanSearchInput" class="cyber-input"
-                                    placeholder="ENTER NAME..." onkeyup="window.renderKesalahanTable()"
-                                    style="height: 45px; padding: 0 40px 0 15px; border-color: rgba(255, 77, 77, 0.1); background: rgba(255, 77, 77, 0.02); border-radius: 4px; font-size: 14px; letter-spacing: 1px; text-align: center; width: 100%;">
-                                <button
-                                    onclick="document.getElementById('kesalahanSearchInput').value=''; window.renderKesalahanTable();"
-                                    style="position: absolute; right: 10px; background: none; border: none; color: rgba(255, 77, 77, 0.4); cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; width: 25px; height: 25px; transition: all 0.2s ease;"
-                                    onmouseover="this.style.color='#ff4d4d'"
-                                    onmouseout="this.style.color='rgba(255, 77, 77, 0.4)'">×</button>
-                            </div>
-
-                            <div
-                                style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 8px; color: rgba(255,255,255,0.3); letter-spacing: 1px;">SYSTEM
-                                    READY.</span>
-                                <div
-                                    style="width: 6px; height: 6px; background: #ff4d4d; border-radius: 50%; box-shadow: 0 0 5px #ff4d4d; animation: blink 2s infinite;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table-container-luxury" style="width: 100%; overflow-x: auto;">
-                        <table class="cyber-table" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th style="width: 50px; text-align: center;">NO</th>
-                                    <th style="text-align: center;">NAMA STAFF</th>
-                                    <th style="text-align: center;">NO PASPOR</th>
-                                    <th style="text-align: center;">JABATAN</th>
-                                    <th style="color: #ff4d4d; text-align: center;">MISTAKE WD</th>
-                                    <th style="color: #ff4d4d; text-align: center;">MISTAKE DEPO</th>
-                                    <th style="color: #ff4d4d; text-align: center;">SALAH PROSES (FS/BS)</th>
-                                    <th style="color: #ff4d4d; text-align: center;">SALAH SCATTER</th>
-                                    <th style="color: #ffaa00; text-align: center;">TELAT BAWAH SOP</th>
-                                    <th style="color: #ffaa00; text-align: center;">TELAT ATAS SOP</th>
-                                    <th style="background: var(--primary); color: #000; text-align: center;">TOTAL</th>
-                                </tr>
-                            </thead>
-                            <tbody id="kesalahanBody">
-                                <!-- Data injected here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sectionBackupKesalahan" class="app-section" style="display: none;">
-                <div class="section-header">
-                    <h2 class="section-title">BACKUP KESALAHAN LC</h2>
-                    <p class="section-desc">Data cadangan rekapitulasi kesalahan staff (Live Chat).</p>
-                </div>
-
-                <div class="calc-card luxury-card main-panel" style="min-height: 500px;">
-                    <div class="cyber-corner tl"></div>
-                    <div class="cyber-corner tr"></div>
-                    <div class="cyber-scanline"></div>
-
-                    <div class="search-premium-container"
-                        style="max-width: 300px; margin: 0 auto 40px auto; position: relative;">
-                        <!-- DATE FILTER -->
-                        <div class="luxury-card"
-                            style="width: 100%; position: relative; padding: 20px; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(0, 255, 170, 0.15); border-radius: 8px; overflow: hidden;">
-                            <h3
-                                style="font-family: 'Arial Black'; font-size: 11px; color: #00ffa2; letter-spacing: 2px; margin-bottom: 15px; text-align: center;">
-                                SELECT DATE
-                            </h3>
-                            <input type="date" id="backupKesalahanDateInput" class="cyber-input"
-                                onchange="window.renderBackupKesalahanTable()"
-                                style="height: 45px; width: 100%; padding: 0 10px; background: rgba(0, 255, 170, 0.05); border-color: rgba(0, 255, 170, 0.2); color: #fff; font-family: 'Arial Black'; text-align: center;">
-                        </div>
-                    </div>
-
-                    <div class="table-container-luxury" style="width: 100%; overflow-x: auto;">
-                        <table class="cyber-table" style="width: 100%; table-layout: fixed;">
-                            <thead>
-                                <tr>
-                                    <th style="width: 40px; text-align: center;">NO</th>
-                                    <th style="text-align: center;">NAMA STAFF</th>
-                                    <th style="width: 110px; white-space: nowrap; text-align: center;">TANGGAL</th>
-                                    <th style="width: 190px; white-space: nowrap; text-align: center;">TYPE KESALAHAN
-                                    </th>
-                                    <th style="width: 150px; color: #ffaa00; white-space: nowrap; text-align: center;">
-                                        IZIN ISTIRAHAT</th>
-                                    <th
-                                        style="width: 60px; background: var(--primary); color: #000; white-space: nowrap; text-align: center;">
-                                        TOTAL</th>
-                                </tr>
-                            </thead>
-                            <tbody id="backupKesalahanBody">
-                                <!-- Data injected here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sectionIzinKeluar" class="app-section" style="display: none;">
-                <div class="section-header">
-                    <h2 class="section-title">IZIN KELUAR SISA 2</h2>
-                    <p class="section-desc">Pilih tanggal untuk melihat daftar staff yang izin keluar.</p>
-                </div>
-
-                <div class="search-compact-area"
-                    style="max-width: 400px; margin-bottom: 25px; background: rgba(0,255,170,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(0,255,170,0.1);">
-                    <label class="luxury-label" style="margin-bottom: 12px; display: block;">TENTUKAN TANGGAL</label>
-                    <div class="cyber-input-group" style="position: relative;">
-                        <div style="position: relative;">
-                            <input type="text" id="izinKeluarDateDisplay" class="cyber-input"
-                                placeholder="Pilih Tanggal..." readonly onclick="window.toggleCustomCalendar(event)"
-                                style="cursor: pointer; text-align: center; width: 100%;">
-                            <input type="hidden" id="izinKeluarDate">
-
-                            <!-- Custom Calendar Dropdown -->
-                            <div id="customCalendar" class="custom-calendar-dropdown" style="display: none;"
-                                onclick="event.stopPropagation()">
-                                <div class="calendar-header">
-                                    <button onclick="window.changeCalendarMonth(-1)">◀</button>
-                                    <div id="calendarMonthYear" class="month-year">April 2026</div>
-                                    <button onclick="window.changeCalendarMonth(1)">▶</button>
-                                </div>
-                                <div class="calendar-days">
-                                    <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-                                </div>
-                                <div id="calendarGrid" class="calendar-grid">
-                                    <!-- Dinamis via JS -->
-                                </div>
-                                <div class="calendar-footer">
-                                    <div class="footer-left">
-                                        <span onclick="window.setCalendarToday()">Today</span>
-                                        <span onclick="window.clearCalendar()">Clear</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="calc-card luxury-card main-panel" style="min-height: 400px; position: relative;">
-                    <div class="cyber-corner tl"></div>
-                    <div class="cyber-corner tr"></div>
-                    <div class="cyber-scanline"></div>
-
-                    <div class="table-container-luxury">
-                        <table class="cyber-table">
-                            <thead>
-                                <tr>
-                                    <th>NAMA STAFF</th>
-                                    <th>TANGGAL BERLAKU</th>
-                                </tr>
-                            </thead>
-                            <tbody id="izinKeluarBody">
-                                <!-- Data akan muncul di sini -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
             <div id="sectionHasilResult" class="app-section" style="display: none;">
                 <div class="section-header"
@@ -4391,7 +4031,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=2.13"></script>
 </body>
 
 </html>

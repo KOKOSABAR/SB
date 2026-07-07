@@ -81,6 +81,15 @@ function handleAction(params) {
   return ContentService.createTextOutput(jsonResponse).setMimeType(ContentService.MimeType.JSON);
 }
 
+function normalizeNumber(num) {
+  if (!num) return '';
+  let digits = num.toString().replace(/\D/g, '');
+  if (digits.startsWith('62') && digits.length >= 10) {
+    digits = digits.substring(2);
+  }
+  return digits.replace(/^0+/, '');
+}
+
 // --- HYPER FAST ACCOUNT CHECK (BATCH REGEX) ---
 function checkAccountsBatch(accountNumbers) {
   if (!accountNumbers || !Array.isArray(accountNumbers)) return [];
@@ -92,11 +101,14 @@ function checkAccountsBatch(accountNumbers) {
   const targetsMap = {};
   
   const regexPatterns = accountNumbers.map(n => {
-    const raw = n.toString().replace(/\D/g, '');
-    const clean = raw.replace(/^0+/, '') || raw;
-    targetsMap[clean] = raw;
-    return clean;
-  }).filter(c => c.length > 4);
+    const core = normalizeNumber(n);
+    if (core.length > 4) {
+      targetsMap[core] = n.toString();
+      const digitsRegex = core.split('').join('\\D*');
+      return '(?:0|62|\\+62)?\\D*' + digitsRegex;
+    }
+    return null;
+  }).filter(p => p !== null);
 
   if (regexPatterns.length === 0) return [];
   const masterRegex = "(" + regexPatterns.join("|") + ")";
@@ -106,13 +118,13 @@ function checkAccountsBatch(accountNumbers) {
     const sheet = allSheets[s];
     const sheetName = sheet.getName();
     if (sheetName.startsWith('_') || sheetName === "SB_SETTINGS" || sheetName === "DAFTAR GAMES WDBOS") continue;
-    if (foundTargets.size === regexPatterns.length) break;
+    if (foundTargets.size === Object.keys(targetsMap).length) break;
 
     const matchedCells = sheet.createTextFinder(masterRegex).useRegularExpression(true).findAll();
 
     matchedCells.forEach(cell => {
       const cellText = cell.getValue().toString();
-      const cellClean = cellText.replace(/\D/g, '').replace(/^0+/, '');
+      const cellClean = normalizeNumber(cellText);
       
       if (targetsMap[cellClean] && !foundTargets.has(cellClean)) {
         const rowIdx = cell.getRow();
@@ -122,8 +134,9 @@ function checkAccountsBatch(accountNumbers) {
         let hRow = 1;
         try {
            const headData = sheet.getRange(1, 1, 10, lastCol).getValues();
+           const headerKeywords = ["REKENING", "REK", "NOMOR", "BANK", "NAMA", "STATUS", "NOREK"];
            for(let r=0; r<headData.length; r++) {
-             if(headData[r].some(v => v && v.toString().toUpperCase().includes("REKENING"))) {
+             if(headData[r].some(v => v && headerKeywords.some(k => v.toString().toUpperCase().includes(k)))) {
                hRow = r + 1;
                break;
              }
@@ -139,7 +152,7 @@ function checkAccountsBatch(accountNumbers) {
           if (head.includes("STATUS")) details.status = dataRow[i];
           if (head.includes("BANK")) details.bank = dataRow[i];
           if (head.includes("NAMA") || head.includes("NAME")) details.name = dataRow[i];
-          if (head.includes("REKENING") || head.includes("NOMOR")) details.number = dataRow[i];
+          if (head.includes("REKENING") || head.includes("NOMOR") || head.includes("REK")) details.number = dataRow[i];
         });
         results.push({ accountNumber: targetsMap[cellClean], found: true, details: details });
         foundTargets.add(cellClean);

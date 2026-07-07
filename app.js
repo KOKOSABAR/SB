@@ -715,595 +715,595 @@ const SLOT_GAMES_DATA = [
         "nama": "Geisha's Revenge",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/fa5afd06bfa086a71e72d55632a9cfb8.webp?v=pg1",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1702123/1702123.png",
         "playUrl": "https://m.eajzzxhro.com/1702123/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_01"
     },
     {
         "nama": "Pinata Wins",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/2d7430bbfd85f8689b3aa2a27cfb0e53.webp?v=pg2",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1492288/1492288.png",
         "playUrl": "https://m.eajzzxhro.com/1492288/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_02"
     },
     {
         "nama": "Gemstones Gold",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/1c433748f2dcfcc14126b80d0015141a.webp?v=pg3",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1671262/1671262.png",
         "playUrl": "https://m.eajzzxhro.com/1671262/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_03"
     },
     {
         "nama": "Wild Ape #3258",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/440810aea0ffe9d05b15196182049b35.webp?v=pg4",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1508783/1508783.png",
         "playUrl": "https://m.eajzzxhro.com/1508783/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_04"
     },
     {
         "nama": "Mafia Mayhem",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/1a1f123372e75d81e45343d2b1508948.webp?v=pg5",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1580541.png",
         "playUrl": "https://m.eajzzxhro.com/1580541/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_05"
     },
     {
         "nama": "Fortune Tiger",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/3a7a35e5d52aaf408aaa5336cbee1b48.webp?v=pg6",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/126/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/126/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_06"
     },
     {
         "nama": "Wild Bounty Showdown",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/a27f7b629697af8fd4be95698b405e49.webp?v=pg7",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/wild-bounty-showdown_1024_square.png",
         "playUrl": "https://m.eajzzxhro.com/135/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_07"
     },
     {
         "nama": "Fortune Rabbit",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/ef63ce13ecbe9ceccecd8140859ec7d5.webp?v=pg8",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1543462/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/1543462/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_08"
     },
     {
         "nama": "Mahjong Ways",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/531e9d0cd776c15906ce761bb56f90ae.webp?v=pg9",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/65/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/65/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_09"
     },
     {
         "nama": "Fortune Dragon",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/2d9955268b1034226ab09ed77ef67fc6.webp?v=pg10",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs243fdragon.png",
         "playUrl": "https://m.eajzzxhro.com/1695365/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_10"
     },
     {
         "nama": "Lucky Neko",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/9a43da1342aca190cb05be8886f44821.webp?v=pg11",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/89/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/89/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_11"
     },
     {
         "nama": "Treasures of Aztec",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/4f46cf3e93773b86e63cb3999bb366fa.webp?v=pg12",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/87/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/87/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_12"
     },
     {
         "nama": "Wild Bandito",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/9c9f5f5160abe569deada38af4f5fc7c.webp?v=pg13",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/104/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/104/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_13"
     },
     {
         "nama": "Ways of the Qilin",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/9bccabd723a324e8f88ea3f0325245f5.webp?v=pg14",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/106/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/106/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_14"
     },
     {
         "nama": "Caishen Wins",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/6ac3269ae9328a104eea7562418fafa6.webp?v=pg15",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/71/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/71/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_15"
     },
     {
         "nama": "Dreams of Macau",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/13519d43b2de5424614ac1e5e37b5ef5.webp?v=pg16",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/79/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/79/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_16"
     },
     {
         "nama": "The Great Icescape",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/5b4e1f2a80f4c1ac2b62bcb74a565688.webp?v=pg17",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/53/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/53/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_17"
     },
     {
         "nama": "Mahjong Ways 2",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/f24e33352829cf3475df062f42e059ef.webp?v=pg18",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/74/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/74/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_18"
     },
     {
         "nama": "Cocktail Nights",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/3060d3a4314a67fd312e932c897b940a.webp?v=pg19",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/117/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/117/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_19"
     },
     {
         "nama": "Ganesha Fortune",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/943ea34742cefba5aa67d4e72264b6b9.webp?v=pg20",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/75/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/75/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_20"
     },
     {
         "nama": "Dragon Hatch",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/73c181500a52871929efe9be4b98dfb0.webp?v=pg21",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/57/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/57/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_21"
     },
     {
         "nama": "Prosperity Fortune Tree",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/0989779cd07aa7fbdfdce8d893c4b64d.webp?v=pg22",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/prosperity-fortune-tree_app-icon_square.png",
         "playUrl": "https://m.eajzzxhro.com/1312883/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_22"
     },
     {
         "nama": "Lucky Piggy",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/90691f4b84fbced3753d3d3c5092010c.webp?v=pg23",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/130/130.png",
         "playUrl": "https://m.eajzzxhro.com/130/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_23"
     },
     {
         "nama": "Jurassic Kingdom",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/111d09f5be0857cedfc6153af84d19df.webp?v=pg24",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/110/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/110/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_24"
     },
     {
         "nama": "Speed Winner",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/1966a166ebb84f3a22f1271ce1c24198.webp?v=pg25",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/127/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/127/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_25"
     },
     {
         "nama": "Leprechaun Riches",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/464b31bc90ef06a17f23ea525dca296c.webp?v=pg26",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/60/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/60/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_26"
     },
     {
         "nama": "Queen of Bounty",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/5339279e897b8fa3048b4cae6002676e.webp?v=pg27",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/84/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/84/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_27"
     },
     {
         "nama": "Supermarket Spree",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/790d3f7262afcc39f977e1af1fea0c5e.webp?v=pg28",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/115/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/115/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_28"
     },
     {
         "nama": "Thai River Wonders",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/5a1695f86bf931e91a07d1b722366802.webp?v=pg29",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/92/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/92/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_29"
     },
     {
         "nama": "Fortune Ox",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/6d922bafdfb1c5d9ccfde6233dcd1895.webp?v=pg30",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/98/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/98/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_30"
     },
     {
         "nama": "Legend of Perseus",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/74b569a22e0aeb9d163ee4e929add9c8.webp?v=pg31",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/128/128.png",
         "playUrl": "https://m.eajzzxhro.com/128/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_31"
     },
     {
         "nama": "Wild Coaster",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/0ed3e2548af7c3f198076f74eb67941c.webp?v=pg32",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/132/132.png",
         "playUrl": "https://m.eajzzxhro.com/132/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_32"
     },
     {
         "nama": "Garuda Gems",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/3fc30b8e9006a88ef25062cfa4f62cf4.webp?v=pg33",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/122/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/122/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_33"
     },
     {
         "nama": "Alchemy Gold",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/2642986ac17c6ef526ff64e6de0ba923.webp?v=pg34",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/1368367/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/1368367/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_34"
     },
     {
         "nama": "Candy Bonanza",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/075e6d03d8d46dd3eb39cc43a87c6bef.webp?v=pg35",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/100/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/100/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_35"
     },
     {
         "nama": "Spirited Wonders",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/227c9ce72fd1ced1819e603d4257c243.webp?v=pg36",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/119/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/119/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_36"
     },
     {
         "nama": "Butterfly Blossom",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/364c482cb87a4858238900c6ff3fa27d.webp?v=pg37",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/125/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/125/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_37"
     },
     {
         "nama": "The Queen's Banquet",
         "provider": "PG SOFT",
         "tanggal": "PG SOFT",
-        "logo": "https://kemendiknew.pages.dev/images/eb39aa13a8c4481ed8c773623591a837.webp?v=pg38",
+        "logo": "https://png-res.png999.com/assets/PG-Web/cardList/120/app_icon_small@3x.png",
         "playUrl": "https://m.eajzzxhro.com/120/index.html?ot=ca7094186b309ee149c55c8822e7ecf2&l=en&btt=2&or=21novodx%3Dzveuuscmj%3Dxjh&__hv=2fMEQCICuqoNGFMML4fGBdQE%2BkWN6hW4%2FfORGq%2Fnk1ZEMnawwmAiAxGYxJjOCWQZyBSVILpJeMljpfcPHLJNuUZN5itlB12A%3D%3D&__sv=010401YytG6oT6vOl81kKt_NDwR6QjynyruQC7y9kpWiV7QEg&source=amp_safe_38"
     },
     {
         "nama": "Dragon Tiger Fortunes",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/cbf3d998fef5edbde12ff26b95b0145c.webp?v=p1",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswayshuffpbh.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswayshuffpbh&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_01"
     },
     {
         "nama": "Sugar Rush Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/4f625f116ff914b398d6a98dad047d08.webp?v=p1",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20sugrushss.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs10fdwhorses&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_01"
     },
     {
         "nama": "Fortune of Olympus",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/14aaf8e912a234ee841984546d80bcbd.webp?v=p1",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olympgcl.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olympgcl&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_01"
     },
     {
         "nama": "Wisdom of Athena 1000 Xmas",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/d0d8073c39cee1f4441fa726056bb7fb.webp?v=p1",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20procountxm.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20procountxm&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_01"
     },
     {
         "nama": "Big Bass Splash 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/c3fdcde0ae94ab51b4a1f9fb3da7c1ec.webp?v=p1",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs10bbsplashx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs10bbsplashx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_01"
     },
     {
         "nama": "Gates of Pyroth",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/aea074dbcc81208ca32cc7fe30ea0b0b.webp?v=p2",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20shmnarise.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20shmnarise&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_02"
     },
     {
         "nama": "Lava Balls",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/b46153cfe899648474b71bdaf13cbcfa.webp?v=p3",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswayslavabls.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswayslavabls&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_03"
     },
     {
         "nama": "Wild Wild Riches Returns",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/43c34c9190cafdeb75e21e7f1b15a2b6.webp?v=p4",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswayswwrichr.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswayswwrichr&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_04"
     },
     {
         "nama": "Oracle of Gold",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/5dd884921e8e35b28925f688bfe6c29e.webp?v=p5",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20oragold.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20oragold&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_05"
     },
     {
         "nama": "Pandemic Rising",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/192787f0e33c19a9cd0eca1f5ff435ce.webp?v=p6",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs40pdmrsg.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs40pdmrsg&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_06"
     },
     {
         "nama": "Frightening Frankie",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/120283964f6839a9ee7b602f234430e2.webp?v=p7",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20frankie.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20frankie&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_07"
     },
     {
         "nama": "Bingo Mania",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/0676f990055665d938449652bbb24d10.webp?v=p8",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs30bingomania.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs30bingomania&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_08"
     },
     {
         "nama": "Gates of Olympus Xmas 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/9c8b117109adba89b06c159434c2f9db.webp?v=p9",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olympxmas.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olympxmas&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_09"
     },
     {
         "nama": "Zeus vs Typhon",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/3c307b2654e21a1d0a7606dcb01f0378.webp?v=p10",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysreelbtl.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysreelbtl&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_10"
     },
     {
-        "nama": "Santa’s Slay",
+        "nama": "Santa's Slay",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/39e70fff12811a6956a2f93a8728a85a.webp?v=p11",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs10santasl.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs10santasl&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_11"
     },
     {
         "nama": "Super Gummy Strike",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/4210ac0069de292f91f2978bf74a32f5.webp?v=p12",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs5supergummy.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs5supergummy&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_12"
     },
     {
         "nama": "Starlight Archer 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/46cc618c68dd2ba16576543c04d5ff5e.webp?v=p13",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20stararx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20stararx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_13"
     },
     {
         "nama": "Starlight Princess Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/b289bcd54748e0cdfdae37dba5663a3e.webp?v=p14",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20starprss.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20starprss&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_14"
     },
     {
         "nama": "Wild West Gold Blazing Bounty",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/4f10439f9eafd545fb3f4358b019aab7.webp?v=p15",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20wwgcluster.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20wwgcluster&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_15"
     },
     {
         "nama": "Gates of Gatot Kaca Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/c661bc975c3baed65dd9c26ecc64e456.webp?v=p16",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olgatssc.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olgatssc&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_16"
     },
     {
         "nama": "Gates of Olympus 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/6d39308186b2c0ede30a49d0c486e911.webp?v=p17",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olympx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olympx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_17"
     },
     {
         "nama": "Sweet Rush Bonanza",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/77c28568e6f642ce8ae240719d3f4e2b.webp?v=p18",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20swrbon.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20swrbon&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_18"
     },
     {
         "nama": "Sweet Bonanza Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/4d0bee6b7bdc8bdce588ae234d1c6272.webp?v=p19",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20swbonsup.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20swbonsup&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_19"
     },
     {
         "nama": "Gates of Olympus Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/12aba443526306c47646afa82d84ba46.webp?v=p20",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olympgold.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olympgold&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_20"
     },
     {
         "nama": "Gates of Olympus",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/4d5007c76503d49d8ef3f96d3cf4a01c.webp?v=p21",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20olympgate.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20olympgate&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_21"
     },
     {
         "nama": "Mahjong Wins 3 Black Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/b918217637bd8887a37f2f0221bf4609.webp?v=p22",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysmahwblck.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysmahwblck&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_22"
     },
     {
         "nama": "Starlight Princess 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/220106934a3dcdf7fc45d13bf8c3cbe5.webp?v=p23",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20starlightx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20starlightx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_23"
     },
     {
         "nama": "Fortune Ace Super Scatter",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/91859275d164cae40d45cdbc0de9bf75.webp?v=p24",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysfortsup.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysfortsup&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_24"
     },
     {
         "nama": "Sweet Bonanza 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/68585ca56ca4bd96989c71fce118b8b6.webp?v=p25",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20fruitswx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20fruitswx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_25"
     },
     {
         "nama": "Mahjong wins 2",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/eb0608f4ba7bebd39e1cfbf0cbac104a.webp?v=p26",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysmahwin2.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysmahwin2&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_26"
     },
     {
         "nama": "Starlight Princess",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/c957cd96f3779941ca5755ad5a3e9af0.webp?v=p27",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20starlight.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20starlight&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_27"
     },
     {
         "nama": "Gates of Gatot Kaca 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/7f15c55590fe6e9f020081f140226bba.webp?v=p28",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20gatotx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20gatotx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_28"
     },
     {
         "nama": "Sweet Bonanza",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/cf7fdad8713f88703071adaf9a189b74.webp?v=p29",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20fruitsw.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20fruitsw&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_29"
     },
     {
         "nama": "Sugar Rush 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/56200a76037dde7e0576d54b43ef82d0.webp?v=p30",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20sugarrushx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20sugarrushx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_30"
     },
     {
         "nama": "Wisdom of Athena 1000",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/bdf82e6b017c2d90f2a5cdbdbab583ad.webp?v=p31",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20procountx.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20procountx&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_31"
     },
     {
         "nama": "Mahjong Wins Gong Xi Fa Cai",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/09dcce598d653014b6a599e80d86f2b1.webp?v=p32",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysmahwgong.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysmahwgong&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_32"
     },
     {
         "nama": "Aztec Gems",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/918889cc5282e428ad803caa4777d984.webp?v=p33",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs5aztecgems.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs5aztecgems&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_33"
     },
     {
         "nama": "Rujak Bonanza",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/cea09fbc68fd92bc64d258ad776191bf.webp?v=p34",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20rujakbnz.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20rujakbnz&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_34"
     },
     {
         "nama": "Chests of Cai Shen 2",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/0ba8642ef1a28049bd2cae9cc616807a.webp?v=p35",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs25caishen2.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs25caishen2&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_35"
     },
     {
         "nama": "Wrath of Nezha",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/bfbe32a9653ba5d125fcbe24e7ff36f5.webp?v=p36",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs40wrathnez.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs40wrathnez&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_36"
     },
     {
-        "nama": "Mermaid’s Treasure Trove",
+        "nama": "Mermaid's Treasure Trove",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/d61ab77483017bca6226a4d9d13a379c.webp?v=p37",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20mmdtres.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20mmdtres&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_37"
     },
     {
         "nama": "Pyramid Bonanza",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/d1e6169535b7765a6e34d3c5de7cdada.webp?v=p38",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20pbonanza.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20pbonanza&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_38"
     },
     {
         "nama": "Bonanza Gold",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/8da7683040ef0a27e9a10ce77bb38185.webp?v=p39",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20bonzgold.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20bonzgold&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_39"
     },
     {
         "nama": "Candy Village",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/27ab494c255215f76ea9c35a641ad085.webp?v=p40",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20candvil.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20candvil&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_40"
     },
     {
         "nama": "Fruit Party",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/84e5d2c5f0b1ffe4aab714d42530ca63.webp?v=p41",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20fruitparty.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20fruitparty&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_41"
     },
     {
         "nama": "The Dog House Megaways",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/d6e3f98c82e5fc7fe8148169a3fe1cd4.webp?v=p42",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vswaysdogs.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vswaysdogs&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_42"
     },
     {
         "nama": "Release the Kraken",
         "provider": "Pragmatic Play",
         "tanggal": "Pragmatic Play",
-        "logo": "https://kemendiknew.pages.dev/images/68de4da213704776d1ed6df63746c80e.webp?v=p43",
+        "logo": "https://png-res.png999.com/assets/PP-Web/vs20kraken.png",
         "playUrl": "https://d3pvfi6m7bxu71.cloudfront.net/gs2c/openGame.do?gameSymbol=vs20kraken&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99&lobby_url=https%3A%2F%2Fwww.pragmaticplay.com%2Fen%2F&lang=ID&cur=IDR&ref=v_secure_43"
     }
 ];
@@ -2663,7 +2663,7 @@ function renderSlotGames() {
                 <div class="slot-card" onclick="window.openSlotGame('${game.nama.replace(/'/g, "\\'")}', '${game.playUrl}')" style="cursor: pointer;">
                     <div class="slot-image-wrapper">
                         <img src="${game.logo}" alt="${game.nama}" class="slot-image" referrerpolicy="no-referrer"
-                             onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'165\\\' height=\\\'220\\\' viewBox=\\\'0 0 165 220\\\'%3E%3Crect width=\\\'100%25\\\' height=\\\'100%25\\\' fill=\\\'%23002d2d\\\'/%3E%3Ctext x=\\\'50%25\\\' y=\\\'50%25\\\' font-family=\\\'monospace\\\' font-size=\\\'14\\\' fill=\\\'%2300ffaa\\\' text-anchor=\\\'middle\\\' dominant-baseline=\\\'middle\\\'%3ESLOT GAME%3C/text%3E%3C/svg%3E';">
+                             onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27165%27 height=%27220%27 viewBox=%270 0 165 220%27%3E%3Cdefs%3E%3ClinearGradient id=%27grad%27 x1=%270%25%27 y1=%270%25%27 x2=%27100%25%27 y2=%27100%25%27%3E%3Cstop offset=%270%25%27 stop-color=%27%230a0e17%27/%3E%3Cstop offset=%27100%25%27 stop-color=%27%23162235%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27url(%23grad)%27/%3E%3Crect x=%275%27 y=%275%27 width=%27155%27 height=%27210%27 rx=%278%27 fill=%27none%27 stroke=%27%2300ffaa%27 stroke-width=%271.5%27 stroke-opacity=%270.3%27/%3E%3Cg transform=%27translate(48,%2050)%20scale(1.2)%27%20stroke=%27%2300ffaa%27%20stroke-width=%272%27%20fill=%27none%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%272%27%20y=%272%27%20width=%2756%27%20height=%2776%27%20rx=%278%27%20stroke-width=%273%27/%3E%3Cpath%20d=%27M10%2025h40M10%2050h40%27/%3E%3Ccircle%20cx=%2730%27%20cy=%2737.5%27%20r=%276%27/%3E%3Cpath%20d=%27M58%2040h10M68%2020v20%27%20stroke-width=%273%27/%3E%3Ccircle%20cx=%2768%27%20cy=%2715%27%20r=%275%27%20fill=%27%2300ffaa%27/%3E%3C/g%3E%3Ctext x=%2750%25%27 y=%27175%27 font-family=%27Outfit, Inter, sans-serif%27 font-size=%2712%27 font-weight=%27bold%27 fill=%27%2300ffaa%27 text-anchor=%27middle%27 letter-spacing=%271%27%3ESLOT GAME%3C/text%3E%3Ctext x=%2750%25%27 y=%27192%27 font-family=%27Outfit, Inter, sans-serif%27 font-size=%278%27 fill=%27%23ffffff%27 fill-opacity=%270.5%27 text-anchor=%27middle%27 letter-spacing=%270.5%27%3ETAP TO PLAY%3C/text%3E%3C/svg%3E';">
                     </div>
                     <div class="slot-info">
                         <h3 class="slot-name">${game.nama}</h3>
@@ -3600,13 +3600,21 @@ function saveSettings(event) {
 }
 
 function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) {
-        sidebar.classList.toggle('active');
-        const overlay = document.querySelector('.sidebar-overlay');
-        if (overlay) {
-            overlay.classList.toggle('active');
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('active');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
         }
+    } else {
+        const html = document.documentElement;
+        html.classList.toggle('sidebar-collapsed');
+        const isCollapsed = html.classList.contains('sidebar-collapsed');
+        localStorage.setItem('sidebar_state', isCollapsed ? 'collapsed' : 'expanded');
     }
 }
 
@@ -5190,55 +5198,101 @@ window.processCekRekening = async function () {
     }
 };
 
+function getCleanNumber(num) {
+    if (!num) return '';
+    let clean = num.toString().replace(/\D/g, '');
+    if (clean.startsWith('62') && clean.length >= 10) {
+        clean = clean.substring(2);
+    }
+    return clean.replace(/^0+/, '');
+}
+
 function parseRekeningRaw(line) {
     const cleanLine = line.trim();
     if (!cleanLine) return null;
 
-    // Find sequences of digits, potentially separated by common delimiters like - or .
-    // We look for segments that contain at least 5 digits in total.
-    const potentialNumbers = cleanLine.match(/[\d\-\.]{5,}/g);
-    if (!potentialNumbers) return null;
+    const KNOWN_BANKS = [
+        'BCA', 'MANDIRI', 'BNI', 'BRI', 'DANAMON', 'CIMB', 'PERMATA', 'PANIN', 
+        'OCBC', 'BTPN', 'BSI', 'MAYBANK', 'DANA', 'OVO', 'GOPAY', 'LINKAJA', 
+        'SHOPEEPAY', 'SPAY', 'SEABANK', 'JAGO', 'NEO', 'BJB', 'DKI', 'BUKOPIN', 
+        'NOBU', 'QQR', 'ALLO', 'JATIM', 'JATENG'
+    ];
 
-    // Find the match that contains the most digits (likely the account number)
-    let bestMatchRaw = "";
-    let number = "";
-    let maxDigits = 0;
+    // 1. Find all numbers (including space/dash/dot-separated ones)
+    const numberRegex = /\b\d+(?:[\s\-\.]+\d+)*\b/g;
+    const matches = cleanLine.match(numberRegex) || [];
+    
+    const potentialNumbers = matches.map(m => {
+        return {
+            raw: m,
+            cleaned: m.replace(/\D/g, '')
+        };
+    }).filter(n => n.cleaned.length >= 5);
 
-    potentialNumbers.forEach(m => {
-        const digits = m.replace(/\D/g, '');
-        if (digits.length > maxDigits) {
-            maxDigits = digits.length;
-            bestMatchRaw = m;
-            number = digits;
+    if (potentialNumbers.length === 0) return null;
+
+    // 2. Select the best candidate for the account number
+    let bestNumObj = potentialNumbers[0];
+    for (let i = 1; i < potentialNumbers.length; i++) {
+        const current = potentialNumbers[i];
+        if (current.cleaned.length > bestNumObj.cleaned.length) {
+            bestNumObj = current;
+        } else if (current.cleaned.length === bestNumObj.cleaned.length) {
+            if (bestNumObj.cleaned.endsWith('000') && !current.cleaned.endsWith('000')) {
+                bestNumObj = current;
+            }
+        }
+    }
+
+    const number = bestNumObj.cleaned;
+    const bestMatchRaw = bestNumObj.raw;
+
+    // 3. Extract the Bank
+    let bank = 'BANK';
+    let foundBank = null;
+    for (const b of KNOWN_BANKS) {
+        const bankRegex = new RegExp('\\b' + b + '\\b', 'i');
+        if (bankRegex.test(cleanLine)) {
+            foundBank = b;
+            break;
+        }
+    }
+
+    if (foundBank) {
+        bank = foundBank;
+    } else {
+        const parts = cleanLine.split(/\s+/).filter(p => p.trim());
+        if (parts.length > 0) {
+            const firstWord = parts[0].toUpperCase();
+            if (firstWord !== bestMatchRaw && firstWord !== number && !/^\d+$/.test(firstWord)) {
+                bank = firstWord;
+            }
+        }
+    }
+
+    // 4. Extract the Name
+    let name = cleanLine;
+
+    if (foundBank) {
+        const bankRegex = new RegExp('\\b' + foundBank + '\\b', 'gi');
+        name = name.replace(bankRegex, '');
+    } else if (bank !== 'BANK') {
+        const bankRegex = new RegExp('\\b' + bank + '\\b', 'gi');
+        name = name.replace(bankRegex, '');
+    }
+
+    name = name.replace(bestMatchRaw, '');
+
+    potentialNumbers.forEach(numObj => {
+        if (numObj.raw !== bestMatchRaw) {
+            name = name.replace(numObj.raw, '');
         }
     });
 
-    if (maxDigits < 5) return null;
+    name = name.replace(/[\||\-|\:|\/|\.|\,]/g, ' ');
+    name = name.replace(/\brp\b/gi, '');
+    name = name.replace(/\s+/g, ' ').trim();
 
-    // Extract Bank: usually the first word
-    const parts = cleanLine.split(/\s+/);
-    let bank = parts[0].toUpperCase();
-
-    // If the first word is the number itself, default bank to 'BANK'
-    if (bank === bestMatchRaw || bank === number) {
-        bank = "BANK";
-    }
-
-    // Extract Name: remove bank and the raw number segment from the line
-    let name = cleanLine;
-    // Remove the bank part if it's not the number
-    if (bank !== "BANK") {
-        const firstWordPattern = new RegExp('^' + parts[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-        name = name.replace(firstWordPattern, '');
-    } else if (parts[0] === bestMatchRaw) {
-        // If the first word was the number, remove it
-        name = name.replace(parts[0], '');
-    }
-
-    // Remove the raw number segment (with its delimiters)
-    name = name.replace(bestMatchRaw, '');
-
-    name = name.trim().replace(/^[\s\-\:\.\/]+|[\s\-\:\.\/]+$/g, ''); // Clean leading/trailing symbols
     if (!name) name = 'PELANGGAN';
 
     return { bank, name, number };
@@ -5255,13 +5309,13 @@ function renderCekRekeningResults(originalAccounts, results) {
 
     // Urutkan: Duplikat (ketemu di sheet) diletakkan paling atas
     const sortedAccounts = [...originalAccounts].sort((a, b) => {
-        const foundA = results ? results.some(r => r.accountNumber.toString() === a.number.toString() && r.found) : false;
-        const foundB = results ? results.some(r => r.accountNumber.toString() === b.number.toString() && r.found) : false;
+        const foundA = results ? results.some(r => getCleanNumber(r.accountNumber) === getCleanNumber(a.number) && r.found) : false;
+        const foundB = results ? results.some(r => getCleanNumber(r.accountNumber) === getCleanNumber(b.number) && r.found) : false;
         return (foundA === foundB) ? 0 : foundA ? -1 : 1;
     });
 
     sortedAccounts.forEach(acc => {
-        const check = results ? results.find(r => r.accountNumber.toString() === acc.number.toString()) : null;
+        const check = results ? results.find(r => getCleanNumber(r.accountNumber) === getCleanNumber(acc.number)) : null;
         const isFound = check && check.found;
         const details = isFound ? check.details : null;
 
@@ -5328,7 +5382,7 @@ window.copyAllCekRekening = function () {
 
             const bank = cols[1].innerText.trim();
             const name = cols[2].innerText.trim();
-            const number = cols[3].innerText.trim();
+            const number = cols[3].querySelector('span') ? cols[3].querySelector('span').textContent.trim() : cols[3].innerText.trim();
 
             // Format: STATUS | BANK NAMA NOMOR
             text.push(`${status} | ${bank}  ${name}  ${number}`);
@@ -5854,6 +5908,7 @@ let selectedCalDate = null;
 window.toggleCustomCalendar = function (e) {
     e.stopPropagation();
     const cal = document.getElementById('customCalendar');
+    if (!cal) return;
     if (cal.style.display === 'none') {
         cal.style.display = 'block';
         window.renderCalendar();
@@ -5865,6 +5920,7 @@ window.toggleCustomCalendar = function (e) {
 window.renderCalendar = function () {
     const monthYearEl = document.getElementById('calendarMonthYear');
     const gridEl = document.getElementById('calendarGrid');
+    if (!monthYearEl || !gridEl) return;
 
     const year = currentCalDate.getFullYear();
     const month = currentCalDate.getMonth();
@@ -5919,8 +5975,10 @@ window.setCalendarToday = function () {
 
 window.clearCalendar = function () {
     selectedCalDate = null;
-    document.getElementById('izinKeluarDate').value = '';
-    document.getElementById('izinKeluarDateDisplay').value = '';
+    const el = document.getElementById('izinKeluarDate');
+    const elDisp = document.getElementById('izinKeluarDateDisplay');
+    if (el) el.value = '';
+    if (elDisp) elDisp.value = '';
     window.renderCalendar();
     if (typeof window.filterIzinKeluar === 'function') {
         window.filterIzinKeluar();
@@ -5929,18 +5987,21 @@ window.clearCalendar = function () {
 
 window.submitCalendar = function () {
     if (selectedCalDate) {
-        document.getElementById('izinKeluarDate').value = selectedCalDate;
+        const el = document.getElementById('izinKeluarDate');
+        const elDisp = document.getElementById('izinKeluarDateDisplay');
+        if (el) el.value = selectedCalDate;
         // Format display
         const d = new Date(selectedCalDate);
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('izinKeluarDateDisplay').value = d.toLocaleDateString('id-ID', options);
+        if (elDisp) elDisp.value = d.toLocaleDateString('id-ID', options);
 
         // Auto trigger filter
         if (typeof window.filterIzinKeluar === 'function') {
             window.filterIzinKeluar();
         }
     }
-    document.getElementById('customCalendar').style.display = 'none';
+    const cal = document.getElementById('customCalendar');
+    if (cal) cal.style.display = 'none';
 };
 
 // Close calendar when clicking outside
