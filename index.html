@@ -15,7 +15,7 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="styles.css?v=1.13">
+    <link rel="stylesheet" href="styles.css?v=1.14">
     <link rel="stylesheet" href="parlay.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -1331,6 +1331,76 @@
                         <button class="btn-category" id="btnCatlainnya"
                             onclick="window.switchPrizeCategory('lainnya')">LAINNYA</button>
                     </div>
+
+                    <!-- UNIVERSAL TOGEL CALCULATOR WIDGET -->
+                    <div class="prize-card luxury-card universal-calc" style="margin-bottom: 25px; max-width: 800px; margin-left: auto; margin-right: auto; padding: 25px; border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(0, 255, 170, 0.15);">
+                        <div class="cyber-corner tl"></div>
+                        <div class="cyber-corner tr"></div>
+                        <div class="cyber-corner bl"></div>
+                        <div class="cyber-corner br"></div>
+                        <div class="cyber-scanline"></div>
+                        
+                        <h3 class="prize-title" style="color: var(--primary); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 16px; text-align: center;">⚡ UNIVERSAL INSTANT CALCULATOR</h3>
+                        
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end; justify-content: center;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <label style="display: block; color: var(--text-secondary); font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px;">JENIS BET</label>
+                                <select id="universalBetType" class="cyber-input" style="width: 100%; height: 45px; background: rgba(0,0,0,0.6); border: 1px solid rgba(0,255,170,0.3); border-radius: 4px; padding: 0 15px; color: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;" onchange="window.calculateUniversalPrize()">
+                                    <optgroup label="DISKON">
+                                        <option value="5D" data-diskon="0.38" data-hadiah="50000">5D Diskon (Diskon: 38% | Hadiah: x50,000)</option>
+                                        <option value="4D" data-diskon="0.20" data-hadiah="7000" selected>4D Diskon (Diskon: 20% | Hadiah: x7,000)</option>
+                                        <option value="3D" data-diskon="0.20" data-hadiah="750">3D Diskon (Diskon: 20% | Hadiah: x750)</option>
+                                        <option value="2D" data-diskon="0.20" data-hadiah="75">2D Diskon (Diskon: 20% | Hadiah: x75)</option>
+                                    </optgroup>
+                                    <optgroup label="BET FULL">
+                                        <option value="Full5D" data-diskon="0" data-hadiah="88000">5D Bet Full (Hadiah: x88,000)</option>
+                                        <option value="Full4D" data-diskon="0" data-hadiah="10000">4D Bet Full (Hadiah: x10,000)</option>
+                                        <option value="Full3D" data-diskon="0" data-hadiah="1000">3D Bet Full (Hadiah: x1,000)</option>
+                                        <option value="Full2D" data-diskon="0" data-hadiah="100">2D Bet Full (Hadiah: x100)</option>
+                                    </optgroup>
+                                    <optgroup label="TEPAT & BB">
+                                        <option value="Tepat5D" data-diskon="0" data-hadiah="50000">5D Tepat (Hadiah: x50,000)</option>
+                                        <option value="BB5D" data-diskon="0" data-hadiah="350">5D BB (Hadiah: x350)</option>
+                                        <option value="Tepat4D" data-diskon="0" data-hadiah="5000">4D Tepat (Hadiah: x5,000)</option>
+                                        <option value="BB4D" data-diskon="0" data-hadiah="180">4D BB (Hadiah: x180)</option>
+                                        <option value="Tepat3D" data-diskon="0" data-hadiah="500">3D Tepat (Hadiah: x500)</option>
+                                        <option value="BB3D" data-diskon="0" data-hadiah="75">3D BB (Hadiah: x75)</option>
+                                        <option value="Tepat2D" data-diskon="0" data-hadiah="80">2D Tepat (Hadiah: x80)</option>
+                                        <option value="BB2D" data-diskon="0" data-hadiah="15">2D BB (Hadiah: x15)</option>
+                                    </optgroup>
+                                    <optgroup label="PRIZE 1, 2, 3">
+                                        <option value="Prize1_1" data-diskon="0" data-hadiah="6500">Prize 1 - 4D (Hadiah: x6,500)</option>
+                                        <option value="Prize1_2" data-diskon="0" data-hadiah="650">Prize 1 - 3D (Hadiah: x650)</option>
+                                        <option value="Prize1_3" data-diskon="0" data-hadiah="70">Prize 1 - 2D (Hadiah: x70)</option>
+                                        <option value="Prize2_1" data-diskon="0" data-hadiah="2100">Prize 2 - 4D (Hadiah: x2,100)</option>
+                                        <option value="Prize2_2" data-diskon="0" data-hadiah="210">Prize 2 - 3D (Hadiah: x210)</option>
+                                        <option value="Prize2_3" data-diskon="0" data-hadiah="20">Prize 2 - 2D (Hadiah: x20)</option>
+                                        <option value="Prize3_1" data-diskon="0" data-hadiah="1100">Prize 3 - 4D (Hadiah: x1,100)</option>
+                                        <option value="Prize3_2" data-diskon="0" data-hadiah="110">Prize 3 - 3D (Hadiah: x110)</option>
+                                        <option value="Prize3_3" data-diskon="0" data-hadiah="8">Prize 3 - 2D (Hadiah: x8)</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; color: var(--text-secondary); font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px;">NOMINAL BET</label>
+                                <input type="text" id="universalBetAmount" class="prize-input" value="1,000" style="width: 100%; height: 45px; text-align: center; font-size: 18px; font-weight: 900; font-family: monospace;" oninput="window.formatPrizeInput(this); window.calculateUniversalPrize();">
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(0, 255, 170, 0.15);">
+                            <div style="text-align: center; flex: 1;">
+                                <div style="color: var(--text-muted); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px;">TOTAL BAYAR</div>
+                                <div style="color: #fff; font-size: 24px; font-weight: 900; font-family: monospace;" id="universalBayar">Rp 800</div>
+                            </div>
+                            <div style="width: 1px; background: rgba(0, 255, 170, 0.15);"></div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="color: var(--text-muted); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px;">ESTIMASI MENANG</div>
+                                <div style="color: var(--primary); font-size: 24px; font-weight: 900; font-family: monospace; text-shadow: 0 0 10px rgba(0, 255, 170, 0.3);" id="universalMenang">Rp 7,000,000</div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- KATEGORI DISKON -->
                     <div id="prizeContainerDiskon" class="prize-container">
@@ -4031,7 +4101,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.14"></script>
+    <script src="app.js?v=2.15"></script>
 </body>
 
 </html>

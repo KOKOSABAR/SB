@@ -2758,7 +2758,8 @@ function calculatePrize(type) {
 
     if (!input || !bayarEl || !menangEl) return;
 
-    const bet = parseFloat(input.value) || 0;
+    const rawVal = input.value.replace(/,/g, '');
+    const bet = parseFloat(rawVal) || 0;
     let diskon = 0;
     let hadiah = 0;
     let kei = 0;
@@ -2828,7 +2829,7 @@ function resetPrize(type) {
     const menangEl = document.getElementById(`menang${type}`);
     const totalEl = document.getElementById(`total${type}`);
 
-    if (input) input.value = 1000;
+    if (input) input.value = '1,000';
     if (bayarEl) bayarEl.textContent = '0';
     if (menangEl) menangEl.textContent = '0';
     if (totalEl) totalEl.textContent = '0';
@@ -6665,7 +6666,7 @@ window.updateContohPrizeTable = function () {
 if (document.readyState === 'complete') {
     window.updateContohPrizeTable();
 } else {
-    window.addEventListener('load', window.updateContohPrizeTable);
+    window.addEventListener('load', () => { window.updateContohPrizeTable(); window.initPrizeInputs(); });
 }
 
 /* --- PENDINGAN COMMAND CENTER SYSTEM --- */
@@ -6711,4 +6712,62 @@ window.updatePendinganIframe = function(force = false) {
             }
         }
     }
+};
+
+/* --- PRIZE CALCULATOR EMOJIS & COMMAS EXTENSION --- */
+window.formatPrizeInput = function(input) {
+    const cursor = input.selectionStart;
+    const originalLength = input.value.length;
+    
+    let val = input.value.replace(/\D/g, '');
+    if (val === '') {
+        input.value = '';
+        return;
+    }
+    
+    const formatted = parseInt(val, 10).toLocaleString('en-US');
+    input.value = formatted;
+    
+    const newLength = formatted.length;
+    const diff = newLength - originalLength;
+    input.setSelectionRange(cursor + diff, cursor + diff);
+};
+
+window.calculateUniversalPrize = function() {
+    const select = document.getElementById('universalBetType');
+    const input = document.getElementById('universalBetAmount');
+    const bayarEl = document.getElementById('universalBayar');
+    const menangEl = document.getElementById('universalMenang');
+    
+    if (select && input && bayarEl && menangEl) {
+        const rawVal = input.value.replace(/,/g, '');
+        const bet = parseFloat(rawVal) || 0;
+        
+        const selectedOpt = select.options[select.selectedIndex];
+        const diskon = parseFloat(selectedOpt.getAttribute('data-diskon')) || 0;
+        const hadiah = parseFloat(selectedOpt.getAttribute('data-hadiah')) || 0;
+        
+        const bayar = bet * (1 - diskon);
+        const menang = bet * hadiah;
+        
+        bayarEl.innerText = "Rp " + Math.round(bayar).toLocaleString('en-US');
+        menangEl.innerText = "Rp " + Math.round(menang).toLocaleString('en-US');
+    }
+};
+
+window.initPrizeInputs = function() {
+    const inputs = document.querySelectorAll('.prize-input');
+    inputs.forEach(input => {
+        if (input.id === 'universalBetAmount') return; // Handled separately
+        input.type = 'text';
+        input.value = '1,000';
+        
+        // Add format listener
+        input.addEventListener('input', function() {
+            window.formatPrizeInput(this);
+        });
+    });
+    
+    // Initial calculations
+    window.calculateUniversalPrize();
 };
