@@ -2213,7 +2213,9 @@ function switchSection(sectionId) {
         const mainContent = document.querySelector('.main-content');
         if (container) {
             container.dataset.originalMaxWidth = container.style.maxWidth;
+            container.dataset.originalPadding = container.style.padding;
             container.style.maxWidth = '100%';
+            container.style.padding = '0';
         }
         if (mainContent) {
             mainContent.dataset.originalPadding = mainContent.style.padding;
@@ -2229,6 +2231,11 @@ function switchSection(sectionId) {
             container.style.maxWidth = container.dataset.originalMaxWidth;
         } else if (container) {
             container.style.maxWidth = '';
+        }
+        if (container && container.dataset.originalPadding !== undefined) {
+            container.style.padding = container.dataset.originalPadding;
+        } else if (container) {
+            container.style.padding = '';
         }
         if (mainContent && mainContent.dataset.originalPadding !== undefined) {
             mainContent.style.padding = mainContent.dataset.originalPadding;
