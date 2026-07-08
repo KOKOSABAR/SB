@@ -6714,6 +6714,7 @@ window.updatePendinganIframe = function(force = false) {
     }
 };
 
+
 /* --- PRIZE CALCULATOR EMOJIS & COMMAS EXTENSION --- */
 window.formatPrizeInput = function(input) {
     const cursor = input.selectionStart;
@@ -6733,32 +6734,10 @@ window.formatPrizeInput = function(input) {
     input.setSelectionRange(cursor + diff, cursor + diff);
 };
 
-window.calculateUniversalPrize = function() {
-    const select = document.getElementById('universalBetType');
-    const input = document.getElementById('universalBetAmount');
-    const bayarEl = document.getElementById('universalBayar');
-    const menangEl = document.getElementById('universalMenang');
-    
-    if (select && input && bayarEl && menangEl) {
-        const rawVal = input.value.replace(/,/g, '');
-        const bet = parseFloat(rawVal) || 0;
-        
-        const selectedOpt = select.options[select.selectedIndex];
-        const diskon = parseFloat(selectedOpt.getAttribute('data-diskon')) || 0;
-        const hadiah = parseFloat(selectedOpt.getAttribute('data-hadiah')) || 0;
-        
-        const bayar = bet * (1 - diskon);
-        const menang = bet * hadiah;
-        
-        bayarEl.innerText = "Rp " + Math.round(bayar).toLocaleString('en-US');
-        menangEl.innerText = "Rp " + Math.round(menang).toLocaleString('en-US');
-    }
-};
-
 window.initPrizeInputs = function() {
     const inputs = document.querySelectorAll('.prize-input');
     inputs.forEach(input => {
-        if (input.id === 'universalBetAmount') return; // Handled separately
+        if (input.classList.contains('bet-amount-input')) return; // Handled separately
         input.type = 'text';
         input.value = '1,000';
         
@@ -6768,6 +6747,120 @@ window.initPrizeInputs = function() {
         });
     });
     
-    // Initial calculations
-    window.calculateUniversalPrize();
+    // Initialize with 1 default bet line
+    const container = document.getElementById('universalBetLines');
+    if (container && container.children.length === 0) {
+        window.addBetLine();
+    }
+};
+
+
+/* --- MULTI-BET SLIP CALCULATOR SYSTEM --- */
+const MULTIBET_SELECT_HTML = `
+    <select class="cyber-input bet-type-select" style="flex: 2.5; height: 40px; background: rgba(0,0,0,0.6); border: 1px solid rgba(0,255,170,0.3); border-radius: 4px; padding: 0 10px; color: #fff; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; min-width: 180px;" onchange="window.calculateAllBets()">
+        <optgroup label="DISKON">
+            <option value="5D" data-diskon="0.38" data-hadiah="50000">5D Diskon (Diskon: 38% | Hadiah: x50,000)</option>
+            <option value="4D" data-diskon="0.20" data-hadiah="7000" selected>4D Diskon (Diskon: 20% | Hadiah: x7,000)</option>
+            <option value="3D" data-diskon="0.20" data-hadiah="750">3D Diskon (Diskon: 20% | Hadiah: x750)</option>
+            <option value="2D" data-diskon="0.20" data-hadiah="75">2D Diskon (Diskon: 20% | Hadiah: x75)</option>
+        </optgroup>
+        <optgroup label="BET FULL">
+            <option value="Full5D" data-diskon="0" data-hadiah="88000">5D Bet Full (Hadiah: x88,000)</option>
+            <option value="Full4D" data-diskon="0" data-hadiah="10000">4D Bet Full (Hadiah: x10,000)</option>
+            <option value="Full3D" data-diskon="0" data-hadiah="1000">3D Bet Full (Hadiah: x1,000)</option>
+            <option value="Full2D" data-diskon="0" data-hadiah="100">2D Bet Full (Hadiah: x100)</option>
+        </optgroup>
+        <optgroup label="TEPAT & BB">
+            <option value="Tepat5D" data-diskon="0" data-hadiah="50000">5D Tepat (Hadiah: x50,000)</option>
+            <option value="BB5D" data-diskon="0" data-hadiah="350">5D BB (Hadiah: x350)</option>
+            <option value="Tepat4D" data-diskon="0" data-hadiah="5000">4D Tepat (Hadiah: x5,000)</option>
+            <option value="BB4D" data-diskon="0" data-hadiah="180">4D BB (Hadiah: x180)</option>
+            <option value="Tepat3D" data-diskon="0" data-hadiah="500">3D Tepat (Hadiah: x500)</option>
+            <option value="BB3D" data-diskon="0" data-hadiah="75">3D BB (Hadiah: x75)</option>
+            <option value="Tepat2D" data-diskon="0" data-hadiah="80">2D Tepat (Hadiah: x80)</option>
+            <option value="BB2D" data-diskon="0" data-hadiah="15">2D BB (Hadiah: x15)</option>
+        </optgroup>
+        <optgroup label="PRIZE 1, 2, 3">
+            <option value="Prize1_1" data-diskon="0" data-hadiah="6500">Prize 1 - 4D (Hadiah: x6,500)</option>
+            <option value="Prize1_2" data-diskon="0" data-hadiah="650">Prize 1 - 3D (Hadiah: x650)</option>
+            <option value="Prize1_3" data-diskon="0" data-hadiah="70">Prize 1 - 2D (Hadiah: x70)</option>
+            <option value="Prize2_1" data-diskon="0" data-hadiah="2100">Prize 2 - 4D (Hadiah: x2,100)</option>
+            <option value="Prize2_2" data-diskon="0" data-hadiah="210">Prize 2 - 3D (Hadiah: x210)</option>
+            <option value="Prize2_3" data-diskon="0" data-hadiah="20">Prize 2 - 2D (Hadiah: x20)</option>
+            <option value="Prize3_1" data-diskon="0" data-hadiah="1100">Prize 3 - 4D (Hadiah: x1,100)</option>
+            <option value="Prize3_2" data-diskon="0" data-hadiah="110">Prize 3 - 3D (Hadiah: x110)</option>
+            <option value="Prize3_3" data-diskon="0" data-hadiah="8">Prize 3 - 2D (Hadiah: x8)</option>
+        </optgroup>
+    </select>
+`;
+
+window.addBetLine = function() {
+    const container = document.getElementById('universalBetLines');
+    if (!container) return;
+    
+    const div = document.createElement('div');
+    div.className = 'bet-line';
+    div.style = "display: flex; gap: 10px; align-items: center; background: rgba(0,255,170,0.02); padding: 12px; border-radius: 6px; border: 1px solid rgba(0,255,170,0.1); margin-bottom: 10px; flex-wrap: wrap;";
+    
+    div.innerHTML = `
+        ${MULTIBET_SELECT_HTML}
+        <input type="text" class="prize-input bet-amount-input" value="1,000" style="flex: 1.2; height: 40px; text-align: center; font-size: 15px; font-weight: 800; font-family: monospace; min-width: 100px;" oninput="window.formatPrizeInput(this); window.calculateAllBets();">
+        <div class="line-totals" style="color: #ccc; font-family: monospace; font-size: 11px; white-space: nowrap; margin-left: auto; text-align: right; min-width: 180px;">
+            B: <span class="line-bayar">Rp 800</span> | M: <span class="line-menang" style="color: var(--primary);">Rp 7,000</span>
+        </div>
+        <button class="btn-delete" onclick="window.removeBetLine(this)" style="background: none; border: none; color: #ff5555; cursor: pointer; font-size: 14px; padding: 5px; display: flex; align-items: center; justify-content: center; transition: color 0.3s;" onmouseover="this.style.color='#ff0000'" onmouseout="this.style.color='#ff5555'">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+    
+    container.appendChild(div);
+    window.calculateAllBets();
+};
+
+window.removeBetLine = function(btn) {
+    const line = btn.closest('.bet-line');
+    const container = document.getElementById('universalBetLines');
+    if (line) {
+        line.remove();
+        window.calculateAllBets();
+    }
+};
+
+window.calculateAllBets = function() {
+    const lines = document.querySelectorAll('.bet-line');
+    let grandBayar = 0;
+    let grandMenang = 0;
+    
+    lines.forEach(line => {
+        const select = line.querySelector('.bet-type-select');
+        const input = line.querySelector('.bet-amount-input');
+        const bayarEl = line.querySelector('.line-bayar');
+        const menangEl = line.querySelector('.line-menang');
+        
+        if (select && input && bayarEl && menangEl) {
+            const rawVal = input.value.replace(/,/g, '');
+            const bet = parseFloat(rawVal) || 0;
+            
+            const selectedOpt = select.options[select.selectedIndex];
+            const diskon = parseFloat(selectedOpt.getAttribute('data-diskon')) || 0;
+            const hadiah = parseFloat(selectedOpt.getAttribute('data-hadiah')) || 0;
+            
+            const bayar = bet * (1 - diskon);
+            const menang = bet * hadiah;
+            
+            bayarEl.innerText = "Rp " + Math.round(bayar).toLocaleString('en-US');
+            menangEl.innerText = "Rp " + Math.round(menang).toLocaleString('en-US');
+            
+            grandBayar += bayar;
+            grandMenang += menang;
+        }
+    });
+    
+    const grandBayarEl = document.getElementById('grandTotalBayar');
+    const grandMenangEl = document.getElementById('grandTotalMenang');
+    
+    if (grandBayarEl && grandMenangEl) {
+        grandBayarEl.innerText = "Rp " + Math.round(grandBayar).toLocaleString('en-US');
+        grandMenangEl.innerText = "Rp " + Math.round(grandMenang).toLocaleString('en-US');
+    }
 };
