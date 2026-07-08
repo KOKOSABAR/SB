@@ -5053,3 +5053,16 @@ html.sidebar-collapsed .sidebar {
     background: rgba(0, 30, 30, 0.4);
 }
 
+
+
+/* --- MULTIBET SELECT FIELD COLOR STYLING --- */
+.bet-type-select {
+    background-color: #00141e !important;
+    color: #00ffaa !important;
+}
+.bet-type-select option, .bet-type-select optgroup {
+    background-color: #00141e !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    padding: 8px !important;
+}

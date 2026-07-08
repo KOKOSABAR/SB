@@ -6791,6 +6791,25 @@ const MULTIBET_SELECT_HTML = `
             <option value="Prize3_2" data-diskon="0" data-hadiah="110">Prize 3 - 3D (Hadiah: x110)</option>
             <option value="Prize3_3" data-diskon="0" data-hadiah="8">Prize 3 - 2D (Hadiah: x8)</option>
         </optgroup>
+        <optgroup label="LAINNYA">
+            <option value="ColokBebas" data-diskon="0.06" data-hadiah="1.5">Colok Bebas (Diskon: 6% | Hadiah: x1.5)</option>
+            <option value="ColokBebas2D2" data-diskon="0.10" data-hadiah="7">Colok Bebas 2D - 2 Angka (Diskon: 10% | Hadiah: x7)</option>
+            <option value="ColokBebas2D3" data-diskon="0.10" data-hadiah="11">Colok Bebas 2D - 3 Angka (Diskon: 10% | Hadiah: x11)</option>
+            <option value="ColokBebas2D4" data-diskon="0.10" data-hadiah="18">Colok Bebas 2D - 4 Angka (Diskon: 10% | Hadiah: x18)</option>
+            <option value="ColokBebas2D5" data-diskon="0.10" data-hadiah="200">Colok Bebas 2D - 5 Angka (Diskon: 10% | Hadiah: x200)</option>
+            <option value="ColokNaga3" data-diskon="0.10" data-hadiah="23">Colok Naga - 3 Angka (Diskon: 10% | Hadiah: x23)</option>
+            <option value="ColokNaga4" data-diskon="0.10" data-hadiah="35">Colok Naga - 4 Angka (Diskon: 10% | Hadiah: x35)</option>
+            <option value="ColokNaga5" data-diskon="0.10" data-hadiah="125">Colok Naga - 5 Angka (Diskon: 10% | Hadiah: x125)</option>
+            <option value="ColokJitu" data-diskon="0.06" data-hadiah="8">Colok Jitu (Diskon: 6% | Hadiah: x8)</option>
+            <option value="TengahTepi" data-diskon="0.02" data-kei="-0.02" data-hadiah="1">Tengah Tepi (Diskon: 2% | Kei: -2% | Hadiah: x1)</option>
+            <option value="DasarGenapKecil" data-diskon="0.02" data-kei="0.10" data-hadiah="1">Dasar Genap/Kecil (Diskon: 2% | Kei: 10% | Hadiah: x1)</option>
+            <option value="DasarGanjilBesar" data-diskon="0.02" data-kei="-0.25" data-hadiah="1">Dasar Ganjil/Besar (Diskon: 2% | Kei: -25% | Hadiah: x1)</option>
+            <option value="FiftyFifty" data-diskon="0.02" data-kei="-0.02" data-hadiah="1">Fifty Fifty (Diskon: 2% | Kei: -2% | Hadiah: x1)</option>
+            <option value="Shio" data-diskon="0.05" data-hadiah="9.5">Shio (Diskon: 5% | Hadiah: x9.5)</option>
+            <option value="SilangHomo" data-diskon="0.02" data-kei="-0.02" data-hadiah="1">Silang Homo (Diskon: 2% | Kei: -2% | Hadiah: x1)</option>
+            <option value="KembangKempis" data-diskon="0.02" data-kei="-0.03" data-hadiah="1">Kembang Kempis (Diskon: 2% | Kei: -3% | Hadiah: x1)</option>
+            <option value="Kombinasi" data-diskon="0.08" data-hadiah="2.6">Kombinasi (Diskon: 8% | Hadiah: x2.6)</option>
+        </optgroup>
     </select>
 `;
 
@@ -6844,8 +6863,9 @@ window.calculateAllBets = function() {
             const selectedOpt = select.options[select.selectedIndex];
             const diskon = parseFloat(selectedOpt.getAttribute('data-diskon')) || 0;
             const hadiah = parseFloat(selectedOpt.getAttribute('data-hadiah')) || 0;
+            const kei = parseFloat(selectedOpt.getAttribute('data-kei')) || 0;
             
-            const bayar = bet * (1 - diskon);
+            const bayar = bet * (1 - kei) * (1 - diskon);
             const menang = bet * hadiah;
             
             bayarEl.innerText = "Rp " + Math.round(bayar).toLocaleString('en-US');
